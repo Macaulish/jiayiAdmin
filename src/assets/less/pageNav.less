@@ -1,0 +1,33 @@
+@fontSize: 16px;
+.pageNav{
+  width: 250px;
+  position: fixed;
+  top: 120px;
+  left: 0;
+  padding: 0 0 0 50px;
+  li{
+    padding: 20px 0;
+  	a{
+      cursor: pointer;
+      display: block;
+      overflow: hidden;
+      color: #000;
+      img{
+        display: block;
+        float: left;
+      }
+      span{
+        display: block;
+        float: left;
+        margin: 3px 0 0 15px;
+        font-size: @fontSize;
+      }
+    }
+    a.active{
+      color: #0FB6F7;
+    }
+  }
+  li:nth-child(1){
+    padding-top: 10px;
+  }
+}

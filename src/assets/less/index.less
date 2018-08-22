@@ -1,0 +1,135 @@
+@fontsize12: 12px;
+@fontsize14: 14px;
+@fontsize16: 16px;
+.row-tabs{
+    color: #333; 
+    overflow: hidden;
+    margin-bottom: 20px;
+    li{ 
+        cursor: pointer;
+        float: left; 
+        margin-right: 40px;
+        height: 34px; 
+        line-height: 34px; 
+        text-align: center; 
+        border-bottom: solid 2px transparent; 
+        font-size: @fontsize14;
+    }
+    li.active{ 
+        color: #0FB6F7; 
+        border-bottom-color: #0FB6F7; 
+    }
+}
+
+.cont1{ 
+   background-color: #fff;
+   padding: 30px 50px 40px; 
+  .row1{
+    padding: 0 0 20px;
+    font-size: @fontsize16;
+  }
+  .row2{
+    color: #0FB6F7; 
+    overflow: hidden;
+    padding-top: 20px;
+    li{ 
+        cursor: pointer;
+        float: left; 
+        margin-right: -1px;
+        width: 100px; 
+        line-height: 30px; 
+        text-align: center; 
+        border: solid 1px #0FB6F7; 
+        font-size: @fontsize14;
+    }
+    li.active{ 
+        background-color: #0FB6F7;
+        color: #fff; 
+    }
+   }
+  .row3{
+    padding: 46px 0 0;
+    overflow: hidden;
+    li{ 
+      float: left;
+      width: 33%;
+     }
+    span{ 
+      display: block;
+     }
+    span.s1{ 
+      font-size: @fontsize14;
+      padding-bottom: 6px;
+    }
+    span.s2{ 
+      font-size: 30px;
+      color: rgba(0,0,0,0.4);
+    }
+    dt{ 
+        float: left; 
+        margin-right: 15px;
+      }
+    dd{ 
+        float: left; 
+      }
+   }
+}
+
+.cont2{ 
+   margin-top: 40px;
+   background-color: #fff;
+   padding: 30px 50px 0px; 
+  .row1{
+    padding: 0 0 20px;
+    font-size: @fontsize16;
+  }
+  .row-nodata{ 
+    text-align: center; 
+    font-size: @fontsize14;
+    padding: 30px 0 50px;
+    .s1{
+      display: block;
+      padding: 0px 0 22px;
+      color: #333;
+    }
+    .btn{
+      cursor: pointer;
+      display: inline-block;
+      width: 100px; 
+      height: 34px; 
+      line-height: 34px; 
+      background-color: #0FB6F7;
+      color: #fff; 
+    }
+  }
+  .itemList{
+    overflow: hidden;
+    margin-left: -65px;
+    span{ display: block; }
+    li{ 
+        float: left;
+        width: 150px;
+        text-align: center;
+        font-size: @fontsize14;
+        margin: 5px 0 35px 65px;
+        .imgbox{ 
+          display: inline-block;
+          width: 100%;
+          height: 190px; 
+          overflow: hidden;
+          img{ display: inline-block; max-width: 99%; max-height: 99%; vertical-align: middle; }
+        }
+        .imgbox::before{ 
+          content: "";
+          display: inline-block;
+          width: 0;
+          height: 100%; 
+          overflow: hidden;
+          vertical-align: middle;
+          img{ max-width: 99%; max-height: 99%; }
+        }
+        .s1{ padding: 15px 0 2px; }
+        .s2{ font-size: 26px; color: #888; }
+    }
+  }
+}
