@@ -1,103 +1,92 @@
 <template>
-  <div class="productionList">
+  <div>
 
-    <div class="cont1">
-        <h3 class="row1">-问答管理-</h3>
-    </div>
-
-    <div class="cont1 clearfix" style="margin-top:40px;">
-        <div class="left">
-            <table>
-                <tr>
-                    <td>选择人物</td>
-                    <td>
-                        <select>
-                            <option>我家大师兄脑子有坑</option>
-                            <option>我家大师兄脑子有坑</option>
-                            <option>我家大师兄脑子有坑</option>
-                        </select>
-                    </td>
-                    <td>问答状态</td>
-                    <td>
-                        <select>
-                            <option>图文</option>
-                            <option>视频</option>
-                        </select>
-                    </td>
-                    <td><a class="sure" @click="search">确定</a></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
-    <div class="cont2">
-	    <table width="100%" class="tableList">
-            <thead>
-                <tr>
-                    <td>提问时间</td>
-                    <td>提问人</td>
-                    <td>提问内容</td>
-                    <td>消耗亲密度</td>
-                    <td>操作</td>
-                </tr>
-            </thead>  
-            <tbody>
-                <tr>
-                    <td>2018-01-22  17:07</td>
-                    <td>逍遥门口</td>
-                    <td>修真是条漫漫长路，在这条长路上保...</td>
-                    <td>2312</td>
-                    <td>
-                        <div class="operation">
-                            <router-link class="btn" :to="{name: 'createCharacter'}">详情</router-link>
-                            <router-link class="btn" :to="{name: 'createCharacter'}">删除</router-link>
-                            <router-link class="btn" :to="{name: 'createCharacter'}">隐藏</router-link> 
-                        </div>
-                    </td>
-                </tr>
-            </tbody>     
-        </table>
-        <ul class="pages">
-            <li>[1]</li>
-            <li>[2]</li>
-            <li>[3]</li>
-            <li>[4]</li>
-            <li>[5]</li>
-            <li>[6]</li>
-            <li>[7]</li>
-            <li>[8]</li>
-            <li>[9]</li>
-            <li>[10]</li>
-        </ul>
-
-    </div>
+      <div class="login">
+          <dl>
+              <dt>用户名</dt>
+              <dd><input class="input" type="text" v-model="username"></dd>
+          </dl>
+          <dl>
+              <dt>密码</dt>
+              <dd><input class="input" type="password" v-model="password"></dd>
+          </dl>
+          <div class="submit"><a class="btn" @click="login">登录</a></div>
+      </div> 
 
   </div>
 
 </template>
 
 <script>
+import axios from 'axios'
+
+import {util} from '../assets/js/util'
+import $ from "jquery"
+
 export default {
-    name: 'dynamicList',
+    name: 'login',
     data () {
         return {
+            username: '',
+            password: '',
         }
     },
-    created: {
-        axios.get('/user?ID=12345').then(function (response) {
-            console.log(response);
-        }).catch(function (error) {
-            console.log(error);
-        });
-    },
-    methods:{
-        search(){
+    methods: {
+        login(){
+            let params = {
+                url: 'user/loginVerify',
+                data: {
+                    adminName: '13330940741',
+                    adminPassWord: 'pangeyupakun',
+                },
+            }
+            util.ajax(params).then(response=>{
+                console.log(response);
+                if(response.data.code=='0000'){
+                    let adminId = response.data.data.adminId;
+                    let adminName = response.data.data.adminName;
+                    console.log(adminId);
+                    console.log(adminName);
+                    sessionStorage.setItem('adminId',adminId);
+                    sessionStorage.setItem('adminName',adminName);
+                    this.$router.push({name: 'productionList'});
+                }
+            });
 
+
+               var data = {
+                    adminName: '13330940741',
+                    adminPassWord: 'pangeyupakun',
+                };
+                var url = 'http://192.168.0.105:8443/user/loginVerify';
+
+
+
+
+            // $.ajax({
+            //     type: "post",
+            //     url: url,
+            //     async:false,
+            //     dataType:"json",
+            //     contentType: "application/json;charset=utf-8",
+            //     data: JSON.stringify(data),
+            //     xhrFields: {
+            //         withCredentials: true
+            //     },
+            //     crossDomain:true,
+            //     success: function (data) {
+                   
+            //     },
+            //     error:function (data) {
+            //         console.log(data);
+            //     }
+            // });
+                    
         }
     }
 }
 </script>
 
 <style lang="less" scoped>
-@import '../assets/less/dynamicList.less';
+@import '../assets/less/login.less';
 </style>

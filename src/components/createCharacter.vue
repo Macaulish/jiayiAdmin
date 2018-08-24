@@ -45,7 +45,7 @@
                 </dl>
             </div>
         </h3>
-        <ul class="itemList">
+        <ul class="uploadImgList">
             <li>
                 <dl>
                     <dt>

@@ -64,7 +64,7 @@
 
     <div class="cont3">
         <h3 class="c-title">作品封面</h3>
-        <ul class="itemList">
+        <ul class="uploadImgList">
             <li>
                 <dl>
                     <dt>

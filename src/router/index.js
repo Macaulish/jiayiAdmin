@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
+import login from '@/components/login'
 import index from '@/components/index'
 import productionList from '@/components/productionList'
 import createProduction from '@/components/createProduction'
 import productionDetail from '@/components/productionDetail'
 import characterList from '@/components/characterList'
+import characterDetail from '@/components/characterDetail'
 import createCharacter from '@/components/createCharacter'
 import dynamicList from '@/components/dynamicList'
 import releaseDynamic from '@/components/releaseDynamic'
@@ -22,6 +24,11 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '/login',
+      name: 'login',
+      component: login
+    },
     {
       path: '/',
       redirect: index
@@ -66,6 +73,11 @@ export default new Router({
       path: '/characterList',
       name: 'characterList',
       component: characterList,
+    },
+    {
+      path: '/characterDetail',
+      name: 'characterDetail',
+      component: characterDetail,
     },
     {
       path: '/createCharacter',

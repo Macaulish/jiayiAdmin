@@ -11,15 +11,15 @@
             <tbody>
                 <tr>
                     <td class="td-title">作品名称 ：</td>
-                    <td class="td-cont">我家大师兄脑子有坑</td>
+                    <td class="td-cont">{{productionDetail.worksName}}</td>
                 </tr>
                 <tr>
                     <td class="td-title">作品类型 ：</td>
-                    <td class="td-cont">漫画</td>
+                    <td class="td-cont">{{productionDetail.worksTypeName}}</td>
                 </tr>
                 <tr>
                     <td class="td-title">作品标签 ：</td>
-                    <td class="td-cont">穿越</td>
+                    <td class="td-cont">{{productionDetail.worksTag}}</td>
                 </tr>
             </tbody>
         </table>
@@ -31,21 +31,21 @@
             <tbody>
                 <tr>
                     <td class="td-title">作品简介 ：</td>
-                    <td class="td-cont">筑基中阶，原为金、土双灵根，因替印飞星顶罪，被逐出逍遥门为彻底摆脱逍遥门选择自废灵根并主动与家族断绝关系被印飞星推下悬崖后与魔女女女女女</td>
+                    <td class="td-cont">{{productionDetail.worksIntroduce}}</td>
                 </tr>
                 <tr>
                     <td class="td-title">作品地址 ：</td>
-                    <td class="td-cont">http://www.u17.com/2dsd0ewe/dfddfdf/23232/wjdsxnzyk.html</td>
+                    <td class="td-cont">{{productionDetail.worksUrl}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <div class="cont3">
-        <h3 class="c-title">名称类型</h3>
+        <h3 class="c-title">作品封面</h3>
         <ul class="itemList">
             <li>
-                <span class="imgbox"><img src="../assets/images/ex1.png"></span>
+                <span class="imgbox"><img :src="productionDetail.worksImg"></span>
             </li>
         </ul>
     </div>
@@ -59,15 +59,35 @@
 </template>
 
 <script>
+import {util} from '../assets/js/util'
+import $ from "jquery"
+
 export default {
   name: 'productionDetail',
   data () {
     return {
+        productionDetail: [],
     }
+  },
+  created(){
+    console.log(this.$route.query.worksId);
+    let params = {
+        method: 'get',
+        url: 'works/getWorksInfo',
+        data: {
+            worksId: this.$route.query.worksId,
+        },
+    }
+    util.ajax(params).then(response=>{
+        console.log(response);
+        if(response.data.code=='0000'){
+            this.productionDetail = response.data.data;
+        }
+    });
   },
   methods: {
     back(){
-        
+         this.$router.back(-1)
     }
   }
 }

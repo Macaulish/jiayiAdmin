@@ -96,11 +96,23 @@
 </template>
 
 <script>
+import {util} from '../assets/js/util'
 export default {
   name: 'index',
   data () {
     return {
     }
+  },
+  created(){
+    let params = {
+        url: 'works/getWorksInfoList'
+    };
+    util.axios(params).then(response=>{
+        console.log(response);
+    }).catch(error=>{
+        console.log(1);
+        console.log(error);
+    });
   }
 }
 </script>

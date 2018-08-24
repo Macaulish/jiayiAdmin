@@ -53,7 +53,7 @@
 
     <div class="cont4" style="padding-bottom:0;" v-show="isShowPhoto">
         <h3 class="c-title">-图片素材-</h3>
-        <ul class="itemList">
+        <ul class="uploadImgList">
             <li>
                 <dl>
                     <dt>

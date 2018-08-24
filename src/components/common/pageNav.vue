@@ -16,17 +16,15 @@
 
 <script>
 
-import '../../assets/less/pageNav.less'
-
 export default {
   data () {
     return {
-        active: '',
+        active: '',//导航高亮
     }
   },
   watch: {
     '$route' (to, from) {
-      console.log(to);
+      //console.log(to);
       let path = to.path;
       if(/index/i.test(path)){
         this.active = 'index';
@@ -51,6 +49,6 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
+@import '../../assets/less/pageNav.less';
 </style>

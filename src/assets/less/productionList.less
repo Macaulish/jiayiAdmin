@@ -3,7 +3,7 @@
 @fontsize16: 16px;
 .cont1{ 
    background-color: #fff;
-   padding: 18px 40px; 
+   padding: 30px 40px 8px; 
    text-align: center; 
   .row1{
     display: inline-block;
@@ -13,12 +13,11 @@
     cursor: pointer;
     display: block;
     float: right;
-    width: 100px; 
-    height: 30px; 
-    line-height: 30px; 
+    padding: 0 15px;
+    line-height: 28px; 
     background-color: #0FB6F7;
     color: #fff; 
-    font-size: @fontsize14;
+    font-size: @fontsize12;
     margin-top: -6px;
   }
 }
@@ -31,18 +30,19 @@
       overflow: hidden;
       li{ 
         float: left;
-        width: 170px;
+        width: 140px;
         text-align: center;
         font-size: @fontsize14;
-        margin: 0 0 45px 65px;
+        margin: 0 0 30px 30px;
      }
       dt{ 
         .imgbox{ 
-          height: 225px; 
+          display: block;
+          height: 180px; 
           overflow: hidden;
           img{ width: 100%; min-height: 100%; }
         }
-        .text{ display: block;height: 42px; padding: 14px 0 0; }
+        .text{ display: block; height: 38px; padding: 12px 0 0; }
       }
       dd{ 
         overflow: hidden;
@@ -52,35 +52,36 @@
         cursor: pointer;
         display: block;
         float: left;
-        width: 50px; 
-        line-height: 30px; 
+        width: 40px; 
+        line-height: 24px; 
         background-color: #0FB6F7;
         color: #fff; 
         margin-left: 10px;
+        font-size: @fontsize12;
       }
    }
    .pages{
       padding: 20px 40px 40px;
    }
    .no-list{  
-    padding: 0 65px 50px;
+    padding: 0 40px 40px;
     li{ 
       cursor: pointer;
       display: inline-block; 
       text-align: center; 
-      width: 170px; 
-      height: 226px; 
+      width: 130px; 
+      height: 170px; 
       border: solid 1px #DCDBDB; 
     }
     .icon-plus{ 
       display: inline-block;
-      margin-top: 60px;
+      margin-top: 40px;
       width: 55px;
       height: 55px;
       line-height: 50px;
-      font-size: 100px; 
+      font-size: 80px; 
       color: #B5B5B5;
     }
-    .text{ display: block; font-size: @fontsize16; margin-top: 5px; color: #000; }
+    .text{ display: block; font-size: @fontsize14; margin-top: 5px; color: #000; }
    }
 }

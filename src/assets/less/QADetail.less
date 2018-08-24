@@ -15,7 +15,7 @@
 .cont2{ 
     margin-top: 40px;
    background-color: #fff;
-   padding: 30px 50px; 
+   padding: 30px 40px; 
    font-size: @fontsize14;
    .c-title{
       font-size: @fontsize16;
@@ -39,7 +39,7 @@
 .cont3{ 
    margin-top: 40px;
    background-color: #fff;
-   padding: 30px 50px 30px; 
+   padding: 30px 40px 30px; 
    font-size: @fontsize14;
    .c-title{
       font-size: @fontsize16;
@@ -106,24 +106,19 @@
             color: #fff; 
             text-align: center;
             margin: 0 16px 0 0;
-            font-size: 16px;
-          }
-          .s1{ 
-            font-size: 14px;
           }
       }
    }
    .row2{
       width: 850px;
       padding: 15px 0 0 30px;
+        font-size: @fontsize14;
       .t1{
-          font-size:20px;
           padding: 24px 0 28px;
       }
       .t2{
           overflow: hidden;
           padding: 0 0 8px;
-          font-size:16px;
           span{ 
             display: block; 
             float: left;
@@ -136,7 +131,7 @@
           }
       }
       .t3{
-          height: 21px;
+          height: 18px;
           position: relative;
           .bgbar{
               display: block;
@@ -153,155 +148,6 @@
           }
       }
    }
-   .itemList{
-      overflow: hidden;
-      span{ display: block; }
-      li{ 
-          cursor: pointer;
-          float: left;
-          width: 170px;
-          height: 225px;
-          text-align: center;
-          margin: 0 0 25px 30px;
-          border: solid 1px #DCDBDB;
-          font-size: @fontsize14;
-          position: relative;
-          dt{ 
-            .icon-plus{
-                display: inline-block; 
-                margin-top: 36px;
-                width: 38px;
-                height: 38px; 
-                background: #0FB6F7 url(../images/icon-plus.png) center center no-repeat;
-                border-radius: 50%;
-                overflow: hidden;
-                img{ width: 100%; min-height: 100%; }
-            }
-            .text{ height: 40px; padding: 10px 0 0; }
-          }
-          dd{ 
-            padding: 26px 0 0;
-            font-size: @fontsize12;
-            span{
-              text-align: left; 
-              padding: 3px 0 0 25px;
-            }
-          }
-          .imgbox{
-              height: 100%;
-              overflow: hidden;
-              img{
-                width: 100%;
-                min-height: 100%;
-              }
-          }
-          .close{
-              display: block;
-              width: 28px;
-              height: 28px;
-              border-radius: 2px;
-              background: #fff url(../images/close.png) no-repeat center;
-              position: absolute;
-              top: 5px; 
-              right: 5px;
-              z-index: 3;
-          }
-          .download{
-            width: 100%;
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            .btn{
-              cursor: pointer;
-              display: block;
-              float: left;
-              width: 80px;
-              line-height: 30px;
-              background-color: #000;
-              color: #fff;
-              font-size: @fontsize12;
-              opacity: 0.7;
-            }
-            .btn:nth-child(2){
-              float: right;
-            }
-          }
-      }
-      .list-status2{
-          border: 0;
-          .success{
-              width: 75px;
-              height: 75px;
-              border-radius: 2px;
-              background: rgba(0,0,0,0.7) url(../images/success.png) no-repeat center 16px;
-              padding: 48px 0 0;
-              position: absolute;
-              top: 75px; 
-              right: 48px;
-              color: #fff;
-              font-size: 12px;
-          }
-      }
-      .list-status3{
-          border: 0;
-          .processing{
-              width: 100%;
-              background-color: rgba(0,0,0,0.7);
-              overflow: hidden;
-              position: absolute;
-              bottom: 0; 
-              left: 0;
-              color: #fff;
-              font-size: 12px;
-              .text{
-                  display: inline-block;
-              }
-          }
-          .processing::before{
-              content: "";              
-              display: inline-block;
-              width: 0;
-              height: 100%;
-              vertical-align: middle;
-          }
-      }
-      .list-status4{
-          border: 0;
-          .processing{
-              width: 100%;
-              height: 100%;
-              background-color: rgba(0,0,0,0.7);
-              overflow: hidden;
-              position: absolute;
-              bottom: 0; 
-              left: 0;
-              color: #fff;
-              font-size: 12px;
-              .fail{
-                  display: inline-block; 
-                  text-align: center;
-                  .text{ display: block; padding: 0 0 8px; }
-                  .btn{
-                    cursor: pointer;
-                    display: inline-block;
-                    width: 90px; 
-                    height: 27px;
-                    line-height: 27px; 
-                    background-color: #0FB6F7;
-                    color: #fff; 
-                  }
-              }
-          }
-          .processing::before{
-              content: "";              
-              display: inline-block;
-              width: 0;
-              height: 100%;
-              vertical-align: middle;
-          }
-      }
-
-   }
 
 }
 
@@ -313,16 +159,17 @@
   .btn{
     cursor: pointer;
     display: inline-block;
-    width: 170px; 
+    width: 140px; 
     height: 34px;
     line-height: 34px; 
     background-color: #0FB6F7;
     color: #fff; 
     text-align: center;
     margin: 0 16px 0 30px;
+    font-size: @fontsize14;
   }
   .errorTips{ 
-    font-size: @fontsize14;
+    font-size: @fontsize12;
     color: #ED1818; 
   }
 }

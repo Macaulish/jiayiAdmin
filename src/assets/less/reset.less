@@ -1,6 +1,6 @@
-@fontSize12: 12px;
-@fontSize14: 14px;
-@fontSize16: 16px;
+@fontsize12: 12px;
+@fontsize14: 14px;
+@fontsize16: 16px;
 
 html,body,h1,h2,h3,h4,h5,h6,hr,p,ul,ol,li,form,img,dl,dt,dd,table,th,td,blockquote,fieldset,div,strong,label,em,i,b,strong,pre,legend,button,input,textarea,select,address,cite,dfn,var,code,kbd,samp,small,sup,sub, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video,a,span{ margin:0; padding:0; font-weight: normal; font-style: normal; box-sizing:border-box; overflow-scrolling: touch; -webkit-overflow-scrolling: touch; -webkit-tap-highlight-color: rgba(255,255,255,0); tap-highlight-color: rgba(255,255,255,0); }
 ul,ol,li{list-style:none;}
@@ -24,10 +24,20 @@ body{ background-color: #f6f8f9; height: 100%; }
 .clearfix{ *zoom: 1; }
 .clearfix:after{ content: ""; display: block; clear: both; height: 0; visibility: hidden; }
 
-.copyright{ font-size: @fontSize12; padding: 100px 0 40px 350px; }
+.copyright{ font-size: @fontsize12; padding: 100px 0 40px 350px; }
+.loginMain{ 
+  .copyright{
+    padding: 100px 0 40px;
+    position: fixed; 
+    bottom: 0px; 
+    width: 100%; 
+    text-align: center;
+  }
+}
+
 
 .radioGroup{
-	font-size: @fontSize14;
+	font-size: @fontsize14;
 	.radioList{ 
 		cursor: pointer;
 		float: left; 
@@ -44,7 +54,7 @@ body{ background-color: #f6f8f9; height: 100%; }
 }
 
 .checkboxGroup{
-	font-size: @fontSize14;
+	font-size: @fontsize14;
 	.checkboxList{ 
 		cursor: pointer;
 		float: left; 
@@ -62,7 +72,7 @@ body{ background-color: #f6f8f9; height: 100%; }
 
 
 .tableList{
-	font-size: @fontSize14;
+	font-size: @fontsize14;
 	thead{
 		td{
 			background-color: #f5f5f5;
@@ -99,7 +109,163 @@ body{ background-color: #f6f8f9; height: 100%; }
     cursor: pointer;
     display: inline-block;
     text-align: center;
-    font-size: @fontSize16; 
-    margin-left: 15px;
+    font-size: @fontsize14; 
+    margin-left: 12px;
   }
+  li:hover{
+  	color: #0FB6F7;
+  }
+}
+
+
+.uploadImgList{
+  overflow: hidden;
+  span{ display: block; }
+  li{ 
+      cursor: pointer;
+      float: left;
+      width: 140px;
+      height: 180px;
+      text-align: center;
+      margin: 0 0 25px 30px;
+      border: solid 1px #DCDBDB;
+      font-size: @fontsize14;
+      position: relative;
+      dt{ 
+        .icon-plus{
+            display: inline-block; 
+            margin-top: 30px;
+            width: 38px;
+            height: 38px; 
+            background: #0FB6F7 url(../images/icon-plus.png) center center no-repeat;
+            border-radius: 50%;
+            overflow: hidden;
+            img{ width: 100%; min-height: 100%; }
+        }
+        .text{ padding: 10px 0 0; }
+      }
+      dd{ 
+        padding: 20px 0 0;
+        span{
+          text-align: left; 
+          padding: 3px 0 0 15px;
+          font-size: @fontsize12;
+          color: #666;
+        }
+      }
+      .imgbox{
+          height: 100%;
+          overflow: hidden;
+          img{
+            width: 100%;
+            min-height: 100%;
+          }
+      }
+      .close{
+          display: block;
+          width: 25px;
+          height: 25px;
+          border-radius: 2px;
+          background: #fff url(../images/close.png) no-repeat center;
+          background-size: 50% auto;
+          position: absolute;
+          top: 5px; 
+          right: 5px;
+          z-index: 3;
+      }
+      .download{
+        width: 100%;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        .btn{
+          cursor: pointer;
+          display: block;
+          float: left;
+          width: 65px;
+          line-height: 26px;
+          background-color: #000;
+          color: #fff;
+          font-size: @fontsize12;
+          opacity: 0.7;
+        }
+        .btn:nth-child(2){
+          float: right;
+        }
+      }
+  }
+  .list-status2{
+      border: 0;
+      .success{
+          width: 75px;
+          height: 75px;
+          border-radius: 2px;
+          background: rgba(0,0,0,0.7) url(../images/success.png) no-repeat center 16px;
+          padding: 48px 0 0;
+          position: absolute;
+          top: 50px; 
+          left: 50%;
+          margin: 0 0 0 -37px;
+          color: #fff;
+          font-size: @fontsize12;
+      }
+  }
+  .list-status3{
+      border: 0;
+      .processing{
+          width: 100%;
+          background-color: rgba(0,0,0,0.7);
+          overflow: hidden;
+          position: absolute;
+          bottom: 0; 
+          left: 0;
+          color: #fff;
+          font-size: 12px;
+          .text{
+              display: inline-block;
+          }
+      }
+      .processing::before{
+          content: "";              
+          display: inline-block;
+          width: 0;
+          height: 100%;
+          vertical-align: middle;
+      }
+  }
+  .list-status4{
+      border: 0;
+      .processing{
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0,0,0,0.7);
+          overflow: hidden;
+          position: absolute;
+          bottom: 0; 
+          left: 0;
+          color: #fff;
+          font-size: @fontsize12;
+          .fail{
+              display: inline-block; 
+              text-align: center;
+              .text{ display: block; padding: 0 0 8px; }
+              .btn{
+                cursor: pointer;
+                display: inline-block;
+                width: 80px; 
+                line-height: 26px; 
+                background-color: #0FB6F7;
+                color: #fff; 
+              }
+          }
+      }
+      .processing::before{
+          content: "";              
+          display: inline-block;
+          width: 0;
+          height: 100%;
+          vertical-align: middle;
+      }
+  }
+
 }

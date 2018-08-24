@@ -5,7 +5,7 @@
         <h3 class="row1">-问答管理-</h3>
     </div>
 
-    <div class="cont1 clearfix" style="margin-top:40px;">
+    <div class="cont1 clearfix" style="margin-top:40px;height: 50px;">
         <div class="left">
             <table>
                 <tr>
