@@ -7,7 +7,7 @@
 
     <div class="cont2">
         <h3 class="c-title">名称类型</h3>
-        <table width="100%">
+    	<table width="100%">
             <tbody>
                 <tr>
                     <td class="td-title"><i class="icon-star">*</i><span>作品名称 ：</span></td>
@@ -30,6 +30,21 @@
                 <tr>
                     <td class="td-title"><i class="icon-star">*</i><span>{{showTagsIndex==2||showTagsIndex==3?'作品标签':'作品来源'}} ：</span></td>
                     <td class="td-cont">
+ <!--                        <ul class="radiocheckboxGroup" v-if="isMultiselect">
+                            <li class="checkboxList" :class="{active: tagType.active}" v-for="(tagType,index) in allTagTypes" @click="clickTagType(index)" >
+                                <input class="inputcheckbox" type="checkbox" name="prodTag" :value="tagType.title" v-model="checkProductTags">
+                                <span class="icon"></span>
+                                <span class="text">{{tagType.title}}</span>
+                            </li>
+                        </ul>
+
+                        <ul class="radiocheckboxGroup" v-else>
+                            <li class="radioList" :class="{active: tagType.key==checkSourceType}" v-for="(tagType,index) in allTagTypes" @click="clickSourceType(index)" >
+                                <input class="inputradio" type="radio" name="sourceType" :value="tagType.key" v-model="checkSourceType">
+                                <span class="icon"></span>
+                                <span class="text">{{tagType.title}}</span>
+                            </li>
+                        </ul> -->
 
                         <ul class="radiocheckboxGroup" v-for="(allTagTypes,index) in productTypes" v-if="allTagTypes.multiselect" v-show="showTagsIndex==index">
                             <li class="checkboxList" :class="{active: tags.active}" v-for="(tags,index1) in allTagTypes.tags" @click="clickTagType(index,index1)" >
@@ -60,7 +75,7 @@
             <tbody>
                 <tr>
                     <td class="td-title"><i class="icon-star">*</i><span>作品简介 ：</span></td>
-                    <td class="td-cont"><textarea class="input" value="worksIntroduce" v-model="worksIntroduce" placeholder="容请输入作品简介"></textarea></textarea></td>
+                    <td class="td-cont"><textarea class="input" value="worksIntroduce" v-model="worksIntroduce"></textarea></textarea></td>
                     <td class="td-right">0/200</td>
                 </tr>
                 <tr v-if="isShowZuopingUrl">
@@ -145,7 +160,7 @@
     </div>
 
     <div class="cont-last">
-        <a class="btn" @click="submit">创建</a>
+        <a class="btn" @click="submit">修改</a>
         <span class="errorTips" v-if="isShowErrorMessage">{{errorMessage}}</span>
     </div>
 
@@ -191,7 +206,6 @@ export default {
         }
     },
     created(){
-        console.log(this.$store);
         let params = {
             url: '/post/getAliKey',
         }
@@ -203,11 +217,52 @@ export default {
         }); 
     },
     mounted(){
-
         console.log(this.GLOBAL.PRODUCT_TYPES);
+        console.log(this.$route.query.worksId);
 
         this.productTypes = this.GLOBAL.PRODUCT_TYPES;
         console.log(this.productTypes);
+
+        let params = {
+            method: 'get',
+            url: 'works/getWorksInfo',
+            data: {
+                worksId: this.$route.query.worksId,
+            }
+        }
+        util.$http(params).then(response=>{
+            console.log(response);
+            if(response.data.code=='0000'){
+                this.productionDetail = response.data.data;
+                this.worksName = response.data.data.worksName;
+                this.worksIntroduce = response.data.data.worksIntroduce;
+                this.worksUrl = response.data.data.worksUrl;
+                this.weiboUrl = response.data.data.weiboUrl;
+
+                let worksType = response.data.data.worksType;
+                this.showTagsIndex = worksType;
+                this.worksType = worksType;
+                this.isShowYouxiUrl = worksType==2;
+                this.isShowZuopingUrl = worksType==0||worksType==1||worksType==4||worksType==5;
+                this.isShowWeiboUrl = worksType==3;
+
+                this.requestUrls = response.data.data.worksImg;
+                this.isMultiselect = this.GLOBAL.PRODUCT_TYPES[worksType].multiselect;//设置第一个显示的事多选、还是单选
+                this.iOSUrl = response.data.data.iOSUrl;
+                this.androidUrl = response.data.data.androidUrl;
+
+                //设置选中的作品标签高亮（后端返回的是带空格分割的汉字）
+                let worksTag = response.data.data.worksTag.split(' ');
+                console.log(worksTag);
+                this.productTypes[worksType].tags.map((value,index)=>{
+                    worksTag.map((value1,index1)=>{
+                        if(value.title == value1){
+                            this.productTypes[worksType].tags[index].active = true;//设置选中的作品标签高亮
+                        }
+                    });
+                });
+            }
+        }); 
     },
     methods:{
         clickProductType(index){//判断作品类型下面的子项是多选还是单选
@@ -284,6 +339,7 @@ export default {
                 this.errorMessage = '请输入作品简介';
                 return false;
             }
+
             if(this.worksType==3){
               if(util.trim(this.weiboUrl).length<1){
                     this.isShowErrorMessage = true;
@@ -291,6 +347,7 @@ export default {
                     return false;
                 }  
             }
+
             if(util.trim(this.requestUrls).length<1){
                 this.isShowErrorMessage = true;
                 this.errorMessage = '请上传作品封面';
@@ -321,17 +378,18 @@ export default {
             this.worksTag = worksTag;
             this.sourceType = sourceType;
 
-            this.$confirm('您确定要创建吗？',{
+            let confirm = this.$confirm('您确定要修改填写的信息？',{
                 type: 'warning'
             }).then(()=>{
                 that.sureSubmit();
+                confirm.close();
             }).catch(()=>{});;
         },
         sureSubmit(){
-            let loading = this.$loading({ text: '创建中...', customClass: 'el-selfloading' });
+            let loading = this.$loading({ text: '修改中...', customClass: 'el-selfloading' });
 
             let params = {
-                url: 'works/addWorks',
+                url: 'works/updateWorksInfo',
                 data: {
                     adminId: util.getAdminId(),
                     androidUrl: this.androidUrl,
@@ -349,24 +407,32 @@ export default {
                 }
             };
             console.log(params);
-            let that = this;
             util.$http(params).then(response=>{
                 console.log(response);
                 loading.close();
                 if(response.data.code=='0000'){
                     this.$message({
                         type: 'success',
-                        message: '创建成功',
+                        message: '修改成功',
                         duration: 2000
                     }); 
                     setTimeout(()=>{
-                        that.$router.push({name: 'productionList'});
+                        //this.$router.go(-1);
+                        this.$router.push({name: 'productionList'});
                     },1500)
                 }
             });
         }
     },
     computed:{
+        // radioActive(){
+        //     let index = this.checkProductType||0;
+        //     console.log(index);
+        //     this.tagTypes = this.productTypes[index].tags;//选择作品类型时：显示对应的所有小项
+        //     this.radioActive1 = 0;//选择作品类型时：设置对应的作品来源的第一项为选择状态
+        //     this.checkSourceType = this.productTypes[index].tags[0].key;//选择作品类型时：设置对应的作品来源的值为第一项的值
+        //     return index;
+        // },
     }
 }
 </script>

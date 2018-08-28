@@ -16,7 +16,7 @@
                     </dt>
     				<dd>
                         <router-link class="btn" :to="{name: 'productionDetail',query:{worksId:list.worksId}}">详情</router-link>
-                        <a class="btn">编辑</a>
+                        <router-link class="btn" :to="{name: 'editProduction',query:{worksId:list.worksId}}">编辑</router-link>
                         <a class="btn">删除</a>
     				</dd>
     			</dl>
@@ -76,24 +76,50 @@ export default {
     }
   },
   created(){
-    console.log(util.getAdminId());
-    let params = {
-        method: 'get',
-        url: 'works/getWorksInfoList',           
-        data: {
-            rowPage: 12,
-            page: 1,
-            adminId: util.getAdminId()
+    this.init();
+  },
+  methods:{
+    init(){
+        console.log(util.getAdminId());
+        let params = {
+            method: 'get',
+            url: 'works/getWorksInfoList',           
+            data: {
+                rowPage: 12,
+                page: 1,
+                adminId: util.getAdminId()
+            }
+        }
+        util.$http(params).then(response=>{
+            console.log(response);
+            if(response.data.code=='0000'){
+                this.postInfo = response.data.data.postInfo;
+            }else{
+                that.noData = true;
+            }
+        });
+    }
+  },
+  watch:{
+    $route(to,from){
+        console.log('route');
+        console.log(to);
+        console.log(from);
+        if(from.name == 'editProduction'){
+            this.init();
         }
     }
-    util.ajax(params).then(response=>{
-        console.log(response);
-        if(response.data.code=='0000'){
-            this.postInfo = response.data.data.postInfo;
-        }else{
-            that.noData = true;
-        }
-    });
+  },
+  beforeRouteEnter (to, from, next) {
+    next();
+  },
+  beforeRouteUpdate (to, from, next) {
+    console.log(1);
+    next();
+  },
+  beforeRouteLeave (to, from, next) {
+    console.log(2);
+    next();
   }
 }
 </script>

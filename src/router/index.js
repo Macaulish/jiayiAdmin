@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import login from '@/components/login'
 import index from '@/components/index'
 import productionList from '@/components/productionList'
+import editProduction from '@/components/editProduction'
 import createProduction from '@/components/createProduction'
 import productionDetail from '@/components/productionDetail'
 import characterList from '@/components/characterList'
@@ -63,6 +64,11 @@ export default new Router({
       path: '/productionDetail',
       name: 'productionDetail',
       component: productionDetail,
+    },
+    {
+      path: '/editProduction',
+      name: 'editProduction',
+      component: editProduction,
     },
     {
       path: '/createProduction',

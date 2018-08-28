@@ -40,7 +40,7 @@ export default {
                     adminPassWord: 'pangeyupakun',
                 },
             }
-            util.ajax(params).then(response=>{
+            util.$http(params).then(response=>{
                 console.log(response);
                 if(response.data.code=='0000'){
                     let adminId = response.data.data.adminId;
