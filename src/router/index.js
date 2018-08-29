@@ -9,6 +9,7 @@ import createProduction from '@/components/createProduction'
 import productionDetail from '@/components/productionDetail'
 import characterList from '@/components/characterList'
 import characterDetail from '@/components/characterDetail'
+import editCharacter from '@/components/editCharacter'
 import createCharacter from '@/components/createCharacter'
 import dynamicList from '@/components/dynamicList'
 import releaseDynamic from '@/components/releaseDynamic'
@@ -85,6 +86,12 @@ export default new Router({
       name: 'characterDetail',
       component: characterDetail,
     },
+    //编辑人物
+    {
+      path: '/editCharacter',
+      name: 'editCharacter',
+      component: editCharacter,
+    },
     {
       path: '/createCharacter',
       name: 'createCharacter',
@@ -153,4 +160,7 @@ export default new Router({
   ],
   linkActiveClass: 'active',
   linkExactActiveClass: '',
+  beforeEach(to, from, next){
+
+  }
 })

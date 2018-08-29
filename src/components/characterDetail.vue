@@ -45,7 +45,7 @@
     </div>
 
     <div class="cont3">
-        <h3 class="c-title">人物形象</h3>
+        <h3 class="c-title">缩略形象</h3>
         <ul class="itemList">
             <li>
                 <span class="imgbox"><img :src="characterDetail.imageUrl"></span>
@@ -54,8 +54,9 @@
     </div>
 
     <div class="cont3">
-        <h3 class="c-title">独立展示</h3>
-        <ul class="itemList">
+        <h3 class="c-title">展示形象</h3>
+        <div style="padding:0 0 30px;" v-if="characterDetail.showType==2||characterDetail.showType==3">{{characterDetail.showUrl}}</div>
+        <ul class="itemList" v-else>
             <li>
                 <span class="imgbox"><img :src="characterDetail.showUrl"></span>
             </li>
@@ -72,7 +73,6 @@
 
 <script>
 import {util} from '../assets/js/util'
-import $ from "jquery"
 
 export default {
   name: 'characterDetail',
@@ -90,7 +90,7 @@ export default {
             roleId: this.$route.query.roleId,
         },
     }
-    util.ajax(params).then(response=>{
+    util.$http(params).then(response=>{
         console.log(response);
         if(response.data.code=='0000'){
             this.characterDetail = response.data.data;

@@ -2,7 +2,7 @@
   <div class="productionList">
 
     <div class="cont1">
-        <h3 class="row1">-创建作品-</h3>
+        <h3 class="row1">-修改作品-</h3>
     </div>
 
     <div class="cont2">
@@ -107,7 +107,7 @@
                         <span>格式：.JPG .PNG</span>
                     </dd>
                 </dl>
-                <input id="inputFile" type="file" name="file" accept="image/png,image/jpg" @change="selectFile($event)">
+                <input class="inputFile" type="file" name="file" accept="image/png,image/jpg" @change="selectFile($event)">
             </li>
             <li v-if="requestUrls">
                 <span class="imgbox"><img :src="requestUrls"></span>
@@ -171,7 +171,6 @@
 <script>
 import {util} from '../assets/js/util'
 import $ from "jquery"
-import {Dialog} from "element-ui"
 import OSS from "ali-oss"
 import base64 from "base-64"
 
@@ -206,6 +205,7 @@ export default {
         }
     },
     created(){
+        //获取阿里云上传图片各种必须的参数
         let params = {
             url: '/post/getAliKey',
         }
@@ -222,7 +222,6 @@ export default {
 
         this.productTypes = this.GLOBAL.PRODUCT_TYPES;
         console.log(this.productTypes);
-
         let params = {
             method: 'get',
             url: 'works/getWorksInfo',
@@ -246,6 +245,7 @@ export default {
                 this.isShowZuopingUrl = worksType==0||worksType==1||worksType==4||worksType==5;
                 this.isShowWeiboUrl = worksType==3;
 
+                this.sourceType = response.data.data.sourceType;
                 this.requestUrls = response.data.data.worksImg;
                 this.isMultiselect = this.GLOBAL.PRODUCT_TYPES[worksType].multiselect;//设置第一个显示的事多选、还是单选
                 this.iOSUrl = response.data.data.iOSUrl;
@@ -260,6 +260,12 @@ export default {
                             this.productTypes[worksType].tags[index].active = true;//设置选中的作品标签高亮
                         }
                     });
+                    if(value.key == response.data.data.sourceType){
+                        //console.log(this.productTypes[worksType].tags[index]);
+                        //this.productTypes[worksType].tags[index].active = true;//设置选中的作品来源高亮
+                        this.checkSourceType = response.data.data.sourceType;
+                    }
+
                 });
             }
         }); 
@@ -364,13 +370,13 @@ export default {
                     }
                 });
                 worksTag = worksTag.replace(/\s$/,"");
+                sourceType = -1;
             }else{
                 this.productTypes[this.worksType].tags.map(function(value,index){
                     if(value.active){
-                        sourceType += value.key+" ";
+                        sourceType = value.key;
                     }
                 });
-                sourceType = sourceType.replace(/\s$/,"");
             }
             console.log(sourceType);
             console.log(worksTag);
@@ -386,7 +392,7 @@ export default {
             }).catch(()=>{});;
         },
         sureSubmit(){
-            let loading = this.$loading({ text: '修改中...', customClass: 'el-selfloading' });
+            //let loading = this.$loading({ text: '修改中...', customClass: 'el-selfloading' });
 
             let params = {
                 url: 'works/updateWorksInfo',
@@ -394,7 +400,7 @@ export default {
                     adminId: util.getAdminId(),
                     androidUrl: this.androidUrl,
                     iOSUrl: this.iOSUrl,
-                    sourceType: this.sourceType,
+                    sourceType: parseInt(this.sourceType),
                     weiboUrl: this.weiboUrl,
                     worksId: this.$route.query.worksId,
                     worksImg: this.requestUrls,
@@ -407,19 +413,19 @@ export default {
                 }
             };
             console.log(params);
+            let that = this;
             util.$http(params).then(response=>{
                 console.log(response);
-                loading.close();
+                //loading.close();
                 if(response.data.code=='0000'){
                     this.$message({
                         type: 'success',
                         message: '修改成功',
-                        duration: 2000
+                        duration: 1000,
+                        onClose: function(){
+                            that.$router.push({name: 'productionList'});
+                        }
                     }); 
-                    setTimeout(()=>{
-                        //this.$router.go(-1);
-                        this.$router.push({name: 'productionList'});
-                    },1500)
                 }
             });
         }

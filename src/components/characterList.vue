@@ -7,10 +7,8 @@
                 <tr>
                     <td>选择作品</td>
                     <td>
-                        <select>
-                            <option>我家大师兄脑子有坑</option>
-                            <option>我家大师兄脑子有坑</option>
-                            <option>我家大师兄脑子有坑</option>
+                        <select class="input" v-model="selectWorksName">
+                            <option v-for="list in worksName" :value="list.worksId" selected="selected">{{list.worksName}}</option>
                         </select>
                     </td>
                     <td><a class="sure" @click="search">确定</a></td>
@@ -31,7 +29,7 @@
                     </dt>
     				<dd>
                         <router-link class="btn" :to="{name: 'characterDetail',query:{roleId:list.roleId}}">详情</router-link>
-                        <a class="btn">编辑</a>
+                        <router-link class="btn" :to="{name: 'editCharacter',query:{roleId:list.roleId}}">编辑</router-link>
                         <a class="btn">删除</a>
     				</dd>
     			</dl>
@@ -67,38 +65,65 @@
 
 <script>
 import {util} from '../assets/js/util'
-import $ from "jquery"
 
 export default {
   name: 'characterList',
   data () {
     return {
+        worksName: [],
+        selectWorksName: '',
         roleList: [],
         noData: false
     }
   },
   created(){
+    //获取所有作品名称
     let params = {
         method: 'get',
-        url: 'user/roleList',           
+        url: 'works/getWorksName',
         data: {
-            rowPage: 12,
-            page: 1,
-            adminId: util.getAdminId()
+            adminId: util.getAdminId(),
         }
-    };
-    util.ajax(params).then(response=>{
+    }
+    util.$http(params).then(response=>{
         console.log(response);
         if(response.data.code=='0000'){
-            this.roleList = response.data.data.adminInfo;
-        }else{
-            that.noData = true;
+            this.worksName = response.data.data;
+            this.selectWorksName = response.data.data[0].worksId;
         }
-    });
+    }); 
+
+    this.init();
   },
   methods:{
+    init(){
+        let params = {
+            method: 'get',
+            url: 'user/roleList',           
+            data: {
+                rowPage: 12,
+                page: 1,
+                adminId: util.getAdminId()
+            }
+        };
+        util.$http(params).then(response=>{
+            console.log(response);
+            if(response.data.code=='0000'){
+                this.roleList = response.data.data.adminInfo;
+            }else{
+                that.noData = true;
+            }
+        });
+    },
     search(){
 
+    }
+  },
+  watch: {
+    $route(to,from){
+        if(from.name=='editCharacter'||from.name=='createCharacter'){
+            this.init();
+        }
     }
   }
 }

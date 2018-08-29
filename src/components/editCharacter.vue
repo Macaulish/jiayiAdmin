@@ -7,7 +7,7 @@
 
     <div class="cont2">
         <h3 class="c-title">人物信息</h3>
-        <table width="100%">
+    	<table width="100%">
             <tbody>
                 <tr>
                     <td class="td-title"><i class="icon-star">*</i><span>所属作品 ：</span></td>
@@ -19,12 +19,12 @@
                 </tr>
                 <tr>
                     <td class="td-title"><i class="icon-star">*</i><span>人物姓名 ：</span></td>
-                    <td class="td-cont"><input type="text" class="input" placeholder="请输入人物姓名" v-model="roleName"></td>
+                    <td class="td-cont"><input type="text" class="input" placeholder="请输入人物姓名" value="roleName" v-model="roleName"></td>
                     <td class="td-right">0/20</td>
                 </tr>
                 <tr>
                     <td class="td-title"><i class="icon-star">*</i><span>人物简介 ：</span></td>
-                    <td class="td-cont"><textarea class="input" placeholder="请输入人物简介" v-model="introduce"></textarea></td>
+                    <td class="td-cont"><textarea class="input" placeholder="请输入人物简介" value="introduce" v-model="introduce"></textarea></td>
                     <td class="td-right">0/500</td>
                 </tr>
             </tbody>
@@ -101,7 +101,7 @@
                         </dl>
                         <input class="inputFile" type="file" name="file" accept="image/png,image/jpg" @change="selectFile($event,2)">
                     </li>
-                    <li v-if="showUrl">
+                    <li v-if="selectShowType==1">
                         <span class="imgbox"><img :src="showUrl"></span>
                         <i class="close" @click="deleteShowUrl"></i>
                     </li>
@@ -132,7 +132,7 @@
     </div>
 
     <div class="cont-last">
-        <a class="btn" @click="submit">创建</a>
+        <a class="btn" @click="submit">修改</a>
         <!-- <span class="errorTips">请输入作品名 / 请选择作品类型 </span> -->
     </div>
 
@@ -150,9 +150,9 @@ export default {
         data() {
         return {
             radioGroup: [
-                {title: '立绘', value: 1, url:''},
-                {title: '2D', value: 2, url:''},
-                {title: '3D', value: 3, url:''},
+                {title: '立绘', value: 1, url: ''},
+                {title: '2D', value: 2, url: ''},
+                {title: '3D', value: 3, url: ''},
             ],
             isShowSuolue: false,
             isShowXingxiang: false,
@@ -203,10 +203,32 @@ export default {
             console.log(response);
             if(response.data.code=='0000'){
                 this.worksName = response.data.data;
-                this.selectWorksName = response.data.data[0].worksId;
             }
         }); 
 
+        //获取作品的详情
+        console.log(this.$route.query.roleId);
+        let params1 = {
+            method: 'get',
+            url: 'user/getRoleInfo',
+            data: {
+                roleId: this.$route.query.roleId,
+            }
+        }
+        util.$http(params1).then(response=>{
+            console.log(response);
+            if(response.data.code=='0000'){
+                let data = response.data.data;
+                this.roleDetail = response.data.data;
+                this.roleName = data.userName;
+                this.introduce = data.introduce;
+                this.imageUrl = data.imageUrl;
+                this.selectWorksName = data.worksId;
+                this.selectShowType = data.showType;
+                this.showUrl = data.showUrl;
+                this.radioGroup[this.selectShowType-1].url = data.showUrl;
+            }
+        }); 
     },
     methods:{
         showSuolue(){
@@ -355,10 +377,11 @@ export default {
         },
         submit(){
             let params = {
-                url: 'user/addRole',
+                url: 'user/updateRoleInfo',
                 data: {
                     adminId: util.getAdminId(),
                     source: this.selectWorksName,
+                    roleId: this.$route.query.roleId,
                     userName: this.roleName,
                     introduce: this.introduce,
                     imageUrl: this.imageUrl,
@@ -373,7 +396,7 @@ export default {
                 if(response.data.code=='0000'){
                     this.$message({
                         type: 'success',
-                        message: '创建人物成功',
+                        message: '修改成功',
                         duration: 1000,
                         onClose: function(){
                             that.$router.push({name: 'characterList'});
@@ -381,6 +404,7 @@ export default {
                     }); 
                 }
             });
+
         }
     },
     computed:{

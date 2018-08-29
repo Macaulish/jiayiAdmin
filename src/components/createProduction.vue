@@ -92,7 +92,7 @@
                         <span>格式：.JPG .PNG</span>
                     </dd>
                 </dl>
-                <input id="inputFile" type="file" name="file" accept="image/png,image/jpg" @change="selectFile($event)">
+                <input class="inputFile" type="file" name="file" accept="image/png,image/jpg" @change="selectFile($event)">
             </li>
             <li v-if="requestUrls">
                 <span class="imgbox"><img :src="requestUrls"></span>
@@ -156,7 +156,6 @@
 <script>
 import {util} from '../assets/js/util'
 import $ from "jquery"
-import {Dialog} from "element-ui"
 import OSS from "ali-oss"
 import base64 from "base-64"
 
@@ -170,7 +169,7 @@ export default {
             allTagTypes: [],
             worksType: '',
             showTagsIndex: 0,
-            sourceType: '',
+            sourceType: -1,
             worksTag: '',
             worksName: '',
             worksIntroduce: '',
@@ -178,7 +177,7 @@ export default {
             weiboUrl: '',
             requestUrls: '',//图片地址
             checkProductType: '',//选择作品类型
-            checkSourceType: '-1',//选择的作品来源
+            checkSourceType: -1,//选择的作品来源
             checkProductTags: [],//选择的作品标签
             maxFileSize: 5*1024*1024,
             isShowZuopingUrl: false,
@@ -307,13 +306,13 @@ export default {
                     }
                 });
                 worksTag = worksTag.replace(/\s$/,"");
+                sourceType = -1;
             }else{
                 this.productTypes[this.worksType].tags.map(function(value,index){
                     if(value.active){
-                        sourceType += value.key+" ";
+                        sourceType = value.key;
                     }
                 });
-                sourceType = sourceType.replace(/\s$/,"");
             }
             console.log(sourceType);
             console.log(worksTag);
@@ -321,14 +320,14 @@ export default {
             this.worksTag = worksTag;
             this.sourceType = sourceType;
 
-            this.$confirm('您确定要创建吗？',{
+            this.$confirm('您确定要创建作品吗？',{
                 type: 'warning'
             }).then(()=>{
                 that.sureSubmit();
             }).catch(()=>{});;
         },
         sureSubmit(){
-            let loading = this.$loading({ text: '创建中...', customClass: 'el-selfloading' });
+            //let loading = this.$loading({ text: '创建中...', customClass: 'el-selfloading' });
 
             let params = {
                 url: 'works/addWorks',
@@ -352,16 +351,16 @@ export default {
             let that = this;
             util.$http(params).then(response=>{
                 console.log(response);
-                loading.close();
+                //loading.close();
                 if(response.data.code=='0000'){
                     this.$message({
                         type: 'success',
                         message: '创建成功',
-                        duration: 2000
+                        duration: 1000,
+                        onClose: function(){
+                            that.$router.push({name: 'productionList'});
+                        }
                     }); 
-                    setTimeout(()=>{
-                        that.$router.push({name: 'productionList'});
-                    },1500)
                 }
             });
         }

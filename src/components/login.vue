@@ -36,8 +36,8 @@ export default {
             let params = {
                 url: 'user/loginVerify',
                 data: {
-                    adminName: '13330940741',
-                    adminPassWord: 'pangeyupakun',
+                    adminName: '13611077238',
+                    adminPassWord: 'jiayiworld0201',
                 },
             }
             util.$http(params).then(response=>{

@@ -105,7 +105,7 @@ export default {
         console.log('route');
         console.log(to);
         console.log(from);
-        if(from.name == 'editProduction'){
+        if(from.name == 'editProduction'||from.name == 'createProduction'){
             this.init();
         }
     }
