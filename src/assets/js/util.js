@@ -32,7 +32,6 @@ response => {
     return response;
 },
 error => {
-
 	myloading.close();
 	console.log(error);
 	console.log(error.response);
@@ -40,9 +39,9 @@ error => {
     if (error.response) {
     	// 返回 401 ，说明未登录，则跳转到登录页面
     	if(error.response.status==401){
-			Message({message:'您还未登录',type: 'error',duration: 1500,onClose: function(){
-				router.push({name: 'login'});
-			}});
+				Message({message:'您还未登录',type: 'error',duration: 1500,onClose: function(){
+					router.push({name: 'login'});
+				}});
     	}
 
         // switch (error.response.status) {

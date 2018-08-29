@@ -161,6 +161,10 @@ export default new Router({
   linkActiveClass: 'active',
   linkExactActiveClass: '',
   beforeEach(to, from, next){
-
+    console.log(to);
+    let adminId = sessionStorage.getItem('adminId')
+    if(adminId||adminId.length<1){
+      next({name: 'login'})
+    }
   }
 })
