@@ -376,6 +376,30 @@ export default {
             // put();
         },
         submit(){
+
+            this.isShowErrorMessage = false;
+
+            if(util.trim(this.roleName).length<1){
+                this.isShowErrorMessage = true;
+                this.errorMessage = '请填写人物姓名';
+                return false;
+            }
+            if(util.trim(this.introduce).length<1){
+                this.isShowErrorMessage = true;
+                this.errorMessage = '请填写人物简介';
+                return false;
+            }
+            if(util.trim(this.imageUrl).length<1){
+                this.isShowErrorMessage = true;
+                this.errorMessage = '请上传缩略形象';
+                return false;
+            }
+            if(util.trim(this.radioGroup[this.selectShowType-1].url).length<1){
+                this.isShowErrorMessage = true;
+                this.errorMessage = '请上传展示形象';
+                return false;
+            }
+            
             let params = {
                 url: 'user/updateRoleInfo',
                 data: {

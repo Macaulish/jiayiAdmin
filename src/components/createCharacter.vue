@@ -133,7 +133,7 @@
 
     <div class="cont-last">
         <a class="btn" @click="submit">创建</a>
-        <!-- <span class="errorTips">请输入作品名 / 请选择作品类型 </span> -->
+        <span class="errorTips" v-if="isShowErrorMessage">{{errorMessage}}</span>
     </div>
 
   </div>
@@ -354,6 +354,29 @@ export default {
             // put();
         },
         submit(){
+            this.isShowErrorMessage = false;
+
+            if(util.trim(this.roleName).length<1){
+                this.isShowErrorMessage = true;
+                this.errorMessage = '请填写人物姓名';
+                return false;
+            }
+            if(util.trim(this.introduce).length<1){
+                this.isShowErrorMessage = true;
+                this.errorMessage = '请填写人物简介';
+                return false;
+            }
+            if(util.trim(this.imageUrl).length<1){
+                this.isShowErrorMessage = true;
+                this.errorMessage = '请上传缩略形象';
+                return false;
+            }
+            if(util.trim(this.radioGroup[this.selectShowType-1].url).length<1){
+                this.isShowErrorMessage = true;
+                this.errorMessage = '请上传展示形象';
+                return false;
+            }
+
             let params = {
                 url: 'user/addRole',
                 data: {
