@@ -8,29 +8,27 @@
     <div class="cont2">
          <ul class="textList">
             <li class="t1">
-                <span class="s1"><i class="i-title">作品名称 ：</i><i class="i-cont">东方纤云</i></span>
-                <span class="s2"><i class="i-title">发布时间 ：</i><i class="i-cont">2018-01-22 17:07</i></span>
-                <span class="s3"><i class="i-title">来自 ：</i><i class="i-cont">逍遥门口</i></span>
+                <span class="s1"><i class="i-title">作品名称 ：</i><i class="i-cont">{{postDetail.userName }}</i></span>
+                <span class="s2"><i class="i-title">发布时间 ：</i><i class="i-cont">{{postDetail.postTime}}</i></span>
+                <span class="s3"><i class="i-title">来自 ：</i><i class="i-cont">{{postDetail.postSource}}</i></span>
             </li>
             <li class="t2">
                 <span class="s1">
                     <i class="i-title">发布内容 ：</i>
-                    <i class="i-cont">筑基中阶，原为金、土双灵根，因替印飞星顶罪，被逐出逍遥门为彻底摆脱逍遥门选择自废灵根并主动与家族断绝关系被印飞星推下悬崖后与魔女女</i>
+                    <i class="i-cont">{{postDetail.postContext}}</i>
                 </span>
             </li>
             <li class="t3">
-                <span class="s1"><i class="i-title">浏览次数 ：</i><i class="i-cont">123123</i></span>
-                <span class="s2"><i class="i-title">评论次数 ：</i><i class="i-cont">123123</i></span>
-                <span class="s3"><i class="i-title">获赞次数 ：</i><i class="i-cont">123123</i></span>
+                <span class="s1"><i class="i-title">浏览次数 ：</i><i class="i-cont">{{postDetail.seeNum}}</i></span>
+                <span class="s2"><i class="i-title">评论次数 ：</i><i class="i-cont">{{postDetail.commentNum}}</i></span>
+                <span class="s3"><i class="i-title">获赞次数 ：</i><i class="i-cont">{{postDetail.fansNum}}</i></span>
             </li>
         </ul>
-        <ul class="imgList">
-            <li><img src="../assets/images/ex1.png"></li>
-            <li><img src="../assets/images/ex1.png"></li>
-            <li><img src="../assets/images/ex1.png"></li>
+        <ul class="imgList" v-if="postDetail.postType==1">
+            <li v-for="imgurl in postDetail.postUrls"><img :src="imgurl"></li>
         </ul>
-        <ul class="videoList">
-            <li><img src="../assets/images/video.png"></li>
+        <ul class="videoList" v-if="postDetail.postType==3">
+            <li><video controls="controls" :src="postDetail.postUrls[0]">对不起；您的浏览器不支持HTML5视频播放</video></li>
         </ul>
     </div>
 
@@ -122,11 +120,34 @@
 </template>
 
 <script>
+import {util} from '../assets/js/util'
+
+//postType字段含义， 0：代码纯文字 1：代码图片，3：代码视频
+
 export default {
   name: 'dynamicDetail',
   data () {
     return {
+        postDetail: {}
     }
+  },
+  created(){
+    console.log(this.$route.query.postId);
+    let params = {
+        method: 'get',
+        url: 'post/getUserPostInfo',           
+        data: {
+            postId: this.$route.query.postId 
+        }
+    }
+    util.$http(params).then(response=>{
+        console.log(response);
+        if(response.data.code=='0000'){
+            this.postDetail = response.data.data;
+        }else{
+            that.noData = true;
+        }
+    });
   },
   methods: {
     back(){

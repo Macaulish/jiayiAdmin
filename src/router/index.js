@@ -24,7 +24,7 @@ import postingsMore from '@/components/postingsMore'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/login',
@@ -160,11 +160,23 @@ export default new Router({
   ],
   linkActiveClass: 'active',
   linkExactActiveClass: '',
-  beforeEach(to, from, next){
-    console.log(to);
-    let adminId = sessionStorage.getItem('adminId')
-    if(adminId||adminId.length<1){
-      next({name: 'login'})
+})
+
+export default router;
+
+router.beforeEach((to, from, next)=>{
+  //console.log(to);
+  let adminId = sessionStorage.getItem('adminId');
+  let path = to.name
+  if(!adminId||adminId.length<1){
+    //console.log(121);
+    if (path === 'login') {
+      next()
+      return;
+    }else{
+      next({name: 'login'});
     }
+  }else{
+    next();
   }
 })

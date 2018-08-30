@@ -291,7 +291,7 @@ export default {
                   if(number==1){
                     that.imageUrl = result.res.requestUrls[0].replace(/\?.{0,}$/,"");
                   }else{
-                    //that.showUrl = result.res.requestUrls[0].replace(/\?.{0,}$/,"");
+                    that.showUrl = result.res.requestUrls[0].replace(/\?.{0,}$/,"");
                     that.radioGroup[that.selectShowType-1].url = result.res.requestUrls[0].replace(/\?.{0,}$/,"");
                   }
               } catch (e) {
@@ -376,7 +376,6 @@ export default {
             // put();
         },
         submit(){
-
             this.isShowErrorMessage = false;
 
             if(util.trim(this.roleName).length<1){
@@ -399,7 +398,7 @@ export default {
                 this.errorMessage = '请上传展示形象';
                 return false;
             }
-            
+
             let params = {
                 url: 'user/updateRoleInfo',
                 data: {

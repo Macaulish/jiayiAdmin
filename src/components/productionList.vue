@@ -21,7 +21,8 @@
     				</dd>
     			</dl>
     		</li>
-<!--             <li>
+        <!--             
+            <li>
                 <dl>
                     <dt>
                         <span class="imgbox"><img src="../assets/images/ex1.png"></span>
@@ -33,9 +34,11 @@
                         <a class="btn">删除</a>
                     </dd>
                 </dl>
-            </li> -->
+            </li> 
+        -->
     	</ul>
-        <ul class="pages">
+
+<!--         <ul class="pages">
             <li>[1]</li>
             <li>[2]</li>
             <li>[3]</li>
@@ -46,7 +49,11 @@
             <li>[8]</li>
             <li>[9]</li>
             <li>[10]</li>
-        </ul>
+        </ul> -->
+
+         <div class="fenye">
+            <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" layout="total, prev, pager, next" :total="total"></el-pagination>
+          </div>
 
         <ul class="no-list" v-if="noData">
             <router-link :to="{path: 'createProduction'}">
@@ -73,6 +80,8 @@ export default {
     return {
         postInfo: [],
         noData: false,
+        currentPage: 1,//当前第几页（默认第一页）
+        total: 0//总条数
     }
   },
   created(){
@@ -85,8 +94,29 @@ export default {
             method: 'get',
             url: 'works/getWorksInfoList',           
             data: {
-                rowPage: 12,
+                rowPage: 10,
                 page: 1,
+                adminId: util.getAdminId()
+            }
+        }
+        util.$http(params).then(response=>{
+            console.log(response);
+            if(response.data.code=='0000'){
+                this.postInfo = response.data.data.postInfo;
+                this.total = response.data.data.total;
+            }else{
+                that.noData = true;
+            }
+        });
+    },
+    handleCurrentChange(page){
+        console.log(page);
+        let params = {
+            method: 'get',
+            url: 'works/getWorksInfoList',           
+            data: {
+                rowPage: 10,
+                page: page,
                 adminId: util.getAdminId()
             }
         }
@@ -98,7 +128,7 @@ export default {
                 that.noData = true;
             }
         });
-    }
+    },
   },
   watch:{
     $route(to,from){

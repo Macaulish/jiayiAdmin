@@ -133,6 +133,7 @@
 
     <div class="cont-last">
         <a class="btn" @click="submit">创建</a>
+        <!-- <span class="errorTips">请输入作品名 / 请选择作品类型 </span> -->
         <span class="errorTips" v-if="isShowErrorMessage">{{errorMessage}}</span>
     </div>
 
@@ -269,7 +270,7 @@ export default {
                   if(number==1){
                     that.imageUrl = result.res.requestUrls[0].replace(/\?.{0,}$/,"");
                   }else{
-                    //that.showUrl = result.res.requestUrls[0].replace(/\?.{0,}$/,"");
+                    that.showUrl = result.res.requestUrls[0].replace(/\?.{0,}$/,"");
                     that.radioGroup[that.selectShowType-1].url = result.res.requestUrls[0].replace(/\?.{0,}$/,"");
                   }
               } catch (e) {

@@ -73,11 +73,11 @@
       dt{ float: left; }
       .t1{
           .btn{
+            position: relative;
             cursor: pointer;
             display: inline-block;
-            width: 170px; 
-            height: 34px;
-            line-height: 34px; 
+            width: 120px; 
+            line-height: 30px; 
             background-color: #0FB6F7;
             color: #fff; 
             text-align: center;
@@ -85,21 +85,21 @@
             font-size: @fontsize14;
           }
           .s1{ 
-            font-size: @fontsize14;
+            font-size: @fontsize12;
           }
       }
    }
    .row2{
-      width: 850px;
-      padding: 15px 0 0 30px;
+      width: 80%;
+      padding: 15px 0 0 30px; 
+      font-size: @fontsize14;
       .t1{
-          font-size: @fontsize16;
           padding: 24px 0 28px;
+          font-size: @fontsize14;
       }
       .t2{
           overflow: hidden;
           padding: 0 0 8px;
-          font-size: @fontsize14;
           span{ 
             display: block; 
             float: left;
@@ -108,11 +108,14 @@
             margin-left: 40px;
           }
           .s3{
-            float: right;
+            float: right;  
+            font-size: @fontsize12;
+            color: #0FB6F7;
+            cursor: pointer;
           }
       }
       .t3{
-          height: 20px;
+          height: 16px;
           position: relative;
           .bgbar{
               display: block;
@@ -129,7 +132,11 @@
           }
       }
    }
-
+   #videoPreview{ 
+      width: 60%; 
+      padding: 30px 0 0; 
+     video{ width: 100%; }
+   }
 }
 
 

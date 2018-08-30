@@ -261,13 +261,29 @@ export default {
             let type = file.name.split('.')[1];
             let storeAs = new Date().getTime() + '.' + type;
 
-            client.multipartUpload(storeAs, file).then(result=>{
-              console.log(result)
-              this.requestUrls = result.res.requestUrls[0];
-            }).catch(err=>{
-              console.log(err);
-            });
+            // client.multipartUpload(storeAs, file).then(result=>{
+            //   console.log(result)
+            //   this.requestUrls = result.res.requestUrls[0];
+            // }).catch(err=>{
+            //   console.log(err);
+            // });
 
+            let that = this;
+            async function multipartUpload (storeAs,file) {
+              try {
+                let result = await client.multipartUpload(storeAs, file, {
+                    partSize: 1024*1024
+                  });
+                  console.log(result);
+                    that.requestUrls = result.res.requestUrls[0].replace(/\?.{0,}$/,"");
+              } catch (e) {
+                if (e.code === 'ConnectionTimeoutError') {
+                  console.log("超时啦!");
+                }
+                console.log(e)
+              }
+            }
+            multipartUpload(storeAs,file);
         },
         submit(){
             let that = this;

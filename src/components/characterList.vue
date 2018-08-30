@@ -35,18 +35,10 @@
     			</dl>
     		</li>
     	</ul>
-        <ul class="pages">
-            <li>[1]</li>
-            <li>[2]</li>
-            <li>[3]</li>
-            <li>[4]</li>
-            <li>[5]</li>
-            <li>[6]</li>
-            <li>[7]</li>
-            <li>[8]</li>
-            <li>[9]</li>
-            <li>[10]</li>
-        </ul>
+
+         <div class="fenye">
+            <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" layout="total, prev, pager, next" :total="total"></el-pagination>
+          </div>
 
         <ul class="no-list" v-if="noData">
             <router-link :to="{name: 'createCharacter'}">
@@ -73,7 +65,9 @@ export default {
         worksName: [],
         selectWorksName: '',
         roleList: [],
-        noData: false
+        noData: false,
+        currentPage: 1,//当前第几页（默认第一页）
+        total: 0//总条数
     }
   },
   created(){
@@ -101,8 +95,32 @@ export default {
             method: 'get',
             url: 'user/roleList',           
             data: {
-                rowPage: 12,
+                rowPage: 10,
                 page: 1,
+                adminId: util.getAdminId()
+            }
+        };
+        util.$http(params).then(response=>{
+            console.log(response);
+            if(response.data.code=='0000'){
+                this.roleList = response.data.data.adminInfo;
+                this.total = response.data.data.total;
+            }else{
+                that.noData = true;
+            }
+        });
+    },
+    search(){
+
+    },  
+    handleCurrentChange(page){
+        console.log(page);
+        let params = {
+            method: 'get',
+            url: 'user/roleList',           
+            data: {
+                rowPage: 10,
+                page: page,
                 adminId: util.getAdminId()
             }
         };
@@ -115,9 +133,6 @@ export default {
             }
         });
     },
-    search(){
-
-    }
   },
   watch: {
     $route(to,from){

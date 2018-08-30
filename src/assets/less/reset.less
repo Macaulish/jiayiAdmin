@@ -87,14 +87,18 @@ body{ background-color: #f6f8f9; height: 100%; }
 			cursor: default;
 		}
 		td{
-			padding: 15px 0;
+			padding: 15px 15px;
 			text-align: center;
 		}
+    td.maxwidth{ 
+      width: 300px; 
+      .maxwidth{ width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    }
 		.operation{
 			.btn{
 				display: inline-block;
 				margin: 0 10px;
-				color: #000;
+				color: #0FB6F7;
 				cursor: pointer;
 			}
 		}
@@ -116,6 +120,11 @@ body{ background-color: #f6f8f9; height: 100%; }
   li:hover{
   	color: #0FB6F7;
   }
+}
+
+.fenye{
+  text-align: right;
+  padding: 40px 0 0px;
 }
 
 
