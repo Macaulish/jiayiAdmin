@@ -15,7 +15,6 @@
 
         </div>
 
-        
     </div>
 </template>
 
@@ -47,5 +46,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.main{ width: 100%; padding: 120px 50px 50px 250px; }
+.main{ width: 100%; padding: 80px 50px 0 250px; }
 </style>

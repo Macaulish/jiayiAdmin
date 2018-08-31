@@ -84,16 +84,18 @@
 </template>
 
 <script>
+import {util} from '../assets/js/util'
 
 export default {
     name: 'QAList',
     data () {
         return {
-            response: [],
+            QALists: [],
             roles: [],
         }
     },
     created() {
+        /*
         let that = this;
         let url = "http://192.168.0.95:8443/user/questionHome";
         this.$axios.post(url,{
@@ -109,8 +111,30 @@ export default {
         }).catch(function (error) {
             console.log(error);
         });
+        */
+       this.init()
     },
     methods:{
+        init(){
+            let params = {
+                method: 'get',
+                url: 'user/questionHome',           
+                data: {
+                    rowPage: 10,
+                    page: 1,
+                    adminId: util.getAdminId(),
+                    roleId: 1,
+                }
+            };
+            util.$http(params).then(response=>{
+                console.log(response);
+                if(response.data.code=='0000'){
+                    this.QALists = response.data.data.adminInfo;
+                }else{
+                    that.noData = true;
+                }
+            });
+        },
         search(){
 
         }

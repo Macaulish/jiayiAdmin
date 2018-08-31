@@ -2,21 +2,34 @@
 
     <header class="pageHeader">
       <div class="left">加一运营管理平台</div>
-      <div class="middle">HI，13611077238，欢迎来到加一次元运营管理平台。 最后登录时间：2018-07-17 15:38:54</div>
-      <div class="right">13611077238   <router-link class="signout" :to="{name: 'login'}">【退出】</router-link></div>
+      <div class="middle">HI，{{adminName}}，欢迎来到加一次元运营管理平台。 最后登录时间：{{lastLoginTime}}</div>
+      <div class="right">{{adminName}}   <a class="signout" @click="signout">【退出】</a></div>
     </header>
 
 </template>
 
 <script>
+import {util} from '../../assets/js/util'
 
 export default {
   data () {
     return {
+      adminName: '',
+      lastLoginTime: ''
     }
   },
   created(){
-  	
+    if(sessionStorage.getItem('adminName')||sessionStorage.getItem('adminId')){
+      this.adminName = sessionStorage.getItem('adminName');
+      this.lastLoginTime = util.getNowFormatDate();
+    }
+  },
+  methods:{
+    signout(){
+      sessionStorage.removeItem('adminName');
+      sessionStorage.removeItem('adminId');
+      this.$router.push({name: 'login'});
+    }
   }
 }
 </script>
