@@ -63,47 +63,32 @@
                     </dd>
                 </dl>
                 <div class="input-reply" v-if="comment.isShowInput">
-                    <textarea class="input" :placeholder="'回复：'+comment.userName"></textarea>
-                    <a class="btn" @click="reply1(comment.isRole,comment.commentId,comment.postId,comment.replyContext,comment.isRole,comment.isRole,comment.isRole,comment.isRole,comment.isRole,comment.isRole,comment.isRole)">评论</a>
+                    <textarea class="input" :placeholder="'回复：'+comment.userName" v-model="replyInput"></textarea>
+                    <a class="btn" @click="reply1(index)">回复</a>
                 </div>
                 <router-link class="checkmore" :to="{name: 'replyDetail'}">查看对他的所有评论（{{comment.commentNum}}）>></router-link>
 
-                <ul>
-                   <li class="list">
+                <ul v-if="comment.secondView.length>0">
+                   <li class="list" v-for="(secondView,secondIndex) in comment.secondView">
                         <dl class="clearfix">
-                            <dt><img src="../assets/images/ex1.png"></dt>
+                            <dt><img :src="secondView.avatar"></dt>
                             <dd>
                                 <div class="row1">
-                                    <span class="username">张三李四</span>
-                                    <span class="time">2018-01-22  17:07</span>
+                                    <span class="username">{{secondView.userName}} @ {{comment.userName}}</span>
+                                    <span class="time">{{secondView.commentTime}}</span>
                                 </div>
-                                <div class="row2">修真是条漫漫长路，在这条长路上保不定哪一天就挂了。</div>
+                                <div class="row2">{{secondView.commentContext}}</div>
                                 <div class="row3">
-                                    <span class="reply">【回复】</span>
-                                    <span class="zan">231</span>
+                                    <span class="reply" @click="showSecondReplyInput(index,secondIndex)">【回复】</span>
+                                    <span class="zan">{{secondView.praiseNum}}</span>
                                     <span class="delete">删除</span>
                                 </div>
                             </dd>
                         </dl>
-                        <div class="input-reply"><input type="text" class="input" placeholder="回复：张三李四"><a class="btn" href="#">评论</a></div>
-                    </li>
-                   <li class="list">
-                        <dl class="clearfix">
-                            <dt><img src="../assets/images/ex1.png"></dt>
-                            <dd>
-                                <div class="row1">
-                                    <span class="username">张三李四</span>
-                                    <span class="time">2018-01-22  17:07</span>
-                                </div>
-                                <div class="row2">修真是条漫漫长路，在这条长路上保不定哪一天就挂了。</div>
-                                <div class="row3">
-                                    <span class="reply">【回复】</span>
-                                    <span class="zan">231</span>
-                                    <span class="delete">删除</span>
-                                </div>
-                            </dd>
-                        </dl>
-                        <div class="input-reply"><input type="text" class="input" placeholder="回复：张三李四"><a class="btn" href="#">评论</a></div>
+                        <div class="input-reply" v-if="secondView.isShowInput">
+                            <textarea class="input" placeholder="" v-model="secondReplyInput"></textarea>
+                            <a class="btn" @click="reply2(index,secondIndex)">回复</a>
+                        </div>
                     </li>
                 </ul>
 
@@ -187,6 +172,8 @@ export default {
         noInit: false,//页面第一次加载时没有数据,
         commentContext: '',//填写的评论内容,
         maxContextlength: 200,
+        replyInput: '',//一级回复框值
+        secondReplyInput: '',//二级回复框值
     }
   },
   created(){
@@ -246,6 +233,9 @@ export default {
                 //向评论列表里面插入isShowInput属性：用于显示、隐藏回复框
                 this.commentsList.map((value,index)=>{
                     this.$set(this.commentsList[index],'isShowInput', false);
+                    value.secondView.map((value1,index1)=>{
+                        this.$set(this.commentsList[index].secondView[index1],'isShowInput', false);
+                    });
                 });
                 console.log(this.commentsList);
                 //this.commentsList.push(response.data.data.comment);
@@ -285,12 +275,111 @@ export default {
         });
     },
     //评论：盖楼
-    reply1(){
+    //reply1(index,comment.commentContext,comment.postId,comment.commentId,comment.commentUid,comment.roleId)
+    reply1(index){
+        if(util.trim(this.replyInput).length<1){
+            this.$message({
+              message: '请填写回复内容',
+              type: 'error'
+            });
+            return false;
+        }
 
+        let commentObj = this.commentsList[index];
+        let commentContext = this.replyInput;
+        let replyContext = commentObj.commentContext;
+        let parentCommentId = commentObj.commentId;
+        let postId = commentObj.postId;
+        let replyId = commentObj.commentId;
+        let replyUid = this.postDetail.roleId;//1212
+        let commentUid = commentObj.commentUid;//132
+        let roleId = this.postDetail.roleId;
+        let params = {
+            url: 'post/addComments',           
+            data: {
+                commentContext: commentContext,
+                replyContext: replyContext,
+                parentCommentId: parentCommentId,//第一级的id，
+                postId: postId,
+                replyId: replyId,//上一级的id，commentId
+                replyUid: replyUid,//上一级的id，commentUid
+                commentUid: commentUid,//自己的角色id，roleId
+                roleId: roleId,
+                type: 2,//1：评论，2：回复
+                isRole: 1,//1：角色
+                source: 1,
+            }
+        }
+        util.$http(params).then(response=>{
+            console.log(response);
+            if(response.data.code=='0000'){
+                this.commentsList[index].secondView.unshift(response.data.data.commentInfo);
+                this.commentsList[index].isShowInput = false;
+                this.replyInput = '';
+                this.$set(this.commentsList[index].secondView[0],'isShowInput', false);//设置刚插入的评论isShowInput为false
+            }
+        });
     },
-    //显示、隐藏子评论的输入框
+    //评论：盖楼
+    //reply1(index,comment.commentContext,comment.postId,comment.commentId,comment.commentUid,comment.roleId)
+    reply2(index,secondIndex){
+        if(util.trim(this.secondReplyInput).length<1){
+            this.$message({
+              message: '请填写回复内容',
+              type: 'error'
+            });
+            return false;
+        }
+
+        let secondView = this.commentsList[index].secondView[secondIndex];
+        let commentContext = this.secondReplyInput;
+        let replyContext = secondView.commentContext;
+        let parentCommentId = this.commentsList[index].commentId;
+        let postId = secondView.postId;
+        let replyId = secondView.commentId;
+
+        let replyUid = this.postDetail.roleId;
+        let commentUid = secondView.commentUid;
+
+        let roleId = this.postDetail.roleId;
+
+        let params = {
+            url: 'post/addComments',           
+            data: {
+                commentContext: commentContext,
+                replyContext: replyContext,
+                parentCommentId: parentCommentId,//第一级的id，
+                postId: postId,
+                replyId: replyId,//上一级的id，commentId
+                replyUid: replyUid,//上一级的id，commentUid
+                commentUid: commentUid,//自己的角色id，roleId
+                roleId: roleId,
+                type: 2,//1：评论，2：回复
+                isRole: 1,//1：角色
+                source: 1,
+            }
+        }
+        console.log(params);
+
+        util.$http(params).then(response=>{
+            console.log(response);
+            if(response.data.code=='0000'){
+                this.commentsList[index].secondView.unshift(response.data.data.commentInfo);
+                this.commentsList[index].secondView[secondIndex].isShowInput = false;
+                this.secondReplyInput = '';
+                this.$set(this.commentsList[index].secondView[0],'isShowInput', false);//设置刚插入的评论isShowInput为false
+            }
+        });
+    },
+    //显示、隐藏一级回复输入框
     showReplyInput(index){
         this.commentsList[index].isShowInput = !this.commentsList[index].isShowInput;
+        this.replyInput = '';
+    },
+    //显示、隐藏二级回复输入框
+    showSecondReplyInput(index,secondIndex){
+        this.commentsList[index].secondView[secondIndex].isShowInput = !this.commentsList[index].secondView[secondIndex].isShowInput;
+        this.secondReplyInput = '';
     },
     //回到填写评论的输入框位置
     linkcommentInput(){
