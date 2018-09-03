@@ -3,6 +3,7 @@ import qs from 'qs'
 import router from "../../router/index";
 
 axios.defaults.baseURL = 'http://39.106.167.104/';
+//axios.defaults.baseURL = 'http://test.jiayiworld.com/';
 //axios.defaults.baseURL = 'http://192.168.0.104:8443/';
 //axios.defaults.baseURL = 'http://www.jiayiworld.com/';
 // axios.defaults.headers.cookies = 'JSESSIONID=456123';

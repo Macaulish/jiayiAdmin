@@ -99,7 +99,7 @@
         </ul>
     </div>
 
-    <div class="cont4" v-show="!isShowPhoto">
+    <div class="uploadMaxFileProgressbar" v-show="!isShowPhoto">
         <h3 class="c-title">-视频素材-</h3>
         <div class="row1">
             <dl>
@@ -183,7 +183,6 @@ export default {
                 this.aliData = response.data.data;
             }
         }); 
-
     },
     methods:{
         //删除图片素材

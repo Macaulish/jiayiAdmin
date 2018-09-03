@@ -11,8 +11,9 @@
                 <tr>
                     <td>选择人物</td>
                     <td>
-                        <select>
-                            <option v-for="role in roles">{{role.userName}}</option>
+                        <select v-model="selectRoleValue">
+                            <option value="0">全部</option>
+                            <option :value="role.roleId" v-for="role in rolesArray">{{role.userName}}</option>
                         </select>
                     </td>
                     <td style="padding-left:20px;">问答状态</td>
@@ -40,18 +41,19 @@
                 </tr>
             </thead>  
             <tbody>
-                <tr>
-                    <td>{{}}</td>
-                    <td>逍遥门口</td>
-                    <td>修真是条漫漫长路，在这条长路上保...</td>
-                    <td>2312</td>
+                <tr v-for="list in answersArray">
+                    <td>{{list.createTime}}</td>
+                    <td>{{list.userName}}</td>
+                    <td class="maxwidth"><div class="maxwidth">{{list.problemContext}}</div></td>
+                    <td>{{list.intimacy}}</td>
                     <td>
                         <div class="operation">
-                            <router-link class="btn" :to="{name: 'QADetail'}">详情</router-link>
+                            <a class="btn" @click="linkDetail(list)">详情</a>
+                            <!-- <router-link class="btn" :to="{name: 'QADetail',query:{params: list}}">详情</router-link> -->
                         </div>
                     </td>
                 </tr>
-                <tr>
+<!--                 <tr>
                     <td>2018-01-22  17:07</td>
                     <td>逍遥门口</td>
                     <td>修真是条漫漫长路，在这条长路上保...</td>
@@ -61,21 +63,13 @@
                             <router-link class="btn" :to="{name: 'QADetail'}">详情</router-link>
                         </div>
                     </td>
-                </tr>
+                </tr> -->
             </tbody>     
         </table>
-        <ul class="pages">
-            <li>[1]</li>
-            <li>[2]</li>
-            <li>[3]</li>
-            <li>[4]</li>
-            <li>[5]</li>
-            <li>[6]</li>
-            <li>[7]</li>
-            <li>[8]</li>
-            <li>[9]</li>
-            <li>[10]</li>
-        </ul>
+
+        <div class="fenye">
+            <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" layout="total, prev, pager, next" :total="total"></el-pagination>
+        </div>
 
     </div>
 
@@ -90,53 +84,49 @@ export default {
     name: 'QAList',
     data () {
         return {
-            QALists: [],
-            roles: [],
+            answersArray: [],
+            rolesArray: [],
+            selectRoleValue: 0,
+            currentPage: 1,
+            total: 0,//总条数
         }
     },
     created() {
-        /*
-        let that = this;
-        let url = "http://192.168.0.95:8443/user/questionHome";
-        this.$axios.post(url,{
-            adminId: 1,
-            roleId: 1,
-            page: 1,
-            problemState: 1
-        }).then(function (response) {
-            console.log(response);
-            console.log(response.data.data.roleName);
-            that.response = response;
-            that.roles = response.data.data.roleName;
-        }).catch(function (error) {
-            console.log(error);
-        });
-        */
-       this.init()
+       this.init(this.currentPage,this.selectRoleValue);
     },
     methods:{
-        init(){
+        init(currentPage,selectRoleValue){
             let params = {
-                method: 'get',
                 url: 'user/questionHome',           
                 data: {
                     rowPage: 10,
-                    page: 1,
+                    page: currentPage,
                     adminId: util.getAdminId(),
-                    roleId: 1,
+                    roleId: selectRoleValue,
                 }
             };
             util.$http(params).then(response=>{
                 console.log(response);
                 if(response.data.code=='0000'){
-                    this.QALists = response.data.data.adminInfo;
+                    this.answersArray = response.data.data.answerInfo;
+                    this.rolesArray = response.data.data.roleName;
+                    this.total = response.data.data.total;
                 }else{
                     that.noData = true;
                 }
             });
         },
+        handleCurrentChange(){
+            this.init(this.currentPage,this.selectRoleValue);
+        },
+        linkDetail(detail){
+            console.log(detail);
+            this.$router.push({name: 'QADetail',query:{p: encodeURIComponent(JSON.stringify(detail))}});
+        },
         search(){
-
+            console.log(this.currentPage,this.selectRoleValue);
+            this.currentPage = 1;
+            this.init(this.currentPage,this.selectRoleValue);
         }
     }
 }
