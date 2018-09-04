@@ -4,7 +4,7 @@ import router from "../../router/index";
 
 axios.defaults.baseURL = 'http://39.106.167.104/';
 //axios.defaults.baseURL = 'http://test.jiayiworld.com/';
-//axios.defaults.baseURL = 'http://192.168.0.104:8443/';
+//axios.defaults.baseURL = 'http://192.168.0.84:8443/';
 //axios.defaults.baseURL = 'http://www.jiayiworld.com/';
 // axios.defaults.headers.cookies = 'JSESSIONID=456123';
 
@@ -18,7 +18,7 @@ axios.defaults.withCredentials = true;
             
 let myloading;
 axios.interceptors.request.use(config=>{
-	myloading = Loading.service({fullscreen: true, text: '拼命加载中....', customClass: 'el-selfloading'})
+	myloading = Loading.service({fullscreen: true, text: '加载中....', customClass: 'el-selfloading'})
 	//myloading = Loading({ text: '创建中...', customClass: 'el-selfloading' });
 	return config
 }, error=>{
@@ -75,7 +75,7 @@ export const util = {
 				axios.get(url, {params: data}, {headers}).then(response=>{
 					resolve(response);
 				}).catch(error=>{
-					//reject(error);
+					reject(error);
 					console.log(error);
 					//throw new Error(error);
 				});
@@ -85,7 +85,7 @@ export const util = {
 				axios.post(url, data, {headers}).then(response=>{
 					resolve(response);
 				}).catch(error=>{
-					//reject(error);
+					reject(error);
 					console.log(error);
 					//throw new Error(error);
 				});

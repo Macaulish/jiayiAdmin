@@ -69,7 +69,7 @@
                         <span>数量：限制9张</span>
                     </dd>
                 </dl>
-                <input class="inputFile" type="file" name="file" multiple="multiple" accept="image/png,image/jpg" @change="selectFile($event)">
+                <input class="inputFile" type="file" name="file" multiple="multiple" accept="image/png,image/jpg,image/jpeg" @change="selectFile($event)">
             </li>
 
             <li v-for="(image,index) in imageUrl">
@@ -349,6 +349,7 @@ export default {
           }
           return new File([u8arr], filename, {type:mime});
         },
+        //提交最终的数据
         submit(){
             const that = this;
             this.isShowErrorMessage = false;
@@ -390,7 +391,7 @@ export default {
                     //videoTime: this.videoTime,//单位：秒
                 }
             }
-            console.log(params);
+            //console.log(params);
 
             util.$http(params).then(response=>{
                 console.log(response);
@@ -398,15 +399,13 @@ export default {
                     this.$message({
                         type: 'success',
                         message: '发送成功',
-                        duration: 1000,
+                        duration: 5000,
                         onClose: function(){
-                            that.$router.push({name: 'dynamicList'});
+                            that.$router.push({name: 'QADetail2',query:{p: encodeURIComponent(JSON.stringify(that.detail))}});
                         }
                     });
                 }
             }); 
-
-            //this.$router.push({name: 'QADetail2'});
         }
     },
     computed:{

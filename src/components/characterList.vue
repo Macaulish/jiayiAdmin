@@ -8,7 +8,8 @@
                     <td>选择作品</td>
                     <td>
                         <select class="input" v-model="selectWorksName">
-                            <option v-for="list in worksName" :value="list.worksId" selected="selected">{{list.worksName}}</option>
+                            <option value="0">全部作品</option>
+                            <option :value="list.worksId" v-for="list in worksName">{{list.worksName}}</option>
                         </select>
                     </td>
                     <td><a class="sure" @click="search">确定</a></td>
@@ -21,16 +22,16 @@
 
     <div class="cont2">
     	<ul class="itemList">
-    		<li v-for="list in roleList">
+    		<li v-for="(list,index) in roleList">
     			<dl>
     				<dt>
                         <span class="imgbox"><img :src="list.imageUrl"></span>
                         <span class="text">{{list.userName}}<br>粉丝：{{list.fansNum}}</span>
                     </dt>
     				<dd>
-                        <router-link class="btn" :to="{name: 'characterDetail',query:{roleId:list.roleId}}">详情</router-link>
-                        <router-link class="btn" :to="{name: 'editCharacter',query:{roleId:list.roleId}}">编辑</router-link>
-                        <a class="btn">删除</a>
+                        <router-link class="btn" :to="{name: 'characterDetail',query:{roleId: list.roleId}}">详情</router-link>
+                        <router-link class="btn" :to="{name: 'editCharacter',query:{roleId: list.roleId}}">编辑</router-link>
+                        <a class="btn" @click="deleteRole(list.roleId,index)">删除</a>
     				</dd>
     			</dl>
     		</li>
@@ -63,7 +64,7 @@ export default {
   data () {
     return {
         worksName: [],
-        selectWorksName: '',
+        selectWorksName: 0,
         roleList: [],
         noData: false,
         currentPage: 1,//当前第几页（默认第一页）
@@ -83,21 +84,20 @@ export default {
         console.log(response);
         if(response.data.code=='0000'){
             this.worksName = response.data.data;
-            this.selectWorksName = response.data.data[0].worksId;
         }
     }); 
-
-    this.init();
+    this.init(1);
   },
   methods:{
-    init(){
+    init(page){
         let params = {
             method: 'get',
             url: 'user/roleList',           
             data: {
                 rowPage: 10,
-                page: 1,
-                adminId: util.getAdminId()
+                page: page,
+                adminId: util.getAdminId(),
+                worksId: this.selectWorksName,
             }
         };
         util.$http(params).then(response=>{
@@ -110,28 +110,45 @@ export default {
             }
         });
     },
+    //选择作品，搜索
     search(){
-
+        this.currentPage = 1;
+        this.init(this.currentPage);
     },  
-    handleCurrentChange(page){
-        console.log(page);
+    //删除人物角色
+    deleteRole(roleId,index){
         let params = {
-            method: 'get',
-            url: 'user/roleList',           
+            url: 'user/delRole',           
             data: {
+                adminId: util.getAdminId(),
+                page: 1,
                 rowPage: 10,
-                page: page,
-                adminId: util.getAdminId()
+                roleId: roleId
             }
         };
-        util.$http(params).then(response=>{
-            console.log(response);
-            if(response.data.code=='0000'){
-                this.roleList = response.data.data.adminInfo;
-            }else{
-                that.noData = true;
-            }
+
+        this.$confirm('你确定要删除此人物吗？','删除',{type: 'warning'}).then(()=>{
+            util.$http(params).then(response=>{
+                console.log(response);
+                if(response.data.code=='0000'){
+                    this.roleList.splice(index, 1);
+                    this.total = response.data.data.total;
+                    this.$message({
+                      message: '删除成功',
+                      type: 'success'
+                    });
+                }else{
+                    this.$message({
+                      message: '删除失败',
+                      type: 'error'
+                    });
+                }
+            });
         });
+    },
+    handleCurrentChange(page){
+        //console.log(page);
+        this.init(page);
     },
   },
   watch: {

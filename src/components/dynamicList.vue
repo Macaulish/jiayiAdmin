@@ -11,16 +11,15 @@
                 <tr>
                     <td>选择作品</td>
                     <td>
-                        <select v-model="selectRole">
+                        <select class="input" v-model="selectRole">
                             <option value="-1">全部</option>
                             <option v-for="role in allRole" :value="role.roleId">{{role.userName}}</option>
                         </select>
                     </td>
                     <td style="padding-left:20px;">动态类型</td>
                     <td>
-                        <select>
-                            <option>图文</option>
-                            <option>视频</option>
+                        <select class="input" v-model="selectSourceType">
+                            <option :value="source.value" v-for="source in sourceType">{{source.title}}</option>
                         </select>
                     </td>
                     <td><a class="sure" @click="search">确定</a></td>
@@ -59,21 +58,6 @@
                         </div>
                     </td>
                 </tr>
-<!--                 <tr>
-                    <td>2018-01-22  17:07</td>
-                    <td>逍遥门口</td>
-                    <td>修真是条漫漫长路，在这条长路上保...</td>
-                    <td>2312</td>
-                    <td>2312</td>
-                    <td>2312</td>
-                    <td>
-                        <div class="operation">
-                            <router-link class="btn" :to="{name: 'dynamicDetail'}">详情</router-link>
-                            <router-link class="btn" :to="{name: 'createCharacter'}">删除</router-link>
-                            <router-link class="btn" :to="{name: 'createCharacter'}">隐藏</router-link> 
-                        </div>
-                    </td>
-                </tr> -->
             </tbody>     
         </table>
 
@@ -96,7 +80,12 @@ import {util} from '../assets/js/util'
 export default {
   name: 'dynamicList',
   data () {
-    return {
+    return { 
+        sourceType: [
+            {title: '图文', value: 1},
+            {title: '视频', value: 3}
+        ],
+        selectSourceType: 1,
         listsInfo: [],
         allRole: [],
         selectRole: -1,//设置默认roleId为0（可现实全部数据）
@@ -118,7 +107,7 @@ export default {
   methods:{
     init(){
         this.getAllRole();
-        this.getAllDynamic();
+        this.getAllDynamic(1);
     },
     //获取所有角色
     getAllRole(){
@@ -137,15 +126,16 @@ export default {
         });
     },
     //获取动态列表
-    getAllDynamic(){
+    getAllDynamic(page){
         let params = {
             method: 'get',
             url: 'user/getRolePost',           
             data: {
                 rowPage: 10,
-                page: 1,
+                page: page,
                 adminId: util.getAdminId(),
-                roleId: this.selectRole
+                roleId: this.selectRole,
+                sourceType: this.selectSourceType
             }
         }
         util.$http(params).then(response=>{
@@ -157,24 +147,8 @@ export default {
         });
     },
     search(){
-        //console.log(this.selectRole);
-        let params = {
-            method: 'get',
-            url: 'user/getRolePost',           
-            data: {
-                rowPage: 10,
-                page: 1,
-                adminId: util.getAdminId(),
-                roleId: this.selectRole
-            }
-        }
-        util.$http(params).then(response=>{
-            console.log(response);
-            if(response.data.code=='0000'){
-                this.listsInfo = response.data.data.postInfo;
-                this.total = response.data.data.total;
-            }
-        });
+        this.currentPage = 1;
+        this.getAllDynamic(this.currentPage);
     },
     //跳转发布动态页
     linkReleaseDynamic(){
@@ -211,7 +185,8 @@ export default {
                 adminId: util.getAdminId(),
                 roleId: this.selectRole,
                 postId: postId,
-                type: types
+                type: types,
+                source: 1,//1：表示来自于人物动态，2：表示来自于后援会
             }
         }
         console.log(params);
@@ -233,22 +208,7 @@ export default {
     },
     handleCurrentChange(page){
         console.log(page);
-        let params = {
-            method: 'get',
-            url: 'user/getRolePost',           
-            data: {
-                rowPage: 10,
-                page: page,
-                adminId: util.getAdminId(),
-                roleId: this.selectRole
-            }
-        }
-        util.$http(params).then(response=>{
-            console.log(response);
-            if(response.data.code=='0000'){
-                this.listsInfo = response.data.data.postInfo;
-            }
-        });
+        this.getAllDynamic(page);
     }
   }
 }

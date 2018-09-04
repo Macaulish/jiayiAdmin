@@ -58,7 +58,7 @@
                         <span>数量：限制9张</span>
                     </dd>
                 </dl>
-                <input class="inputFile" type="file" name="file" multiple="multiple" accept="image/png,image/jpg" @change="selectFile($event)">
+                <input class="inputFile" type="file" name="file" multiple="multiple" accept="image/png,image/jpg,image/jpeg" @change="selectFile($event)">
             </li>
 
             <li v-for="(image,index) in imageUrl">

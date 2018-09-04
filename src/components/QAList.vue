@@ -53,17 +53,6 @@
                         </div>
                     </td>
                 </tr>
-<!--                 <tr>
-                    <td>2018-01-22  17:07</td>
-                    <td>逍遥门口</td>
-                    <td>修真是条漫漫长路，在这条长路上保...</td>
-                    <td>2312</td>
-                    <td>
-                        <div class="operation">
-                            <router-link class="btn" :to="{name: 'QADetail'}">详情</router-link>
-                        </div>
-                    </td>
-                </tr> -->
             </tbody>     
         </table>
 
@@ -116,6 +105,7 @@ export default {
                 }
             });
         },
+        //点击分页
         handleCurrentChange(){
             this.init(this.currentPage,this.selectRoleValue);
         },

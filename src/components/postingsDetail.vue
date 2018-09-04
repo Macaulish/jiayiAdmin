@@ -19,9 +19,9 @@
                 </span>
             </li>
             <li class="t3">
-                <span class="s1"><i class="i-title">浏览次数 ：</i><i class="i-cont">123123</i></span>
-                <span class="s2"><i class="i-title">评论次数 ：</i><i class="i-cont">123123</i></span>
-                <span class="s3"><i class="i-title">获赞次数 ：</i><i class="i-cont">123123</i></span>
+                <span class="s1"><i class="i-title">浏览次数 ：</i><i class="i-cont">{{params.seeNum}}</i></span>
+                <span class="s2"><i class="i-title">评论次数 ：</i><i class="i-cont">{{params.commentNum}}</i></span>
+                <span class="s3"><i class="i-title">获赞次数 ：</i><i class="i-cont">{{params.goodNum}}</i></span>
             </li>
         </ul>
         <ul class="imgList">
@@ -126,7 +126,13 @@ export default {
   name: 'postingsDetail',
   data () {
     return {
+        params: {},
     }
+  },
+  created(){
+    let params = JSON.parse(decodeURIComponent(this.$route.query.params));
+    console.log(params);
+    this.params = params;
   },
   methods: {
     back(){

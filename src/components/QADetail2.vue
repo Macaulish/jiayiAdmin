@@ -9,14 +9,14 @@
         <h3 class="c-title">-问答详情-</h3>
         <ul class="textList">
             <li class="t1">
-                <span class="s1"><i class="i-title">提问人 ：</i><i class="i-cont">东方纤云</i></span>
-                <span class="s2"><i class="i-title">提问时间 ：</i><i class="i-cont">2018-01-22 17:07</i></span>
-                <span class="s3"><i class="i-title">消耗亲密度 ：</i><i class="i-cont">100</i></span>
+                <span class="s1"><i class="i-title">提问人 ：</i><i class="i-cont">{{detail.userName}}</i></span>
+                <span class="s2"><i class="i-title">提问时间 ：</i><i class="i-cont">{{detail.createTime}}</i></span>
+                <span class="s3"><i class="i-title">消耗亲密度 ：</i><i class="i-cont">{{detail.intimacy}}</i></span>
             </li>
             <li class="t2">
                 <span class="s1">
                     <i class="i-title">提问内容 ：</i>
-                    <i class="i-cont">筑基中阶，原为金、土双灵根，因替印飞星顶罪，被逐出逍遥门为彻底摆脱逍遥门选择自废灵根并主动与家</i>
+                    <i class="i-cont">{{detail.problemContext}}</i>
                 </span>
             </li>
         </ul>
@@ -29,23 +29,21 @@
                 <tbody>
                     <tr>
                         <td class="td-title">回复内容 ：</td>
-                        <td>修真是条漫漫长路，在这条长路上保不定哪一天就挂了。</td>
+                        <td>{{replyObj.planContext}}</td>
                     </tr>
-                    <tr>
+                    <tr v-if="replyObj.planType==1">
                         <td class="td-title">附加内容 ：</td>
                         <td>
                             <ul class="imgList">
-                                <li><img src="../assets/images/ex1.png"></li>
-                                <li><img src="../assets/images/ex1.png"></li>
-                                <li><img src="../assets/images/ex1.png"></li>
+                                <li v-for="imageUrl in imageUrlArray"><img :src="imageUrl"></li>
                             </ul>
                         </td>
                     </tr>
-                    <tr>
+                    <tr v-if="replyObj.planType==3">
                         <td class="td-title">附加内容 ：</td>
                         <td>
                             <ul class="videoList">
-                                <li><img src="../assets/images/video.png"></li>
+                                <li><video :src="replyObj.planUrl" controls="controls" width="100%"></video></li>
                             </ul>
                         </td>
                     </tr>
@@ -60,13 +58,41 @@
 </template>
 
 <script>
+import {util} from '../assets/js/util'
+
 export default {
     name: 'QADetail2',
         data() {
         return {
+            detail: {},//消耗亲密度
+            replyObj:{},
+            imageUrlArray: [],
         }
     },
+    created() {
+        let detail = this.$route.query.p;
+        detail = JSON.parse(decodeURIComponent(detail));
+        this.detail = detail;
+       this.init();
+    },
     methods:{
+        init(){
+            let params = {
+                url: 'user/getQuestionDetails',           
+                data: {
+                    problemId: this.detail.problemId,
+                }
+            };
+            util.$http(params).then(response=>{
+                console.log(response);
+                if(response.data.code=='0000'){
+                    this.replyObj = response.data.data;
+                    if(this.replyObj.planType==1){
+                        this.imageUrlArray = this.replyObj.planUrl.split(',');
+                    }
+                }
+            });
+        },
     }
 }
 </script>
