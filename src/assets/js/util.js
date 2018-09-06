@@ -2,12 +2,10 @@ import axios from 'axios'
 import qs from 'qs'
 import router from "../../router/index";
 
-axios.defaults.baseURL = 'http://39.106.167.104/';
-//axios.defaults.baseURL = 'http://test.jiayiworld.com/';
-//axios.defaults.baseURL = 'http://192.168.0.84:8443/';
-//axios.defaults.baseURL = 'http://www.jiayiworld.com/';
-// axios.defaults.headers.cookies = 'JSESSIONID=456123';
-
+//axios.defaults.baseURL = 'http://39.106.167.104/';
+axios.defaults.baseURL = 'http://test.jiayiworld.com/';
+//axios.defaults.baseURL = 'http://192.168.0.95:8443/';
+//axios.defaults.baseURL = 'http://api.jiayiworld.com/';
 
 import { Message,Loading } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
@@ -29,13 +27,13 @@ axios.interceptors.request.use(config=>{
 axios.interceptors.response.use(
 response => {
 	myloading.close();
-    console.log(response);
+    //console.log(response);
     return response;
 },
 error => {
 	myloading.close();
-	console.log(error);
-	console.log(error.response);
+	//console.log(error);
+	//console.log(error.response);
 	//router.push({name: 'login'});
     if (error.response) {
     	// 返回 401 ，说明未登录，则跳转到登录页面

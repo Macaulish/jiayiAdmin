@@ -119,7 +119,7 @@ export default {
             }
         }
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 let postInfo = response.data.data.postInfo;
                 this.worksList = postInfo;
@@ -142,7 +142,7 @@ export default {
             }
         };
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 this.postCondition = response.data.data;
             }else{
@@ -176,7 +176,7 @@ export default {
             }
         };
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 this.intimacyCondition = response.data.data;
             }else{
@@ -200,7 +200,7 @@ export default {
             }
         };
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 this.questionCondition = response.data.data;
             }else{

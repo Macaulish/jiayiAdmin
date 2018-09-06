@@ -20,7 +20,7 @@
                     <td class="td-title">人物简介 ：</td>
                     <td class="td-cont">{{characterDetail.introduce}}</td>
                 </tr>
-                <tr>
+<!--                 <tr>
                     <td class="td-title">身高 ：</td>
                     <td class="td-cont">{{characterDetail.hight}}</td>
                 </tr>
@@ -35,7 +35,7 @@
                 <tr>
                     <td class="td-title">三围 ：</td>
                     <td class="td-cont">{{characterDetail.measurements}}</td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td class="td-title">粉丝数 ：</td>
                     <td class="td-cont">{{characterDetail.fansNum}}</td>
@@ -55,12 +55,19 @@
 
     <div class="cont3">
         <h3 class="c-title">展示形象</h3>
-        <div style="padding:0 0 30px;" v-if="characterDetail.showType==2||characterDetail.showType==3">{{characterDetail.showUrl}}</div>
+<!--         <div style="padding:0 0 30px;" v-if="characterDetail.showType==2||characterDetail.showType==3"><img :src="characterDetail.showUrl"></div>
         <ul class="itemList" v-else>
             <li>
                 <span class="imgbox"><img :src="characterDetail.showUrl"></span>
             </li>
+        </ul> -->
+
+        <ul class="itemList">
+            <li>
+                <span class="imgbox"><img :src="characterDetail.showUrl"></span>
+            </li>
         </ul>
+        
     </div>
 
     <div class="cont4">
@@ -82,7 +89,7 @@ export default {
     }
   },
   created(){
-    console.log(this.$route.query.roleId);
+    ////console.log(this.$route.query.roleId);
     let params = {
         method: 'get',
         url: 'user/getRoleInfo',
@@ -91,7 +98,7 @@ export default {
         },
     }
     util.$http(params).then(response=>{
-        console.log(response);
+        //console.log(response);
         if(response.data.code=='0000'){
             this.characterDetail = response.data.data;
         }

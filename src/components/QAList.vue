@@ -95,7 +95,7 @@ export default {
                 }
             };
             util.$http(params).then(response=>{
-                console.log(response);
+                //console.log(response);
                 if(response.data.code=='0000'){
                     this.answersArray = response.data.data.answerInfo;
                     this.rolesArray = response.data.data.roleName;
@@ -110,11 +110,11 @@ export default {
             this.init(this.currentPage,this.selectRoleValue);
         },
         linkDetail(detail){
-            console.log(detail);
+            //console.log(detail);
             this.$router.push({name: 'QADetail',query:{p: encodeURIComponent(JSON.stringify(detail))}});
         },
         search(){
-            console.log(this.currentPage,this.selectRoleValue);
+            //console.log(this.currentPage,this.selectRoleValue);
             this.currentPage = 1;
             this.init(this.currentPage,this.selectRoleValue);
         }

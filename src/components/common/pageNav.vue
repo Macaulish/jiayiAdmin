@@ -24,7 +24,6 @@ export default {
   },
   watch: {
     '$route' (to, from) {
-      console.log('导航');
       //console.log(to);
       let path = to.path;
       if(/index/i.test(path)){

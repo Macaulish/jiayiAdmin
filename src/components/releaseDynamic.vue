@@ -172,13 +172,13 @@ export default {
     },
     created(){
         //获取阿里云上传图片各种必须的参数
-        console.log(this.$route.query.roleId);
+        //console.log(this.$route.query.roleId);
         this.roleId = this.$route.query.roleId;
         let params = {
             url: '/post/getAliKey',
         }
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 this.aliData = response.data.data;
             }
@@ -187,19 +187,19 @@ export default {
     methods:{
         //删除图片素材
         deleteImage(index){
-            //console.log(this.imageUrl);
+            ////console.log(this.imageUrl);
             let imageUrl = this.imageUrl;
             imageUrl.splice(index,1);
             this.imageUrl = imageUrl;
-            //console.log(this.imageUrl);
+            ////console.log(this.imageUrl);
         },
         selectFile(event){
             let that = this;
 
             let files = event.target.files;
             let filesLength = files.length;
-            console.log(files);
-            console.log(filesLength);
+            //console.log(files);
+            //console.log(filesLength);
 
             let rightFiles = [];//获取图片大小符合要求的图片
             for(let i=0;i<filesLength;i++){
@@ -209,7 +209,7 @@ export default {
                     rightFiles.push(files[i]);
                 }
             }
-            console.log(rightFiles);
+            //console.log(rightFiles);
 
             let endpoint = base64.decode(this.aliData.endpoint);
             let accessKeyId = base64.decode(this.aliData.accessKeyId);
@@ -232,14 +232,14 @@ export default {
                   let result = await client.multipartUpload(storeAs, file[i], {
                     partSize: 1024*1024
                   });
-                  console.log(result);
+                  //console.log(result);
                   that.imageUrl.push(result.res.requestUrls[0].replace(/\?.{0,}$/,""));
                 }
               } catch (e) {
                 if (e.code === 'ConnectionTimeoutError') {
-                  console.log("超时啦!");
+                  //console.log("超时啦!");
                 }
-                console.log(e)
+                //console.log(e)
               }
             }
             multipartUpload(rightFiles);
@@ -253,7 +253,7 @@ export default {
         selectFile1(event){
             const that = this;
             let file = event.target.files[0];
-            console.log(file);
+            //console.log(file);
             if (file.size > this.maxVideoSize) {
               this.$message({showClose: true, message: '亲,视频大小不能超过50M!',type: 'error', duration: 2000});
               return false;
@@ -296,17 +296,17 @@ export default {
                     progress,
                     partSize: 1024*1024
                   });
-                  console.log(result);
+                  //console.log(result);
                   that.videoUrl = result.res.requestUrls[0].replace(/\?.{0,}$/,"");
               } catch (e) {
                 if (e.code === 'ConnectionTimeoutError') {
-                  console.log("超时啦!");
+                  //console.log("超时啦!");
                 }
-                console.log(e)
+                //console.log(e)
               }
             }
             let progress = progressing=>{
-                console.log(progressing);
+                //console.log(progressing);
                 this.progressing = progressing;
                 this.currentPercent = (progressing*100).toFixed(0);
                 this.currentSize = (this.videoSize*progressing).toFixed(2);
@@ -328,7 +328,7 @@ export default {
                 return false;
             }
 
-            //console.log(this.imageUrl);
+            ////console.log(this.imageUrl);
             let postUrl = '';
             if(this.fileType==1){
                 if(this.imageUrl.length<1){
@@ -357,16 +357,19 @@ export default {
                     videoTime: this.videoTime//单位：秒
                 }
             }
-            //console.log(params);
+            ////console.log(params);
             util.$http(params).then(response=>{
-                console.log(response);
+                //console.log(response);
                 if(response.data.code=='0000'){
                     this.$message({
                         type: 'success',
                         message: '发布成功',
                         duration: 1000,
                         onClose: function(){
-                            that.$router.push({name: 'dynamicList'});
+                            //that.$router.push({name: 'dynamicList'});
+                            //console.log(that.$store.state.isUpdateDynamicList);
+                            that.$store.state.isUpdateDynamicList = true;
+                            that.$router.go(-1);
                         }
                     });
                 }
@@ -375,14 +378,14 @@ export default {
     },
     computed:{
         selectFileType(){
-            console.log(this.fileType);
+            //console.log(this.fileType);
             if(this.fileType==1){
                 this.isShowPhoto = true;
             }else{
                 this.isShowPhoto = false;
             }
             return this.fileType;
-        },
+        }
     }
 }
 </script>

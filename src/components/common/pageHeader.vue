@@ -33,7 +33,7 @@ export default {
 
       this.$confirm('你确定要系统吗？','退出登录',{type: 'info'}).then(()=>{
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){      
               sessionStorage.removeItem('adminName');
               sessionStorage.removeItem('adminId');
@@ -41,7 +41,6 @@ export default {
             }
         }); 
       }).then();
-
     }
   }
 }

@@ -81,7 +81,7 @@ export default {
         }
     }
     util.$http(params).then(response=>{
-        console.log(response);
+        ////console.log(response);
         if(response.data.code=='0000'){
             this.worksName = response.data.data;
         }
@@ -101,7 +101,7 @@ export default {
             }
         };
         util.$http(params).then(response=>{
-            console.log(response);
+            ////console.log(response);
             if(response.data.code=='0000'){
                 this.roleList = response.data.data.adminInfo;
                 this.total = response.data.data.total;
@@ -129,7 +129,7 @@ export default {
 
         this.$confirm('你确定要删除此人物吗？','删除',{type: 'warning'}).then(()=>{
             util.$http(params).then(response=>{
-                console.log(response);
+                ////console.log(response);
                 if(response.data.code=='0000'){
                     this.roleList.splice(index, 1);
                     this.total = response.data.data.total;
@@ -147,7 +147,7 @@ export default {
         });
     },
     handleCurrentChange(page){
-        //console.log(page);
+        //////console.log(page);
         this.init(page);
     },
   },

@@ -48,7 +48,7 @@
         <ul>
             <li class="list" v-for="(comment,index) in commentsList">
                 <dl class="clearfix">
-                    <dt><img src="../assets/images/ex1.png"></dt>
+                    <dt><img :src="comment.avatar"></dt>
                     <dd>
                         <div class="row1">
                             <span class="username">{{comment.userName}}</span>
@@ -57,9 +57,9 @@
                         <div class="row2">{{comment.commentContext}}</div>
                         <div class="row3">
                             <span class="reply" @click="showReplyInput(index)">【回复】</span>
-                            <span class="zan" @click="dianzan1(index)">{{comment.praiseNum}}</span>
+                            <span class="zan" @click="dianzan1(index, comment.hasPraise)">{{comment.praiseNum}}</span>
                             <span class="delete" @click="deleteComment1(index)">删除</span>
-                            <span class="more" @click="linkMore(index,comment.commentNum)">查看所有评论({{comment.commentNum}})</span>
+                            <!-- <span class="more" @click="linkMore(index,comment.commentNum,comment.commentId)">查看所有评论({{comment.commentNum}})</span> -->
                         </div>
                     </dd>
                 </dl>
@@ -67,9 +67,10 @@
                     <textarea class="input" :placeholder="'回复：'+comment.userName" v-model="replyInput"></textarea>
                     <a class="btn" @click="reply1(index)">回复</a>
                 </div>
+                <a class="checkmore" v-if="comment.commentNum>0" @click="linkMore(index,comment.commentNum,comment.commentId)">查看对他的所有评论（{{comment.commentNum}}）>></a>
                 <!-- <router-link class="checkmore" :to="{name: 'replyDetail'}">查看对他的所有评论（{{comment.commentNum}}）>></router-link> -->
 
-                <ul v-if="comment.secondView.length>0">
+<!--                 <ul v-if="comment.secondView&&comment.secondView.length>0">
                    <li class="list" v-for="(secondView,secondIndex) in comment.secondView">
                         <dl class="clearfix">
                             <dt><img :src="secondView.avatar"></dt>
@@ -91,7 +92,7 @@
                             <a class="btn" @click="reply2(index,secondIndex)">回复</a>
                         </div>
                     </li>
-                </ul>
+                </ul> -->
 
             </li>
 <!-- 
@@ -167,7 +168,7 @@ export default {
   methods: {
     //获取内容详情
     getdynamicDetail(){
-        console.log(this.$route.query.postId);
+        //console.log(this.$route.query.postId);
         let params = {
             method: 'get',
             url: 'post/getUserPostInfo',           
@@ -176,7 +177,7 @@ export default {
             }
         }
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 this.postDetail = response.data.data;
             }else{
@@ -187,18 +188,19 @@ export default {
     //获取评论列表评论
     getComments(commentPage,nodata){
         //nodata，1：表示页面刚加载时数据为空，2：表示点击加载更多时没有更多数据
-        console.log(this.$route.query.postId);
+        //console.log(this.$route.query.postId);
         let params = {
             method: 'get',
             url: 'post/getPostInfo',           
             data: {
                 page: commentPage,
                 rowPage: 5,
-                postId: this.$route.query.postId 
+                postId: this.$route.query.postId,  
+                roleId: this.$route.query.roleId 
             }
         }
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 //this.commentsList = response.data.data.comment;
                 if(response.data.data.comment.length==0){
@@ -221,12 +223,12 @@ export default {
                         this.$set(this.commentsList[index].secondView[index1],'isShowInput', false);
                     });
                 });
-                console.log(this.commentsList);
+                //console.log(this.commentsList);
                 //this.commentsList.push(response.data.data.comment);
             }
         });
     },
-    //查看更多评论
+    //查看更多评论（加载更多）
     checkMoreDetailComment(){
         let commentPage = ++this.commentPage;
         this.getComments(commentPage,2);
@@ -252,9 +254,11 @@ export default {
             }
         }
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
-                this.getComments(this.commentPage,1);
+                this.commentsList.unshift(response.data.data.commentInfo);
+                this.$set(this.commentsList[0],'isShowInput', false);
+                //this.getComments(this.commentPage,1);
             }
         });
     },
@@ -268,13 +272,20 @@ export default {
             return false;
         }
 
+        let replyUid = '';
+        if(this.commentsList[index].isRole==1){//如果是自己给自己回复
+            replyUid = this.$route.query.roleId;
+        }else{
+            replyUid = this.postDetail.roleId;
+        }
+
         let commentObj = this.commentsList[index];
         let commentContext = this.replyInput;
         let replyContext = commentObj.commentContext;
         let parentCommentId = commentObj.commentId;
         let postId = commentObj.postId;
         let replyId = commentObj.commentId;
-        let replyUid = this.postDetail.roleId;//1212
+        //let replyUid = this.postDetail.roleId;//1212
         let commentUid = commentObj.commentUid;//132
         let roleId = this.postDetail.roleId;
         let params = {
@@ -294,59 +305,16 @@ export default {
             }
         }
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 this.commentsList[index].isShowInput = false;
+                if(!this.commentsList[index].secondView){
+                    this.commentsList[index].secondView = [];
+                }
                 this.commentsList[index].secondView.unshift(response.data.data.commentInfo);
                 this.$set(this.commentsList[index].secondView[0],'isShowInput', false);//设置刚插入的评论isShowInput为false
+                this.commentsList[index].commentNum = ++this.commentsList[index].commentNum;
                 this.replyInput = '';
-            }
-        });
-    },
-    //评论：盖楼
-    reply2(index,secondIndex){
-        if(util.trim(this.secondReplyInput).length<1){
-            this.$message({
-              message: '请填写回复内容',
-              type: 'error'
-            });
-            return false;
-        }
-
-        let secondView = this.commentsList[index].secondView[secondIndex];
-        let commentContext = this.secondReplyInput;
-        let replyContext = secondView.commentContext;
-        let parentCommentId = this.commentsList[index].commentId;
-        let postId = secondView.postId;
-        let replyId = secondView.commentId;
-        let replyUid = this.postDetail.roleId;
-        let commentUid = secondView.commentUid;
-        let roleId = this.postDetail.roleId;
-        let params = {
-            url: 'post/addComments',           
-            data: {
-                commentContext: commentContext,
-                replyContext: replyContext,
-                parentCommentId: parentCommentId,//第一级的id，
-                postId: postId,
-                replyId: replyId,//上一级的id，commentId
-                replyUid: replyUid,//上一级的id，commentUid
-                commentUid: commentUid,//自己的角色id，roleId
-                roleId: roleId,
-                type: 2,//1：评论，2：回复
-                isRole: 1,//1：角色
-                source: 1,
-            }
-        }
-        console.log(params);
-
-        util.$http(params).then(response=>{
-            console.log(response);
-            if(response.data.code=='0000'){
-                this.commentsList[index].secondView[secondIndex].isShowInput = false;
-                this.commentsList[index].secondView.unshift(response.data.data.commentInfo);
-                this.$set(this.commentsList[index].secondView[0],'isShowInput', false);//设置刚插入的评论isShowInput为false
-                this.secondReplyInput = '';
             }
         });
     },
@@ -367,53 +335,40 @@ export default {
     linkcommentInput(){
         window.scrollTo(0,450);
     },
-    linkMore(index,commentNum){
+    //跳转查看所有评论
+    linkMore(index,commentNum,commentId){
         if(commentNum==0){
             this.$message({
               message: '暂无评论',
               type: 'info'
             });
         }else{
-            this.$router.push({name: 'replyDetail',query: {postId: this.$route.query.postId,roleId: this.postDetail.roleId,index: index}});  
+            this.$router.push({name: 'replyDetail',query: {commentId: commentId, postId: this.$route.query.postId, roleId: this.postDetail.roleId, index: index, dynamicId: this.postDetail.roleId}});  
         }
     },
     //一级点赞
-    dianzan1(index){
+    dianzan1(index, hasPraise){
         let commentObj = this.commentsList[index];
-        let postId = commentObj.postId;
+        let commentId = commentObj.commentId;
         let roleId = this.postDetail.roleId;
+        let url = hasPraise==1?'comment/delPraise':'comment/addPraises';
         let params = {
-            url: 'comment/addPraises',           
+            url: url,           
             data: {
-                commentId: postId,//上一级的id，commentId
+                commentId: commentId,//上一级的id，commentId
                 roleId: roleId,
+                source: 1
             }
         }
-        console.log(params);
         util.$http(params).then(response=>{
-            console.log(response);
             if(response.data.code=='0000'){
-                this.commentsList[index].praiseNum = ++this.commentsList[index].praiseNum;
-            }
-        });
-    },
-    //二级点赞
-    dianzan2(index,secondIndex){
-        let secondView = this.commentsList[index].secondView[secondIndex];
-        let postId = secondView.postId;
-        let roleId = this.postDetail.roleId;
-        let params = {
-            url: 'comment/addPraises',           
-            data: {
-                commentId: postId,//上一级的id，commentId
-                roleId: roleId,
-            }
-        }
-        console.log(params);
-        util.$http(params).then(response=>{
-            console.log(response);
-            if(response.data.code=='0000'){
-                this.commentsList[index].secondView[secondIndex].praiseNum = ++this.commentsList[index].secondView[secondIndex].praiseNum;
+                if(hasPraise==1){//点过赞，即取消，减1
+                    this.commentsList[index].hasPraise = 0;
+                    this.commentsList[index].praiseNum = --this.commentsList[index].praiseNum;   
+                }else{//点还没点过赞，加1
+                    this.commentsList[index].hasPraise = 1;
+                    this.commentsList[index].praiseNum = ++this.commentsList[index].praiseNum;
+                }
             }
         });
     },
@@ -428,49 +383,22 @@ export default {
                 commentId: commentId
             }
         }
-        console.log(params);
+        //console.log(params);
 
         this.$confirm('您是否确定删除此条评论及回复?', '删除', {
           type: 'warning'
         }).then(() => {
             util.$http(params).then(response=>{
-                console.log(response);
+                //console.log(response);
                 if(response.data.code=='0000'){
                     let commentObj_index = this.commentsList;
                     commentObj_index.splice(index,1);
                     this.commentsList= commentObj_index;
-                    console.log(this.commentsList[index]);
+                    //console.log(this.commentsList[index]);
                 }
             });
         });
     },
-    //删除二级评论
-    deleteComment2(index,secondIndex){
-        let secondView = this.commentsList[index].secondView[secondIndex];
-        let commentId = secondView.commentId;
-        let params = {
-            method: 'get',
-            url: 'post/delComment',           
-            data: {
-                commentId: commentId
-            }
-        }
-        console.log(params);
-
-        this.$confirm('您是否确定删除此条回复?', '删除', {
-          type: 'warning'
-        }).then(() => {
-            util.$http(params).then(response=>{
-                console.log(response);
-                if(response.data.code=='0000'){
-                    let secondView_secondIndex = this.commentsList[index].secondView;
-                    secondView_secondIndex.splice(secondIndex,1);
-                    this.commentsList[index].secondView = secondView_secondIndex;
-                    console.log(this.commentsList[index]);
-                }
-            });
-        }); 
-    }
   },
   computed:{
     commentContextLength(){

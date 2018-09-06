@@ -1,8 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-
-
 import store from './vuex/store'
 import App from './App'
 import router from './router'
@@ -13,6 +11,8 @@ import constant from './components/constant'
 
 import 'normalize.css'
 import './assets/less/reset.less'
+
+
 
 Vue.config.productionTip = false
 

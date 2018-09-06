@@ -2,7 +2,7 @@
   <div class="productionList">
 
     <div class="cont1">
-        <h3 class="row1">-动态信息-</h3>
+        <h3 class="row1">-动态信息-{{isUpdateDynamicList}}</h3>
     </div>
 
     <div class="cont1 clearfix" style="margin-top:40px;">
@@ -52,7 +52,7 @@
                     <td>{{list.fansNum}}</td>
                     <td>
                         <div class="operation">
-                            <router-link class="btn" :to="{name: 'dynamicDetail', query: {postId: list.postId}}">详情</router-link>
+                            <router-link class="btn" :to="{name: 'dynamicDetail', query: {postId: list.postId,roleId: list.roleId}}">详情</router-link>
                             <a class="btn" href="javascript:;" @click="operationDynamic(list.postId,0)">删除</a>
                             <a class="btn" href="javascript:;" @click="operationDynamic(list.postId,list.state)">{{list.state==1?'隐藏':'显示'}}</a>
                         </div>
@@ -94,21 +94,20 @@ export default {
     }
   },
   created(){
-    this.init();
+    this.$store.state.updateDynamicList
+    this.getAllRole();
+    this.getAllDynamic(1);
   },
   watch: {
+    /*
     $route(to,from){
         if(from.name=='releaseDynamic'){
-            this.init();
-            console.log('来源');
+            this.getAllDynamic(1);
+            //console.log('来源');
         }
-    }
+    }*/
   },
   methods:{
-    init(){
-        this.getAllRole();
-        this.getAllDynamic(1);
-    },
     //获取所有角色
     getAllRole(){
         let params = {
@@ -119,7 +118,7 @@ export default {
             }
         }
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 this.allRole = response.data.data;
             }
@@ -139,7 +138,7 @@ export default {
             }
         }
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 this.listsInfo = response.data.data.postInfo;
                 this.total = response.data.data.total;
@@ -152,7 +151,7 @@ export default {
     },
     //跳转发布动态页
     linkReleaseDynamic(){
-        console.log(this.selectRole);
+        //console.log(this.selectRole);
         if(this.selectRole==-1){
             this.$message({message: '请先选择作品',type: 'error'});
             return false;
@@ -189,13 +188,13 @@ export default {
                 source: 1,//1：表示来自于人物动态，2：表示来自于后援会
             }
         }
-        console.log(params);
+        //console.log(params);
 
         this.$confirm(`您确定${text}此条信息吗？`, '操作信息', {
             type: 'warning'
         }).then(() => {
             util.$http(params).then(response=>{
-                console.log(response);
+                //console.log(response);
                 if(response.data.code=='0000'){
                     this.listsInfo = response.data.data.postInfo;
                     this.$message({
@@ -207,8 +206,18 @@ export default {
         });
     },
     handleCurrentChange(page){
-        console.log(page);
+        //console.log(page);
         this.getAllDynamic(page);
+    }
+  },
+  computed: {
+    //监听列表是否需要刷新
+    isUpdateDynamicList(){
+        if(this.$store.state.isUpdateDynamicList){
+            ////console.log(123);
+            this.getAllDynamic(1);
+            this.$store.state.isUpdateDynamicList = false;
+        }
     }
   }
 }

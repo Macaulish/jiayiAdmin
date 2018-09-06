@@ -210,18 +210,18 @@ export default {
             url: '/post/getAliKey',
         }
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 this.aliData = response.data.data;
             }
         }); 
     },
     mounted(){
-        console.log(this.GLOBAL.PRODUCT_TYPES);
-        console.log(this.$route.query.worksId);
+        //console.log(this.GLOBAL.PRODUCT_TYPES);
+        //console.log(this.$route.query.worksId);
 
         this.productTypes = this.GLOBAL.PRODUCT_TYPES;
-        console.log(this.productTypes);
+        //console.log(this.productTypes);
         let params = {
             method: 'get',
             url: 'works/getWorksInfo',
@@ -230,7 +230,7 @@ export default {
             }
         }
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 this.productionDetail = response.data.data;
                 this.worksName = response.data.data.worksName;
@@ -253,7 +253,7 @@ export default {
 
                 //设置选中的作品标签高亮（后端返回的是带空格分割的汉字）
                 let worksTag = response.data.data.worksTag.split(' ');
-                console.log(worksTag);
+                //console.log(worksTag);
                 this.productTypes[worksType].tags.map((value,index)=>{
                     worksTag.map((value1,index1)=>{
                         if(value.title == value1){
@@ -272,7 +272,7 @@ export default {
     },
     methods:{
         clickProductType(index){//判断作品类型下面的子项是多选还是单选
-            console.log(index);
+            //console.log(index);
             this.worksType = index;
             this.showTagsIndex = index;
 
@@ -295,7 +295,7 @@ export default {
         },
         selectFile(event){
             let file = event.target.files[0];
-            console.log(file);
+            //console.log(file);
             if (file.size > this.maxFileSize) {
               this.$message({showClose: true, message: '亲,图片大小不能超过5M!',type: 'error', duration: 2000});
               return false;
@@ -336,13 +336,13 @@ export default {
                 let result = await client.multipartUpload(storeAs, file, {
                     partSize: 1024*1024
                   });
-                  console.log(result);
+                  //console.log(result);
                     that.requestUrls = result.res.requestUrls[0].replace(/\?.{0,}$/,"");
               } catch (e) {
                 if (e.code === 'ConnectionTimeoutError') {
-                  console.log("超时啦!");
+                  //console.log("超时啦!");
                 }
-                console.log(e)
+                //console.log(e)
               }
             }
             multipartUpload(storeAs,file);
@@ -377,8 +377,8 @@ export default {
                 return false;
             }
 
-            console.log(this.worksType);
-            console.log(this.productTypes[this.worksType].tags);
+            //console.log(this.worksType);
+            //console.log(this.productTypes[this.worksType].tags);
             let sourceType = '', worksTag = '';
             if(this.productTypes[this.worksType].multiselect){
                 this.productTypes[this.worksType].tags.map(function(value,index){
@@ -395,8 +395,8 @@ export default {
                     }
                 });
             }
-            console.log(sourceType);
-            console.log(worksTag);
+            //console.log(sourceType);
+            //console.log(worksTag);
 
             this.worksTag = worksTag;
             this.sourceType = sourceType;
@@ -429,10 +429,10 @@ export default {
                     worksUrl: this.worksUrl,
                 }
             };
-            console.log(params);
+            //console.log(params);
             let that = this;
             util.$http(params).then(response=>{
-                console.log(response);
+                //console.log(response);
                 //loading.close();
                 if(response.data.code=='0000'){
                     this.$message({

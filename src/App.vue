@@ -1,17 +1,17 @@
 <template>
     <div id="app">
 
-        <div v-if="$route.name!='login'">
-        	<div><pageHeader ></pageHeader></div>
+        <div v-if="path!='login'&&path!='home'&&path!='forgetpw'">
+        	<pageHeader></pageHeader>
           <pageNav></pageNav>
         </div>
 
-        <div :class="$route.name=='login'?'loginMain':'main'">
+        <div :class="path=='login'||path=='home'||path=='forgetpw'?'loginMain':'main'">
           <keep-alive include="login,index,productionList,characterList,dynamicList,QAList,fansList"> 
     		      <router-view></router-view>
           </keep-alive> 
 
-          <div class="copyright">关于我们 服务协议 运营中心  加一客服 联系邮箱     Copyright © 2012-2018 Tencent. All Rights Reserved.</div>
+          <div v-if="path!='home'&&path!='login'&&path!='forgetpw'" class="copyright">关于我们 服务协议 运营中心  加一客服 联系邮箱  Copyright © 2012-2018 Tencent. All Rights Reserved.</div>
 
         </div>
 
@@ -26,22 +26,19 @@ export default {
   components: {pageHeader,pageNav},
   data(){
       return {
-          isShow: true
+        path: ''
       }
   },
+  created(){
+    //console.log(this.$route.name);
+    this.path = this.$route.name;
+  },
   watch: {
-    '$route'(to,from){
-      console.log('登录');
-        let path = to.path;
-        if(/login/.test(path)){
-          console.log('登录');
-            this.isShow = false;
-        }
+    $route(to,from){
+      //console.log(to);
+      this.path = this.$route.name;
     }
   },
-  beforeRouteEnter(){
-    console.log('登录');
-  }
 }
 </script>
 

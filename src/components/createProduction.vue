@@ -155,7 +155,6 @@
 
 <script>
 import {util} from '../assets/js/util'
-import $ from "jquery"
 import OSS from "ali-oss"
 import base64 from "base-64"
 
@@ -190,12 +189,12 @@ export default {
         }
     },
     created(){
-        console.log(this.$store);
+        //console.log(this.$store);
         let params = {
             url: '/post/getAliKey',
         }
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 this.aliData = response.data.data;
             }
@@ -203,14 +202,14 @@ export default {
     },
     mounted(){
 
-        console.log(this.GLOBAL.PRODUCT_TYPES);
+        //console.log(this.GLOBAL.PRODUCT_TYPES);
 
         this.productTypes = this.GLOBAL.PRODUCT_TYPES;
-        console.log(this.productTypes);
+        //console.log(this.productTypes);
     },
     methods:{
         clickProductType(index){//判断作品类型下面的子项是多选还是单选
-            console.log(index);
+            //console.log(index);
             this.worksType = index;
             this.showTagsIndex = index;
 
@@ -274,13 +273,13 @@ export default {
                 let result = await client.multipartUpload(storeAs, file, {
                     partSize: 1024*1024
                   });
-                  console.log(result);
+                  //console.log(result);
                     that.requestUrls = result.res.requestUrls[0].replace(/\?.{0,}$/,"");
               } catch (e) {
                 if (e.code === 'ConnectionTimeoutError') {
-                  console.log("超时啦!");
+                  //console.log("超时啦!");
                 }
-                console.log(e)
+                //console.log(e)
               }
             }
             multipartUpload(storeAs,file);
@@ -312,8 +311,8 @@ export default {
                 return false;
             }
 
-            console.log(this.worksType);
-            console.log(this.productTypes[this.worksType].tags);
+            //console.log(this.worksType);
+            //console.log(this.productTypes[this.worksType].tags);
             let sourceType = '', worksTag = '';
             if(this.productTypes[this.worksType].multiselect){
                 this.productTypes[this.worksType].tags.map(function(value,index){
@@ -330,8 +329,8 @@ export default {
                     }
                 });
             }
-            console.log(sourceType);
-            console.log(worksTag);
+            //console.log(sourceType);
+            //console.log(worksTag);
 
             this.worksTag = worksTag;
             this.sourceType = sourceType;
@@ -363,10 +362,10 @@ export default {
                     worksUrl: this.worksUrl,
                 }
             };
-            console.log(params);
+            //console.log(params);
             let that = this;
             util.$http(params).then(response=>{
-                console.log(response);
+                //console.log(response);
                 //loading.close();
                 if(response.data.code=='0000'){
                     this.$message({

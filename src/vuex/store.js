@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state = {
-    updateProductionList: false
+    isUpdateDynamicList: false
 }
 
 const mutations = {

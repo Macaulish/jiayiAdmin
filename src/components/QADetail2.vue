@@ -84,7 +84,7 @@ export default {
                 }
             };
             util.$http(params).then(response=>{
-                console.log(response);
+                //console.log(response);
                 if(response.data.code=='0000'){
                     this.replyObj = response.data.data;
                     if(this.replyObj.planType==1){

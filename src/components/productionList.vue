@@ -72,7 +72,7 @@
 
 <script>
 import {util} from '../assets/js/util'
-import $ from "jquery"
+//import $ from "jquery"
 
 export default {
   name: 'productionList',
@@ -89,7 +89,7 @@ export default {
   },
   methods:{
     init(){
-        console.log(util.getAdminId());
+        //console.log(util.getAdminId());
         let params = {
             method: 'get',
             url: 'works/getWorksInfoList',           
@@ -100,7 +100,7 @@ export default {
             }
         }
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 this.postInfo = response.data.data.postInfo;
                 this.total = response.data.data.total;
@@ -110,7 +110,7 @@ export default {
         });
     },
     handleCurrentChange(page){
-        console.log(page);
+        //console.log(page);
         let params = {
             method: 'get',
             url: 'works/getWorksInfoList',           
@@ -121,7 +121,7 @@ export default {
             }
         }
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 this.postInfo = response.data.data.postInfo;
             }else{
@@ -132,9 +132,9 @@ export default {
   },
   watch:{
     $route(to,from){
-        console.log('route');
-        console.log(to);
-        console.log(from);
+        //console.log('route');
+        //console.log(to);
+        //console.log(from);
         if(from.name == 'editProduction'||from.name == 'createProduction'){
             this.init();
         }
@@ -144,11 +144,11 @@ export default {
     next();
   },
   beforeRouteUpdate (to, from, next) {
-    console.log(1);
+    //console.log(1);
     next();
   },
   beforeRouteLeave (to, from, next) {
-    console.log(2);
+    //console.log(2);
     next();
   }
 }

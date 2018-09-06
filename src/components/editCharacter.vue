@@ -185,7 +185,7 @@ export default {
             url: '/post/getAliKey',
         }
         util.$http(params).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 this.aliData = response.data.data;;
             }
@@ -200,14 +200,14 @@ export default {
             }
         }
         util.$http(params2).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 this.worksName = response.data.data;
             }
         }); 
 
         //获取作品的详情
-        console.log(this.$route.query.roleId);
+        //console.log(this.$route.query.roleId);
         let params1 = {
             method: 'get',
             url: 'user/getRoleInfo',
@@ -216,7 +216,7 @@ export default {
             }
         }
         util.$http(params1).then(response=>{
-            console.log(response);
+            //console.log(response);
             if(response.data.code=='0000'){
                 let data = response.data.data;
                 this.roleDetail = response.data.data;
@@ -258,7 +258,7 @@ export default {
         },
         selectFile(event,number){
             let file = event.target.files[0];
-            console.log(file);
+            //console.log(file);
             if (file.size > this.maxFileSize) {
               this.$message({showClose: true, message: '亲,图片大小不能超过5M!',type: 'error', duration: 2000});
               return false;
@@ -287,7 +287,7 @@ export default {
                 let result = await client.multipartUpload(storeAs, file, {
                     partSize: 1024*1024
                   });
-                  console.log(result);
+                  //console.log(result);
                   if(number==1){
                     that.imageUrl = result.res.requestUrls[0].replace(/\?.{0,}$/,"");
                   }else{
@@ -296,17 +296,17 @@ export default {
                   }
               } catch (e) {
                 if (e.code === 'ConnectionTimeoutError') {
-                  console.log("超时啦!");
+                  //console.log("超时啦!");
                 }
-                console.log(e)
+                //console.log(e)
               }
             }
             multipartUpload(storeAs,file);
         },
         selectFile1(event,number){
-            console.log(event);
+            //console.log(event);
             let file = event.target.files[0];
-            console.log(file);
+            //console.log(file);
             if (file.size > this.maxFileSizeRAR) {
               this.$message({showClose: true, message: '亲,图片大小不能超过100M!',type: 'error', duration: 2000});
               return false;
@@ -314,7 +314,7 @@ export default {
 
             this.packageName = file.name;
             this.packageSize = (file.size/1024/1024).toFixed(2);
-            console.log(this.packageSize);
+            //console.log(this.packageSize);
 
             let endpoint = base64.decode(this.aliData.endpoint);
             let accessKeyId = base64.decode(this.aliData.accessKeyId);
@@ -333,12 +333,12 @@ export default {
 
             let type = file.name.split('.')[1];
             let storeAs = new Date().getTime() + '.' + type;
-            //console.log(storeAs);
+            ////console.log(storeAs);
             // client.multipartUpload(storeAs, file).then(result=>{
-            //     console.log(result);
+            //     //console.log(result);
             //     this.showUrl = result.res.requestUrls[0];
             // }).catch(err=>{
-            //   console.log(err);
+            //   //console.log(err);
             // });
 
             this.isProgress = true;
@@ -349,18 +349,18 @@ export default {
                     progress,
                     partSize: 1024*1024
                   });
-                  console.log(result);
+                  //console.log(result);
                   //that.showUrl = result.res.requestUrls[0].replace(/\?.{0,}$/,"");
                   that.radioGroup[that.selectShowType-1].url = result.res.requestUrls[0].replace(/\?.{0,}$/,"");
               } catch (e) {
                 if (e.code === 'ConnectionTimeoutError') {
-                  console.log("超时啦!");
+                  //console.log("超时啦!");
                 }
-                console.log(e)
+                //console.log(e)
               }
             }
             let progress = progressing=>{
-                console.log(progressing);
+                //console.log(progressing);
                 this.progressing = progressing;
             }
             multipartUpload(storeAs,file);
@@ -368,9 +368,9 @@ export default {
             // async function put () {
             //   try {
             //     let result = await client.put(storeAs, file);
-            //     console.log(result);
+            //     //console.log(result);
             //   } catch (er) {
-            //       console.log(er);
+            //       //console.log(er);
             //   }
             // }
             // put();
@@ -412,10 +412,10 @@ export default {
                     showType: this.selectShowType,
                 }
             }
-            console.log(params);
+            //console.log(params);
             let that = this;
             util.$http(params).then(response=>{
-                console.log(response);
+                //console.log(response);
                 if(response.data.code=='0000'){
                     this.$message({
                         type: 'success',
@@ -432,7 +432,7 @@ export default {
     },
     computed:{
         radioActive(){
-            console.log(this.selectShowType);
+            //console.log(this.selectShowType);
             this.is2D3D = this.selectShowType==2||this.selectShowType==3;
             this.is3D = this.selectShowType==3;
             return this.selectShowType;

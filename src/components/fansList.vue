@@ -12,7 +12,7 @@
                     <td>选择人物</td>
                     <td>
                         <select v-model="selectRoleValue">
-                            <option value="0">全部人物</option>
+                            <option value="0">全部帖子</option>
                             <option :value="role.roleId" v-for="role in rolesArray">{{role.userName}}</option>
                         </select>
                     </td>
@@ -39,13 +39,13 @@
                 <tr v-for="(list,index) in tableArray">
                     <td>{{list.dynamicTime}}</td>
                     <td>{{list.userName}}</td>
-                    <td class="maxwidth"><div class="maxwidth">{{list.dyamicContext}}</div></td>
+                    <td class="maxwidth"><div class="maxwidth">{{list.dynamicContext}}</div></td>
                     <td>{{list.seeNum}}</td>
                     <td>{{list.commentNum}}</td>
                     <td>{{list.goodNum}}</td>
                     <td>
                         <div class="operation">
-                            <a class="btn" @click="linkDetail(list.dynamicId, list.seeNum, list.commentNum, list.goodNum)">详情</a>
+                            <a class="btn" @click="linkDetail(list.dynamicId, list.roleId, list.seeNum, list.commentNum, list.goodNum)">详情</a>
                             <a class="btn" @click="operationDynamic(list.dynamicId,index)">删除</a>
                         </div>
                     </td>
@@ -92,7 +92,7 @@ export default {
                 }
             };
             util.$http(params).then(response=>{
-                console.log(response);
+                //console.log(response);
                 if(response.data.code=='0000'){
                     this.tableArray = response.data.data.dynamicInfo;
                     this.rolesArray = response.data.data.roleName;
@@ -123,13 +123,13 @@ export default {
                     source: 2,//1：表示来自于人物动态，2：表示来自于后援会
                 }
             }
-            console.log(params);
+            //console.log(params);
 
             this.$confirm('您确定删除此条信息吗？', '删除', {
                 type: 'warning'
             }).then(() => {
                 util.$http(params).then(response=>{
-                    console.log(response);
+                    //console.log(response);
                     if(response.data.code=='0000'){
                         this.tableArray.splice(index,1);
                         this.total = response.data.data.total;
@@ -147,13 +147,8 @@ export default {
             });
         },
         //跳转详情页
-        linkDetail(dynamicId, seeNum, commentNum, goodNum){
-            let params = {};
-            params.id = dynamicId;
-            params.seeNum = seeNum;
-            params.commentNum = commentNum;
-            params.goodNum = goodNum;
-            this.$router.push({name: 'postingsDetail',query: {params: encodeURIComponent(JSON.stringify(params))}});
+        linkDetail(dynamicId, roleId, seeNum, commentNum, goodNum){
+            this.$router.push({name: 'postingsDetail',query: {dynamicId: dynamicId, roleId: roleId, seeNum, commentNum, goodNum}});
         }
     }
 }

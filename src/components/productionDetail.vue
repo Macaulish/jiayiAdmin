@@ -60,7 +60,7 @@
 
 <script>
 import {util} from '../assets/js/util'
-import $ from "jquery"
+//import $ from "jquery"
 
 export default {
   name: 'productionDetail',
@@ -70,7 +70,7 @@ export default {
     }
   },
   created(){
-    console.log(this.$route.query.worksId);
+    ////console.log(this.$route.query.worksId);
     let params = {
         method: 'get',
         url: 'works/getWorksInfo',
@@ -79,7 +79,7 @@ export default {
         },
     }
     util.$http(params).then(response=>{
-        console.log(response);
+        ////console.log(response);
         if(response.data.code=='0000'){
             this.productionDetail = response.data.data;
         }
