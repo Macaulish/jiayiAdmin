@@ -60,7 +60,7 @@
                     </dd>
                 </dl>
                 <div class="input-reply" v-if="secondView.isShowInput">
-                    <textarea class="input" placeholder="" v-model="secondReplyInput"></textarea>
+                    <textarea class="input" v-model="secondReplyInput"></textarea>
                     <a class="btn" @click="reply2(index)">回复</a>
                 </div>
             </li>
@@ -322,7 +322,7 @@ export default {
         });
     },
     //二级点赞
-    dianzan2(index, hasPraise){
+    dianzan2(index,hasPraise){
         let commentObj = this.commentsList[index];
         let commentId = commentObj.commentId;
         let roleId = this.$route.query.roleId;
@@ -335,6 +335,8 @@ export default {
                 source: 1
             }
         }
+        console.log(hasPraise);
+        //return;
         util.$http(params).then(response=>{
             if(response.data.code=='0000'){
                 if(hasPraise==1){//点过赞，即取消，减1
@@ -344,6 +346,11 @@ export default {
                     this.commentsList[index].hasPraise = 1;
                     this.commentsList[index].praiseNum = ++this.commentsList[index].praiseNum;
                 }
+            }else{
+                this.$message({
+                    message: '发生了一个错误',
+                    type: 'error'
+                });
             }
         });
     },

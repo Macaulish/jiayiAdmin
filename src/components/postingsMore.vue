@@ -304,6 +304,11 @@ export default {
                     this.commentsList[index].hasPraise = 1;
                     this.commentsList[index].praiseNum = ++this.commentsList[index].praiseNum;
                 }
+            }else{
+                this.$message({
+                    message: '发生了一个错误',
+                    type: 'error'
+                });
             }
         });
     },

@@ -21,21 +21,6 @@
     				</dd>
     			</dl>
     		</li>
-        <!--             
-            <li>
-                <dl>
-                    <dt>
-                        <span class="imgbox"><img src="../assets/images/ex1.png"></span>
-                        <span class="text">《叫我僵小鱼》</span>
-                    </dt>
-                    <dd>
-                        <router-link class="btn" :to="{name: 'productionDetail'}">详情</router-link>
-                        <a class="btn">编辑</a>
-                        <a class="btn">删除</a>
-                    </dd>
-                </dl>
-            </li> 
-        -->
     	</ul>
 
 <!--         <ul class="pages">
@@ -94,7 +79,7 @@ export default {
             method: 'get',
             url: 'works/getWorksInfoList',           
             data: {
-                rowPage: 10,
+                rowPage: 18,
                 page: 1,
                 adminId: util.getAdminId()
             }

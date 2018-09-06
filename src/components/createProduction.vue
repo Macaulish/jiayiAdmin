@@ -60,7 +60,10 @@
             <tbody>
                 <tr>
                     <td class="td-title"><i class="icon-star">*</i><span>作品简介 ：</span></td>
-                    <td class="td-cont"><textarea class="input" value="worksIntroduce" v-model="worksIntroduce" placeholder="容请输入作品简介"></textarea></textarea></td>
+                    <td class="td-cont">
+                        <textarea class="input" v-model="worksIntroduce" placeholder="请输入作品简介"></textarea>
+                        <!-- <el-input class="input" style="background: #f2f2f2;" type="textarea" :autosize="{minRows: 1, maxRows: 4}" placeholder="请输入作品简介" v-model="worksIntroduce"></el-input> -->
+                    </td>
                     <td class="td-right">0/200</td>
                 </tr>
                 <tr v-if="isShowZuopingUrl">
