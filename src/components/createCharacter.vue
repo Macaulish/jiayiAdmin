@@ -19,13 +19,19 @@
                 </tr>
                 <tr>
                     <td class="td-title"><i class="icon-star">*</i><span>人物姓名 ：</span></td>
-                    <td class="td-cont"><input type="text" class="input" placeholder="请输入人物姓名" v-model="roleName"></td>
-                    <td class="td-right">0/20</td>
+                    <td class="td-cont">
+                        <!-- <input type="text" class="input" placeholder="请输入人物姓名" v-model="roleName"> -->
+                        <el-input placeholder="请输入人物姓名" v-model="roleName" maxlength="20"></el-input>
+                    </td>
+                    <td class="td-right">{{roleName.length}}/20</td>
                 </tr>
                 <tr>
                     <td class="td-title"><i class="icon-star">*</i><span>人物简介 ：</span></td>
-                    <td class="td-cont"><textarea class="input" placeholder="请输入人物简介" v-model="introduce"></textarea></td>
-                    <td class="td-right">0/500</td>
+                    <td class="td-cont">
+                        <!-- <textarea class="input" placeholder="请输入人物简介" v-model="introduce"></textarea> -->
+                        <el-input type="textarea" :autosize="{minRows: 1.2, maxRows: 5}" placeholder="请输入人物简介" maxlength="500" v-model="introduce"></el-input>
+                    </td>
+                    <td class="td-right">{{introduce.length}}/500</td>
                 </tr>
             </tbody>
         </table>
@@ -110,7 +116,7 @@
         </div>
 
         <div class="row2" v-if="is2D3D">
-            <a class="btn">点击上传<input class="inputFile" type="file" name="file" accept=".zip,.rar" @change="selectFile1($event,3)"></a>
+            <a class="btn">点击上传<input class="inputFile" type="file" name="file" accept=".zip" @change="selectFile1($event,3)"></a>
             <div class="tips" v-if="is3D">            
                 <a class="s1" @click="show3dMsg">3D模型有什么用？</a>
                 <div class="msg3d" v-show="isShow3dMsg">ZIP包形式上传，50MB内，提示：3D模型展示<br>可与用户进行趣味性多元化交互，如想拥有模型，请联系我们。</div>
@@ -217,7 +223,8 @@ export default {
             this.isShowXingxiang = !this.isShowXingxiang;
         },
         show3dMsg(){
-            this.isShow3D = !this.isShow3D; 
+            //this.isShow3D = !this.isShow3D; 
+            this.isShow3dMsg = !this.isShow3dMsg; 
         },
         //删除上传的缩略形象图
         deleteImageUrl(){
@@ -285,15 +292,18 @@ export default {
         selectFile1(event,number){
             //console.log(event);
             let file = event.target.files[0];
+            this.packageName = file.name;
+            this.packageSize = (file.size/1024/1024).toFixed(2);
+            //console.log(this.packageSize);
             //console.log(file);
             if (file.size > this.maxFileSizeRAR) {
               this.$message({showClose: true, message: '亲,图片大小不能超过100M!',type: 'error', duration: 2000});
               return false;
             }
-
-            this.packageName = file.name;
-            this.packageSize = (file.size/1024/1024).toFixed(2);
-            //console.log(this.packageSize);
+            if (!/\.(rar|zip)$/i.test(file.name)) {
+              this.$message({showClose: true, message: '亲,文件必须是rar、zip的格式',type: 'error', duration: 2000});
+              return false;
+            }
 
             let endpoint = base64.decode(this.aliData.endpoint);
             let accessKeyId = base64.decode(this.aliData.accessKeyId);

@@ -15,10 +15,10 @@
             </a>
             <ul class="nav">
                 <li><a @click="linkHome">首页</a></li>
-                <li><a href="#">平台亮点</a></li>
-                <li><a href="#">作者评价</a></li>
-                <li><a href="#">合作伙伴</a></li>
-                <li><a href="#">联系我们</a></li>
+                <li><a @click="linkMao(800)">平台亮点</a></li>
+                <li><a @click="linkMao(1700)">作者评价</a></li>
+                <li><a @click="linkMao(2500)">合作伙伴</a></li>
+                <li><a @click="linkMao(2500)">联系我们</a></li>
             </ul>
             <ul class="btns">
                 <li><a @click="linkLogin">登录</a></li>
@@ -27,7 +27,7 @@
         <div class="banner">
             <div class="bg1"><img src="../../static/images/bg2.png"></div>
             <div class="bg2">
-                <img src="../../static/images/logo1.png">
+                <img class="logo" src="../../static/images/logo.png">
                 <h1>虚拟人物运营<br>管理平台</h1>
                 <h3>ACGN 各领域的IP推广运营</h3>
             </div>
@@ -80,11 +80,78 @@
 
     <div class="section-add">
         <ul class="clearfix">
-            <li><a><img src="../../static/images/ad1.png"></a></li>
-            <li><a><img src="../../static/images/ad2.png"></a></li>
-            <li><a><img src="../../static/images/ad3.png"></a></li>
-            <li><a><img src="../../static/images/ad4.png"></a></li>
-            <li><a><img src="../../static/images/ad5.png"></a></li>
+            <li>
+                <a>
+                    <img src="../../static/images/ad1.png">
+                    <span class="title">bilibili</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="../../static/images/ad2.png">
+                    <span class="title">有妖气</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="../../static/images/ad3.png">
+                    <span class="title">时尚集团</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="../../static/images/ad4.png">
+                    <span class="title">华强方特</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="../../static/images/ad5.png">
+                    <span class="title">狗尾草智能科技</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="../../static/images/ad6.png">
+                    <span class="title">鱼果文化科技</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="../../static/images/ad7.png">
+                    <span class="title">铂熠文化传媒</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="../../static/images/ad8.png">
+                    <span class="title">两点十分</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="../../static/images/ad9.png">
+                    <span class="title">好传动画</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="../../static/images/ad10.png">
+                    <span class="title">漫野</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="../../static/images/ad11.png">
+                    <span class="title">弘耀</span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="../../static/images/ad12.png">
+                    <span class="title">风鱼动漫</span>
+                </a>
+            </li>
         </ul>
     </div>
 
@@ -130,6 +197,9 @@ export default {
     },
     linkHome(){
         this.$router.push({name: 'home'});
+    },
+    linkMao(top){
+        window.scrollTo(0,top);
     }
   },
 }

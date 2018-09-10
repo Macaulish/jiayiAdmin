@@ -11,13 +11,19 @@
             <tbody>
                 <tr>
                     <td class="td-title"><i class="icon-star">*</i><span>发自 ：</span></td>
-                    <td class="td-cont"><input type="text" class="input" placeholder="请输入发布地点" v-model="postSource"></td>
-                    <td class="td-right">0/50</td>
+                    <td class="td-cont">
+                        <!-- <input type="text" class="input" placeholder="请输入发布地点" v-model="postSource"> -->
+                        <el-input placeholder="请输入发布地点" v-model="postSource" maxlength="50"></el-input>
+                    </td>
+                    <td class="td-right">{{postSource.length}}/50</td>
                 </tr>
                 <tr>
                     <td class="td-title"><i class="icon-star">*</i><span>发布内容 ：</span></td>
-                    <td class="td-cont"><input type="text" class="input" placeholder="请输入人物简介" v-model="postContext"></td>
-                    <td class="td-right">0/200</td>
+                    <td class="td-cont">
+                        <!-- <input type="text" class="input" placeholder="请输入人物简介" v-model="postContext"> -->
+                        <el-input type="textarea" :autosize="{minRows: 1.2, maxRows: 5}" placeholder="请输入人物简介" maxlength="200" v-model="postContext"></el-input>
+                    </td>
+                    <td class="td-right">{{postContext.length}}/200</td>
                 </tr>
             </tbody>
         </table>

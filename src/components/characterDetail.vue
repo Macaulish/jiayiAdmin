@@ -2,6 +2,7 @@
   <div class="productionList">
 
     <div class="cont1">
+        <a class="back" @click="back"><返回</a>
         <h3 class="row1">-人物详情-</h3>
     </div>
 
@@ -55,18 +56,27 @@
 
     <div class="cont3">
         <h3 class="c-title">展示形象</h3>
-<!--         <div style="padding:0 0 30px;" v-if="characterDetail.showType==2||characterDetail.showType==3"><img :src="characterDetail.showUrl"></div>
-        <ul class="itemList" v-else>
-            <li>
-                <span class="imgbox"><img :src="characterDetail.showUrl"></span>
-            </li>
-        </ul> -->
 
-        <ul class="itemList">
+        <div style="padding:0 0 30px;" v-if="characterDetail.showType==2">
+            <div>2D&nbsp;&nbsp;&nbsp;&nbsp;{{characterDetail.showUrl}}</div>
+        </div>
+
+        <div style="padding:0 0 30px;" v-if="characterDetail.showType==3">
+            3D&nbsp;&nbsp;&nbsp;&nbsp;{{characterDetail.showUrl}}
+        </div>
+
+
+        <ul class="itemList" v-if="characterDetail.showType==1||characterDetail.showType==0">
             <li>
                 <span class="imgbox"><img :src="characterDetail.showUrl"></span>
             </li>
         </ul>
+
+<!--         <ul class="itemList">
+            <li>
+                <span class="imgbox"><img :src="characterDetail.showUrl"></span>
+            </li>
+        </ul> -->
         
     </div>
 

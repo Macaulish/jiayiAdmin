@@ -36,10 +36,12 @@
         <h3 class="c-title">-评论信息-</h3>
         <ul class="itemList">
             <li>
-                <textarea class="input" placeholder="说点什么......" v-model="commentContext"></textarea><a class="btn" @click="fabuComment">评论</a>
+                <!-- <textarea class="input" placeholder="说点什么......" v-model="commentContext"></textarea> -->
+                <el-input class="input" type="textarea" :autosize="{minRows: 1.2, maxRows: 5}" placeholder="说点什么......" maxlength="200" v-model="commentContext"></el-input>
+                <a class="btn" @click="fabuComment">评论</a>
             </li>
             <li>
-                <span class="tips">{{commentContextLength}}/200</span>
+                <span class="tips">{{commentContext.length}}/200</span>
             </li>
         </ul>
     </div>
@@ -401,14 +403,6 @@ export default {
     },
   },
   computed:{
-    commentContextLength(){
-        if(this.commentContext.length<this.maxContextlength){
-            return this.commentContext.length;
-        }else{
-            this.commentContext = this.commentContext.substr(0,this.maxContextlength);
-            return this.maxContextlength;
-        }
-    }
   }
 }
 </script>

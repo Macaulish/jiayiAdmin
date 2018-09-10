@@ -32,11 +32,12 @@
         <h3 class="c-title">-评论信息-</h3>
         <ul class="itemList">
             <li>
-                <input type="text" class="input" placeholder="说点什么......" v-model="replyInput">
+                <!-- <input type="text" class="input" placeholder="说点什么......" v-model="replyInput"> -->
+                <el-input class="input" type="textarea" :autosize="{minRows: 1.2, maxRows: 5}" placeholder="说点什么......" maxlength="200" v-model="replyInput"></el-input>
                 <a class="btn" @click="reply1">回复</a>
             </li>
             <li>
-                <span class="tips">0/200</span>
+                <span class="tips">{{replyInput.length}}/200</span>
             </li>
         </ul>
     </div>

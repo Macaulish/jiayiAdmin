@@ -18,8 +18,8 @@
                     </td>
                     <td style="padding-left:20px;">问答状态</td>
                     <td>
-                        <select class="input" v-model="selectSourceType">
-                            <option :value="source.value" v-for="source in sourceType">{{source.title}}</option>
+                        <select class="input" v-model="selectProblemState">
+                            <option :value="source.value" v-for="source in problemState">{{source.title}}</option>
                         </select>
                     </td>
                     <td><a class="sure" @click="search">确定</a></td>
@@ -72,11 +72,12 @@ export default {
     name: 'QAList',
     data () {
         return {
-            sourceType: [
-                {title: '图文', value: 1},
-                {title: '视频', value: 3}
+            problemState: [
+                // {title: '全部状态', value: -1},
+                {title: '已解答', value: 1},
+                {title: '未解答', value: 0}
             ],
-            selectSourceType: 1,
+            selectProblemState: 0,
             answersArray: [],
             rolesArray: [],
             selectRoleValue: 0,
@@ -96,7 +97,7 @@ export default {
                     page: currentPage,
                     adminId: util.getAdminId(),
                     roleId: selectRoleValue,
-                    sourceType: this.selectSourceType
+                    problemState: this.selectProblemState
                 }
             };
             util.$http(params).then(response=>{

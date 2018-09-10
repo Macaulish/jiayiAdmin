@@ -15,7 +15,7 @@
     				<dt><img src="../assets/images/icon-reply.png"></dt>
     				<dd>
     					<span class="s1">回复最多</span>
-                        <span class="s1">{{postCondition.firstCommentContext}}</span>
+                        <span class="s1">{{postCondition.firstCommentContext|textEllipsis}}</span>
     					<span class="s2">{{postCondition.firstCommentNum||0}}</span>
     				</dd>
     			</dl>
@@ -25,7 +25,7 @@
     				<dt><img src="../assets/images/icon-zan.png"></dt>
     				<dd>
     					<span class="s1">点赞最多</span>
-                        <span class="s1">{{postCondition.firstGoodContext}}</span>
+                        <span class="s1">{{postCondition.firstGoodContext|textEllipsis}}</span>
     					<span class="s2">{{postCondition.firstGoodNum||0}}</span>
     				</dd>
     			</dl>
@@ -35,7 +35,7 @@
     				<dt><img src="../assets/images/icon-share.png"></dt>
     				<dd>
     					<span class="s1">转发最多</span>
-                        <span class="s1">{{postCondition.firstShareContext}}</span>
+                        <span class="s1">{{postCondition.firstShareContext|textEllipsis}}</span>
     					<span class="s2">{{postCondition.firstShareNum||0}}</span>
     				</dd>
     			</dl>
@@ -101,6 +101,13 @@ export default {
         intimacyActive: 0,//亲密度tab高亮
         questionCondition: [],//问答整体情况
         questionActive: 0,//问答tab高亮
+    }
+  },
+  filters:{
+    textEllipsis(value){
+        if(value){
+            return value.length>20?value.slice(0,20)+'...':value;
+        }
     }
   },
   created(){

@@ -8,7 +8,7 @@
 
     <div class="cont2">
     	<ul class="itemList">
-    		<li v-for="list in postInfo">
+    		<li v-for="(list,index) in postInfo">
     			<dl>
     				<dt>
                         <span class="imgbox"><img :src="list.worksImg"></span>
@@ -17,7 +17,7 @@
     				<dd>
                         <router-link class="btn" :to="{name: 'productionDetail',query:{worksId:list.worksId}}">详情</router-link>
                         <router-link class="btn" :to="{name: 'editProduction',query:{worksId:list.worksId}}">编辑</router-link>
-                        <a class="btn">删除</a>
+                        <a class="btn" @click="deleteWork(index,list.worksId)">删除</a>
     				</dd>
     			</dl>
     		</li>
@@ -93,6 +93,38 @@ export default {
                 that.noData = true;
             }
         });
+    },
+    //删除作品
+    deleteWork(index,worksId){
+        let params = {
+            //method: 'get',
+            url: 'works/delWorksInfo',           
+            data: {
+                worksId: worksId
+            }
+        }
+        this.$confirm('你确定要删除此作品吗?', '删除作品', {
+          confirmButtonText: '确定',
+          cancelButtonText: '再想想',
+          type: 'warning'
+        }).then(() => {
+            util.$http(params).then(response=>{
+                //console.log(response);
+                if(response.data.code=='0000'){
+                    this.postInfo.splice(index,1);
+                    this.$message({
+                      message: '删除成功',
+                      type: 'success'
+                    });
+                }else{
+                    this.$message({
+                      message: '删除失败',
+                      type: 'error'
+                    });
+                }
+            });
+        }).catch();
+
     },
     handleCurrentChange(page){
         //console.log(page);

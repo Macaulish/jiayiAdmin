@@ -11,7 +11,7 @@
             <tbody>
                 <tr>
                     <td class="td-title"><i class="icon-star">*</i><span>作品名称 ：</span></td>
-                    <td class="td-cont"><input type="text" class="input" placeholder="容请输入作品名称" value="worksName" v-model="worksName"></td>
+                    <td class="td-cont"><input style="width:80%;" type="text" class="input" placeholder="容请输入作品名称" value="worksName" v-model="worksName"></td>
                     <td class="td-right"></td>
                 </tr>
                 <tr>
@@ -27,41 +27,29 @@
                     </td>
                     <td class="td-right"></td>
                 </tr>
-                <tr>
-                    <td class="td-title"><i class="icon-star">*</i><span>{{showTagsIndex==2||showTagsIndex==3?'作品标签':'作品来源'}} ：</span></td>
+                <tr v-if="isShowSecondSource">
+                    <td class="td-title"><i class="icon-star">*</i><span>作品来源 ：</span></td>
                     <td class="td-cont">
- <!--                        <ul class="radiocheckboxGroup" v-if="isMultiselect">
-                            <li class="checkboxList" :class="{active: tagType.active}" v-for="(tagType,index) in allTagTypes" @click="clickTagType(index)" >
-                                <input class="inputcheckbox" type="checkbox" name="prodTag" :value="tagType.title" v-model="checkProductTags">
+                        <ul class="radiocheckboxGroup" v-for="(allSource,index) in productTypes" v-if="allSource.isShowSecond">
+                            <li class="radioList" :class="{active: source.key==checkSourceType}" v-for="(source,index1) in allSource.source" @click="clickSourceType(index,index1)">
+                                <input class="inputradio" type="radio" name="sourceType" :value="source.key" v-model="checkSourceType">
                                 <span class="icon"></span>
-                                <span class="text">{{tagType.title}}</span>
+                                <span class="text">{{source.title}}</span>
                             </li>
                         </ul>
-
-                        <ul class="radiocheckboxGroup" v-else>
-                            <li class="radioList" :class="{active: tagType.key==checkSourceType}" v-for="(tagType,index) in allTagTypes" @click="clickSourceType(index)" >
-                                <input class="inputradio" type="radio" name="sourceType" :value="tagType.key" v-model="checkSourceType">
-                                <span class="icon"></span>
-                                <span class="text">{{tagType.title}}</span>
-                            </li>
-                        </ul> -->
-
-                        <ul class="radiocheckboxGroup" v-for="(allTagTypes,index) in productTypes" v-if="allTagTypes.multiselect" v-show="showTagsIndex==index">
-                            <li class="checkboxList" :class="{active: tags.active}" v-for="(tags,index1) in allTagTypes.tags" @click="clickTagType(index,index1)" >
+                    </td>
+                    <td class="td-right"></td>
+                </tr>
+                <tr v-if="isShowSecondTags">
+                    <td class="td-title"><i class="icon-star">*</i><span>作品标签 ：</span></td>
+                    <td class="td-cont">
+                        <ul class="radiocheckboxGroup" v-for="(allTags,index) in productTypes" v-if="allTags.isShowSecond">
+                            <li class="checkboxList" :class="{active: tags.active}" v-for="(tags,index1) in allTags.tags" @click="clickTagType(index,index1)" >
                                 <input class="inputcheckbox" type="checkbox" name="prodTag" :value="tags.title" v-model="checkProductTags">
                                 <span class="icon"></span>
                                 <span class="text">{{tags.title}}</span>
                             </li>
                         </ul>
-
-                        <ul class="radiocheckboxGroup" v-for="(allTagTypes,index) in productTypes" v-if="!allTagTypes.multiselect" v-show="showTagsIndex==index">
-                            <li class="radioList" :class="{active: tags.key==checkSourceType}" v-for="(tags,index1) in allTagTypes.tags" @click="clickSourceType(index,index1)">
-                                <input class="inputradio" type="radio" name="sourceType" :value="tags.key" v-model="checkSourceType">
-                                <span class="icon"></span>
-                                <span class="text">{{tags.title}}</span>
-                            </li>
-                        </ul>
-
                     </td>
                     <td class="td-right"></td>
                 </tr>
@@ -75,17 +63,32 @@
             <tbody>
                 <tr>
                     <td class="td-title"><i class="icon-star">*</i><span>作品简介 ：</span></td>
-                    <td class="td-cont"><textarea class="input" value="worksIntroduce" v-model="worksIntroduce"></textarea></textarea></td>
-                    <td class="td-right">0/200</td>
+                    <td class="td-cont">
+                        <!-- <textarea class="input" value="worksIntroduce" v-model="worksIntroduce"></textarea> -->
+                        <el-input type="textarea" :autosize="{minRows: 1.2, maxRows: 4}" placeholder="请输入作品简介" maxlength="200" v-model="worksIntroduce"></el-input>
+                    </td>
+                    <td class="td-right">{{worksIntroduce.length}}/200</td>
                 </tr>
                 <tr v-if="isShowZuopingUrl">
-                    <td class="td-title"><span>作品地址 ：</span></td>
+                    <td class="td-title"><span>{{isShowZuopingTitle}} ：</span></td>
                     <td class="td-cont"><input type="text" class="input" value="worksUrl" v-model="worksUrl" placeholder="容请输入作品地址"></td>
                     <td class="td-right"></td>
                 </tr>
                 <tr v-if="isShowWeiboUrl">
                     <td class="td-title"><i class="icon-star">*</i><span>微博地址 ：</span></td>
                     <td class="td-cont"><input type="text" class="input" value="weiboUrl" v-model="weiboUrl"></td>
+                    <td class="td-right"></td>
+                </tr>
+            </tbody>
+            <tbody v-if="isShowYouxiUrl">
+                <tr>
+                    <td class="td-title"><span>下载地址 ：</span></td>
+                    <td class="td-cont td-col2"><span>IOS</span><input type="text" class="input" placeholder="请输入作品地址" value="iOSUrl" v-model="iOSUrl"></td>
+                    <td class="td-right"></td>
+                </tr>
+                <tr>
+                    <td class="td-title"></td>
+                    <td class="td-cont td-col2"><span>Android</span><input type="text" class="input" placeholder="请输入作品地址" value="androidUrl" v-model="androidUrl"></td>
                     <td class="td-right"></td>
                 </tr>
             </tbody>
@@ -141,24 +144,6 @@
         </ul>
     </div>
 
-    <div class="cont2" v-if="isShowYouxiUrl">
-        <h3 class="c-title">下载地址</h3>
-        <table width="100%">
-            <tbody>
-                <tr>
-                    <td class="td-title"><span>IOS ：</span></td>
-                    <td class="td-cont"><input type="text" class="input" value="iOSUrl" v-model="iOSUrl"></td>
-                    <td class="td-right"></td>
-                </tr>
-                <tr>
-                    <td class="td-title"><span>安卓 ：</span></td>
-                    <td class="td-cont"><input type="text" class="input" value="androidUrl" v-model="androidUrl"></td>
-                    <td class="td-right"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
     <div class="cont-last">
         <a class="btn" @click="submit">修改</a>
         <span class="errorTips" v-if="isShowErrorMessage">{{errorMessage}}</span>
@@ -180,6 +165,8 @@ export default {
         return {
             aliData: {},
             productionDetail: [],
+            isShowSecondSource: false,//是否显示二级的作品来源
+            isShowSecondTags: false,//是否显示二级的作品标签
             productTypes: [],
             allTagTypes: [],
             worksType: '',
@@ -196,6 +183,7 @@ export default {
             checkProductTags: [],//选择的作品标签
             maxFileSize: 5*1024*1024,
             isShowZuopingUrl: false,
+            isShowZuopingTitle: '作品地址',
             isShowYouxiUrl: false,
             isShowWeiboUrl: false,
             iOSUrl: '',
@@ -219,7 +207,6 @@ export default {
     mounted(){
         //console.log(this.GLOBAL.PRODUCT_TYPES);
         //console.log(this.$route.query.worksId);
-
         this.productTypes = this.GLOBAL.PRODUCT_TYPES;
         //console.log(this.productTypes);
         let params = {
@@ -246,14 +233,19 @@ export default {
                 this.isShowWeiboUrl = worksType==3;
 
                 this.sourceType = response.data.data.sourceType;
+                this.checkSourceType = this.sourceType;
                 this.requestUrls = response.data.data.worksImg;
                 this.isMultiselect = this.GLOBAL.PRODUCT_TYPES[worksType].multiselect;//设置第一个显示的事多选、还是单选
                 this.iOSUrl = response.data.data.iOSUrl;
                 this.androidUrl = response.data.data.androidUrl;
 
+                this.isShowSecondSource = this.productTypes[worksType].source?true:false;
+                this.isShowSecondTags = this.productTypes[worksType].tags?true:false;
+
                 //设置选中的作品标签高亮（后端返回的是带空格分割的汉字）
                 let worksTag = response.data.data.worksTag.split(' ');
                 //console.log(worksTag);
+                this.productTypes[worksType].isShowSecond = true;
                 this.productTypes[worksType].tags.map((value,index)=>{
                     worksTag.map((value1,index1)=>{
                         if(value.title == value1){
@@ -271,24 +263,36 @@ export default {
         }); 
     },
     methods:{
-        clickProductType(index){//判断作品类型下面的子项是多选还是单选
+        clickProductType(index){
             //console.log(index);
+            this.isShowSecondSource = this.productTypes[index].source?true:false;//显示、隐藏二级来源项
+            this.isShowSecondTags = this.productTypes[index].tags?true:false;//显示、隐藏二级标签项
+            //显示对应的二级项
+            this.productTypes.map(function(v,k){
+                v.isShowSecond = false;
+            });
+            this.productTypes[index].isShowSecond = true;
+
             this.worksType = index;
             this.showTagsIndex = index;
 
             this.isShowYouxiUrl = index==2;
-            this.isShowZuopingUrl = index==0||index==1||index==4||index==5;
+            this.isShowZuopingUrl = index==0||index==1||index==4||index==5||index==6;
+            if(index==6){
+                this.isShowZuopingTitle = '官网地址';
+            }else{
+                this.isShowZuopingTitle = '作品地址';
+            }
             this.isShowWeiboUrl = index==3;
+        },
+        clickSourceType(index,index1){
+            this.productTypes[index].source.map(function(v,k){
+                v.active = false;
+            });
+            this.productTypes[index].source[index1].active = true;
         },
         clickTagType(index,index1){//让作品类型高亮
             this.productTypes[index].tags[index1].active = !this.productTypes[index].tags[index1].active;
-        },
-        clickSourceType(index,index1){
-            let tags = this.productTypes[index].tags;
-            tags.map(function(v,i){
-                tags[i].active = false;
-            });
-            tags[index1].active = true;
         },
         deleteRequestUrls(){//删除上传图片
             this.requestUrls = '';
@@ -377,30 +381,30 @@ export default {
                 return false;
             }
 
+            //isShowSecondSource: '',//是否显示二级的作品来源
+            //isShowSecondTags: '',//是否显示二级的作品标签
             //console.log(this.worksType);
             //console.log(this.productTypes[this.worksType].tags);
-            let sourceType = '', worksTag = '';
-            if(this.productTypes[this.worksType].multiselect){
+            let worksTag = '', sourceType = null;
+            if(this.isShowSecondTags){//如果有tag，则把tag用逗号隔开
                 this.productTypes[this.worksType].tags.map(function(value,index){
                     if(value.active){
                         worksTag += value.title+" ";
                     }
                 });
-                worksTag = worksTag.replace(/\s$/,"");
-                sourceType = -1;
-            }else{
-                this.productTypes[this.worksType].tags.map(function(value,index){
+                this.worksTag = worksTag.replace(/\s$/,"");
+            }
+            if(this.isShowSecondSource){//如果有来源，则显示来源的key值
+                this.productTypes[this.worksType].source.map(function(value,index){
                     if(value.active){
                         sourceType = value.key;
                     }
                 });
+                this.sourceType = sourceType;
             }
             //console.log(sourceType);
             //console.log(worksTag);
-
-            this.worksTag = worksTag;
-            this.sourceType = sourceType;
-
+            
             let confirm = this.$confirm('您确定要修改填写的信息？',{
                 type: 'warning'
             }).then(()=>{
@@ -417,7 +421,7 @@ export default {
                     adminId: util.getAdminId(),
                     androidUrl: this.androidUrl,
                     iOSUrl: this.iOSUrl,
-                    sourceType: parseInt(this.sourceType),
+                    sourceType: this.sourceType,
                     weiboUrl: this.weiboUrl,
                     worksId: this.$route.query.worksId,
                     worksImg: this.requestUrls,
@@ -448,14 +452,6 @@ export default {
         }
     },
     computed:{
-        // radioActive(){
-        //     let index = this.checkProductType||0;
-        //     console.log(index);
-        //     this.tagTypes = this.productTypes[index].tags;//选择作品类型时：显示对应的所有小项
-        //     this.radioActive1 = 0;//选择作品类型时：设置对应的作品来源的第一项为选择状态
-        //     this.checkSourceType = this.productTypes[index].tags[0].key;//选择作品类型时：设置对应的作品来源的值为第一项的值
-        //     return index;
-        // },
     }
 }
 </script>

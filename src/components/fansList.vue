@@ -12,7 +12,7 @@
                     <td>选择人物</td>
                     <td>
                         <select v-model="selectRoleValue">
-                            <option value="0">全部帖子</option>
+                            <option value="0">全部</option>
                             <option :value="role.roleId" v-for="role in rolesArray">{{role.userName}}</option>
                         </select>
                     </td>

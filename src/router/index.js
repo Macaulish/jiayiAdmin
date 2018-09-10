@@ -47,7 +47,7 @@ const router = new Router({
       component: login,
       meta: {
         isNeedlogin: false,
-        isNeedNav: false,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: false,
       }
     },
     {
@@ -56,7 +56,7 @@ const router = new Router({
       component: forgetpw,
       meta: {
         isNeedlogin: false,
-        isNeedNav: false,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: false,
       }
     },
     {
@@ -65,7 +65,8 @@ const router = new Router({
       component: index,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'index'//设置此组件属于哪个导航条（即哪个导航条高亮）
       }
     },
     {
@@ -74,7 +75,8 @@ const router = new Router({
       component: productionList,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'production'
       }
       // children: [
       //     {
@@ -99,7 +101,8 @@ const router = new Router({
       component: productionDetail,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'production'
       }
     },
     {
@@ -108,7 +111,8 @@ const router = new Router({
       component: editProduction,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'production'
       }
     },
     {
@@ -117,7 +121,8 @@ const router = new Router({
       component: createProduction,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'production'
       }
     },
     {
@@ -126,7 +131,8 @@ const router = new Router({
       component: characterList,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'character'
       }
     },
     {
@@ -135,7 +141,8 @@ const router = new Router({
       component: characterDetail,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'character'
       }
     },
     //编辑人物
@@ -145,7 +152,8 @@ const router = new Router({
       component: editCharacter,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'character'
       }
     },
     {
@@ -154,7 +162,8 @@ const router = new Router({
       component: createCharacter,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'character'
       }
     },
     //动态列表
@@ -164,27 +173,8 @@ const router = new Router({
       component: dynamicList,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
-      }
-    },
-    //发布动态
-    {
-      path: '/releaseDynamic',
-      name: 'releaseDynamic',
-      component: releaseDynamic,
-      meta: {
-        isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
-      }
-    },
-    //问答列表
-    {
-      path: '/QAList',
-      name: 'QAList',
-      component: QAList,
-      meta: {
-        isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'dynamic'
       }
     },
     //动态详情
@@ -194,7 +184,8 @@ const router = new Router({
       component: dynamicDetail,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'dynamic'
       }
     },
     //回复详情
@@ -204,7 +195,30 @@ const router = new Router({
       component: replyDetail,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'dynamic'
+      }
+    },
+    //发布动态
+    {
+      path: '/releaseDynamic',
+      name: 'releaseDynamic',
+      component: releaseDynamic,
+      meta: {
+        isNeedlogin: true,
+        isNeedNav: true,
+        navActive: 'dynamic'
+      }
+    },
+    //问答列表
+    {
+      path: '/QAList',
+      name: 'QAList',
+      component: QAList,
+      meta: {
+        isNeedlogin: true,
+        isNeedNav: true,
+        navActive: 'QA'
       }
     },
     //问答详情
@@ -214,7 +228,8 @@ const router = new Router({
       component: QADetail,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'QA'
       }
     },
     //问答详情2
@@ -224,7 +239,8 @@ const router = new Router({
       component: QADetail2,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'QA'
       }
     },
     //后援会列表
@@ -234,7 +250,8 @@ const router = new Router({
       component: fansList,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'fans'
       }
     },
     //帖子详情
@@ -244,7 +261,8 @@ const router = new Router({
       component: postingsDetail,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'fans'
       }
     },
     //更多帖子详情
@@ -254,7 +272,8 @@ const router = new Router({
       component: postingsMore,
       meta: {
         isNeedlogin: true,
-        isNeedNav: true,//是否需要显示pageHeader头、pageNav左导航，true：需要，false：不需要
+        isNeedNav: true,
+        navActive: 'fans'
       }
     },
   ],

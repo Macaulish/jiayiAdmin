@@ -27,8 +27,9 @@
         <ul class="itemList">
             <li>
                 <span class="s1"><i class="icon-star">*</i>回复内容 ：</span>
-                <input type="text" class="input" placeholder="请输入作品简介" v-model="postContext">
-                <span class="tips">0/200</span>
+                <!-- <input type="text" class="input" placeholder="请输入作品简介" v-model="postContext"> -->
+                <el-input class="input" type="textarea" :autosize="{minRows: 1.2, maxRows: 5}" placeholder="请输入作品简介" maxlength="200" v-model="postContext"></el-input>
+                <span class="tips">{{postContext.length}}/200</span>
             </li>
         </ul>
     </div>

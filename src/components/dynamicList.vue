@@ -9,7 +9,7 @@
         <div class="left">
             <table>
                 <tr>
-                    <td>选择作品</td>
+                    <td>选择人物</td>
                     <td>
                         <select class="input" v-model="selectRole">
                             <option value="-1">全部</option>
@@ -53,8 +53,9 @@
                     <td>
                         <div class="operation">
                             <router-link class="btn" :to="{name: 'dynamicDetail', query: {postId: list.postId,roleId: list.roleId}}">详情</router-link>
-                            <a class="btn" href="javascript:;" @click="operationDynamic(list.postId,0)">删除</a>
-                            <a class="btn" href="javascript:;" @click="operationDynamic(list.postId,list.state)">{{list.state==1?'隐藏':'显示'}}</a>
+                            <a class="btn" @click="deleteDynamic(list.postId)">删除</a>
+                            <!-- <a class="btn" @click="operationDynamic(list.postId,list.state)">{{list.state==1?'隐藏':'显示'}}</a> -->
+                            <a class="btn" @click="showHideDynamic(list.postId,list.state)">{{list.state==1?'隐藏':'显示'}}</a>
                         </div>
                     </td>
                 </tr>
@@ -153,15 +154,46 @@ export default {
     linkReleaseDynamic(){
         //console.log(this.selectRole);
         if(this.selectRole==-1){
-            this.$message({message: '请先选择作品',type: 'error'});
+            this.$message({message: '请先选择人物',type: 'error'});
             return false;
         }else{  
             this.$router.push({name: 'releaseDynamic', query: {roleId: this.selectRole} });
         }
     },
-    //显示、隐藏、删除
-    operationDynamic(postId,type){
-        //type值：0代表删除，1代表显示，2:代表隐藏
+    //删除
+    deleteDynamic(postId){
+        let params = {
+            url: 'user/updatePost',           
+            data: {
+                rowPage: 10,
+                page: 1,
+                adminId: util.getAdminId(),
+                roleId: this.selectRole,
+                postId: postId,
+                type: 0,
+                source: 1,//1：表示来自于人物动态，2：表示来自于后援会
+            }
+        }
+        //console.log(params);
+
+        this.$confirm('您确定删除此条信息吗？', '操作信息', {
+            type: 'warning'
+        }).then(() => {
+            util.$http(params).then(response=>{
+                //console.log(response);
+                if(response.data.code=='0000'){
+                    this.listsInfo = response.data.data.postInfo;
+                    this.$message({
+                      type: 'success',
+                      message: '操作成功'
+                    });
+                }
+            });
+        });
+    },
+    //显示、隐藏
+    showHideDynamic(postId,type){
+        //type值：1代表显示，2:代表隐藏
         let text;
         let types;
         if(type==1){
@@ -171,10 +203,6 @@ export default {
         if(type==2){
             text = '显示';
             types = 1;
-        }
-        if(type==0){
-            text = '删除';
-            types = 0;
         }
         let params = {
             url: 'user/updatePost',           
@@ -196,10 +224,10 @@ export default {
             util.$http(params).then(response=>{
                 //console.log(response);
                 if(response.data.code=='0000'){
-                    this.listsInfo = response.data.data.postInfo;
+                    this.getAllDynamic(this.currentPage);
                     this.$message({
                       type: 'success',
-                      message: '操作成功'
+                      message: '操作成功',
                     });
                 }
             });

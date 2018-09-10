@@ -37,9 +37,9 @@
     		</li>
     	</ul>
 
-         <div class="fenye">
+        <div class="fenye">
             <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" layout="total, prev, pager, next" :total="total"></el-pagination>
-          </div>
+        </div>
 
         <ul class="no-list" v-if="noData">
             <router-link :to="{name: 'createCharacter'}">

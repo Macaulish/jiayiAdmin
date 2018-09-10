@@ -19,13 +19,19 @@
                 </tr>
                 <tr>
                     <td class="td-title"><i class="icon-star">*</i><span>人物姓名 ：</span></td>
-                    <td class="td-cont"><input type="text" class="input" placeholder="请输入人物姓名" value="roleName" v-model="roleName"></td>
-                    <td class="td-right">0/20</td>
+                    <td class="td-cont">
+                        <!-- <input type="text" class="input" placeholder="请输入人物姓名" value="roleName" v-model="roleName"> -->
+                        <el-input placeholder="请输入人物姓名" v-model="roleName" maxlength="20"></el-input>
+                    </td>
+                    <td class="td-right">{{roleName.length}}/20</td>
                 </tr>
                 <tr>
                     <td class="td-title"><i class="icon-star">*</i><span>人物简介 ：</span></td>
-                    <td class="td-cont"><textarea class="input" placeholder="请输入人物简介" value="introduce" v-model="introduce"></textarea></td>
-                    <td class="td-right">0/500</td>
+                    <td class="td-cont">
+                        <!-- <textarea class="input" placeholder="请输入人物简介" value="introduce" v-model="introduce"></textarea> -->
+                        <el-input type="textarea" :autosize="{minRows: 1.2, maxRows: 5}" placeholder="请输入人物简介" maxlength="500" v-model="introduce"></el-input>
+                    </td>
+                    <td class="td-right">{{introduce.length}}/500</td>
                 </tr>
             </tbody>
         </table>
@@ -101,7 +107,7 @@
                         </dl>
                         <input class="inputFile" type="file" name="file" accept="image/png,image/jpg" @change="selectFile($event,2)">
                     </li>
-                    <li v-if="selectShowType==1">
+                    <li v-if="showUrl&&selectShowType==1">
                         <span class="imgbox"><img :src="showUrl"></span>
                         <i class="close" @click="deleteShowUrl"></i>
                     </li>
@@ -110,12 +116,12 @@
         </div>
 
         <div class="row2" v-if="is2D3D">
-            <a class="btn">点击上传<input class="inputFile" type="file" name="file" accept=".zip,.rar" @change="selectFile1($event,3)"></a>
+            <a class="btn">点击上传<input class="inputFile" type="file" name="file" accept=".zip" @change="selectFile1($event,3)"></a>
             <div class="tips" v-if="is3D">            
                 <a class="s1" @click="show3dMsg">3D模型有什么用？</a>
                 <div class="msg3d" v-show="isShow3dMsg">ZIP包形式上传，50MB内，提示：3D模型展示<br>可与用户进行趣味性多元化交互，如想拥有模型，请联系我们。</div>
             </div>
-            <div v-if="isProgress">
+            <div v-if="showUrl&&isProgress">
                 <h6 class="t1" v-show="packageName">{{packageName}}</h6>
                 <div class="t2" v-show="packageName">
                     <span class="s1">已上传：{{progressing*100}}%</span>          
@@ -133,7 +139,7 @@
 
     <div class="cont-last">
         <a class="btn" @click="submit">修改</a>
-        <!-- <span class="errorTips">请输入作品名 / 请选择作品类型 </span> -->
+        <span class="errorTips" v-if="isShowErrorMessage">{{errorMessage}}</span>
     </div>
 
   </div>
@@ -168,7 +174,7 @@ export default {
             worksName: [],//所属所有作品
             roleDetail: [],//作品详细信息
             selectWorksName: '',
-            selectShowType: 1,//设置默认选择为立绘
+            selectShowType: 1,//展示形象类型，1：立绘，2:2D，3:3D
             roleName: '',//人物姓名
             introduce: '',//人物简介
             imageUrl: '',//缩略形象图
@@ -227,6 +233,7 @@ export default {
                 this.selectShowType = data.showType;
                 this.showUrl = data.showUrl;
                 this.radioGroup[this.selectShowType-1].url = data.showUrl;
+                this.packageName = data.showUrl;
             }
         }); 
     },
@@ -238,7 +245,8 @@ export default {
             this.isShowXingxiang = !this.isShowXingxiang;
         },
         show3dMsg(){
-            this.isShow3D = !this.isShow3D; 
+            //this.isShow3D = !this.isShow3D; 
+            this.isShow3dMsg = !this.isShow3dMsg; 
         },
         //删除上传的缩略形象图
         deleteImageUrl(){
@@ -306,21 +314,24 @@ export default {
         selectFile1(event,number){
             //console.log(event);
             let file = event.target.files[0];
-            //console.log(file);
+            this.packageName = file.name;
+            this.packageSize = (file.size/1024/1024).toFixed(2);
+            //console.log(this.packageSize);
+
+            console.log(file);
             if (file.size > this.maxFileSizeRAR) {
               this.$message({showClose: true, message: '亲,图片大小不能超过100M!',type: 'error', duration: 2000});
               return false;
             }
-
-            this.packageName = file.name;
-            this.packageSize = (file.size/1024/1024).toFixed(2);
-            //console.log(this.packageSize);
+            if (!/\.(rar|zip)$/i.test(file.name)) {
+              this.$message({showClose: true, message: '亲,文件必须是rar、zip的格式',type: 'error', duration: 2000});
+              return false;
+            }
 
             let endpoint = base64.decode(this.aliData.endpoint);
             let accessKeyId = base64.decode(this.aliData.accessKeyId);
             let accessKeySecret = base64.decode(this.aliData.accessKeySecret);
             let bucket = base64.decode(this.aliData.bucket);
-
 
             let OSS = require('ali-oss');
             let client = new OSS({
@@ -413,6 +424,7 @@ export default {
                 }
             }
             //console.log(params);
+            //return;
             let that = this;
             util.$http(params).then(response=>{
                 //console.log(response);
@@ -434,7 +446,8 @@ export default {
         radioActive(){
             //console.log(this.selectShowType);
             this.is2D3D = this.selectShowType==2||this.selectShowType==3;
-            this.is3D = this.selectShowType==3;
+            this.is3D = this.selectShowType==3;   
+            this.showUrl = this.radioGroup[this.selectShowType-1].url;
             return this.selectShowType;
         },
     }

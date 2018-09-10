@@ -31,7 +31,7 @@ export default {
           url: 'user/logout',
       }
 
-      this.$confirm('你确定要系统吗？','退出登录',{type: 'info'}).then(()=>{
+      this.$confirm('你确定要系统吗？','退出登录',{type: 'warning'}).then(()=>{
         util.$http(params).then(response=>{
             //console.log(response);
             if(response.data.code=='0000'){      
