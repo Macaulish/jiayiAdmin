@@ -5,7 +5,7 @@
         <h3 class="row1">-动态信息-{{isUpdateDynamicList}}</h3>
     </div>
 
-    <div class="cont1 clearfix" style="margin-top:40px;">
+    <div class="cont1 clearfix" style="margin-top:20px;">
         <div class="left">
             <table>
                 <tr>
