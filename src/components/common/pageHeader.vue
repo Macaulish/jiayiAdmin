@@ -1,7 +1,17 @@
 <template>
 
     <header class="pageHeader">
-      <div class="left">加一运营管理平台</div>
+      <div class="left">
+        <a @click="linkIndex">
+          <dl class="logobox">
+            <dt><img src="/static/images/logo.png" alt="logo"></dt> 
+            <dd>
+              <h3>加一运营管理平台</h3> 
+              <h4>www.jiayiworld.com</h4>
+            </dd>
+          </dl>
+        </a>
+    </div>
       <div class="middle">HI，{{adminName}}，欢迎来到加一次元运营管理平台。 最后登录时间：{{lastLoginTime}}</div>
       <div class="right">{{adminName}}   <a class="signout" @click="signout">【退出】</a></div>
     </header>
@@ -41,6 +51,9 @@ export default {
             }
         }); 
       }).then();
+    },
+    linkIndex(){
+      this.$router.push({name: 'index'});
     }
   }
 }

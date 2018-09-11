@@ -73,7 +73,7 @@ export default {
         let detail = this.$route.query.p;
         detail = JSON.parse(decodeURIComponent(detail));
         this.detail = detail;
-       this.init();
+        this.init();
     },
     methods:{
         init(){

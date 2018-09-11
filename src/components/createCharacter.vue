@@ -268,6 +268,11 @@ export default {
             let storeAs = new Date().getTime() + '.' + type;
 
             let that = this;
+            if(number==1){
+                this.imageUrl = '/static/images/loading.gif';
+            }else{
+                this.showUrl = '/static/images/loading.gif';
+            }
             async function multipartUpload (storeAs,file) {
               try {
                 let result = await client.multipartUpload(storeAs, file, {
@@ -310,7 +315,6 @@ export default {
             let accessKeySecret = base64.decode(this.aliData.accessKeySecret);
             let bucket = base64.decode(this.aliData.bucket);
 
-
             let OSS = require('ali-oss');
             let client = new OSS({
                 region : endpoint,
@@ -350,7 +354,7 @@ export default {
             }
             let progress = progressing=>{
                 //console.log(progressing);
-                this.progressing = progressing;
+                this.progressing = progressing.toFixed(2);
             }
             multipartUpload(storeAs,file);
 
@@ -398,6 +402,7 @@ export default {
                     imageUrl: this.imageUrl,
                     showUrl: this.radioGroup[this.selectShowType-1].url,
                     showType: this.selectShowType,
+                    modelName: this.packageName
                 }
             }
             //console.log(params);

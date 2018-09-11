@@ -1,4 +1,6 @@
-@fontSize: 14px;
+@fontSize12: 12px;
+@fontSize14: 14px;
+@fontSize16: 16px;
 
 .pageHeader{
   background-color: #f6f8f9;
@@ -7,7 +9,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  font-size: @fontSize;
+  font-size: @fontSize14;
   padding: 20px 50px 0;
   z-index: 99;
   .left{
@@ -24,4 +26,16 @@
     color: #000;
     cursor: pointer;
   }
+  a{ cursor: pointer; }
+  .logobox{ 
+    float: left; 
+    margin-top: -5px;
+    white-space: nowrap;
+    img{ width: 44px; }
+    dt{ float: left; }
+    dd{ float: left; margin: 5px 0 0 10px; }
+    dd h3{ font-size: @fontSize16; }
+    dd h4{ font-size: @fontSize12; color: #666; }
+  } 
 }
+

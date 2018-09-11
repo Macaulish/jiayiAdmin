@@ -335,6 +335,7 @@ export default {
             // });
 
             let that = this;
+            this.requestUrls = '/static/images/loading.gif';
             async function multipartUpload (storeAs,file) {
               try {
                 let result = await client.multipartUpload(storeAs, file, {

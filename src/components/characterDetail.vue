@@ -57,14 +57,9 @@
     <div class="cont3">
         <h3 class="c-title">展示形象</h3>
 
-        <div style="padding:0 0 30px;" v-if="characterDetail.showType==2">
-            <div>2D&nbsp;&nbsp;&nbsp;&nbsp;{{characterDetail.showUrl}}</div>
+        <div class="d2d3" v-if="characterDetail.showType==2||characterDetail.showType==3">
+            {{characterDetail.showType}}D&nbsp;&nbsp;&nbsp;&nbsp;<a title="下载" :href="characterDetail.showUrl">{{characterDetail.modelName}}</a>
         </div>
-
-        <div style="padding:0 0 30px;" v-if="characterDetail.showType==3">
-            3D&nbsp;&nbsp;&nbsp;&nbsp;{{characterDetail.showUrl}}
-        </div>
-
 
         <ul class="itemList" v-if="characterDetail.showType==1||characterDetail.showType==0">
             <li>

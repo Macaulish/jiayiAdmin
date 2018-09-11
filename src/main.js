@@ -12,8 +12,6 @@ import constant from './components/constant'
 import 'normalize.css'
 import './assets/less/reset.less'
 
-
-
 Vue.config.productionTip = false
 
 Vue.prototype.GLOBAL = constant

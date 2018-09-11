@@ -71,18 +71,18 @@
     dd{ 
       overflow: hidden;
       margin-left: -10px;
-      }
-      .btn{
-        cursor: pointer;
-        display: block;
-        float: left;
-        width: 40px; 
-        line-height: 24px; 
-        background-color: #0FB6F7;
-        color: #fff; 
-        margin-left: 10px;
-        font-size: @fontsize12;
-      }
+    }
+    .btn{
+      cursor: pointer;
+      display: block;
+      float: left;
+      width: 40px; 
+      line-height: 24px; 
+      background-color: #0FB6F7;
+      color: #fff; 
+      margin-left: 10px;
+      font-size: @fontsize12;
+    }
    }
    .no-list{  
     padding: 0 0 50px;
@@ -106,4 +106,33 @@
     .text{ display: block; font-size: @fontsize14; margin-top: 5px; color: #000; }
    }
    .fenye{ padding-top: 10px; }
+}
+
+
+@media all and (max-width: 1140px) {
+  .cont2 .itemList li{ width: 23%; margin: 0 0 30px 2%; }
+  .cont2 .itemList dd{ font-size: 0; }
+  .cont2 .itemList .btn{ display: inline-block; float: none; width: 32%; max-width: 40px; margin: 0; }
+  .cont2 .itemList .btn:nth-child(2){ margin: 0 2%; }
+}
+
+@media all and (min-width: 1141px) {
+  .cont2 .itemList li{ width: 11%; margin: 0 0 30px 1.5%; }
+  .cont2 .itemList dd{ font-size: 0; }
+  .cont2 .itemList .btn{ display: inline-block; float: none; width: 32%; max-width: 40px; margin: 0; }
+  .cont2 .itemList .btn:nth-child(2){ margin: 0 2%; }
+}
+
+@media all and (min-width: 0px) {
+  .cont2 .itemList dt .imgbox{ position: relative; height: 0; padding-top: 120%; }
+  .cont2 .itemList dt .imgbox img{ 
+    position: absolute; 
+    top: 0; 
+    left: 50%; 
+    transform: translate(-50%, 0); 
+    -webkit-transform: translate(-50%, 0); 
+    -moz-transform: translate(-50%, 0); 
+    -o-transform: translate(-50%, 0); 
+    -ms-transform: translate(-50%, 0); 
+  }
 }

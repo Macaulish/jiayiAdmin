@@ -54,7 +54,7 @@
         </table>
 
         <div class="fenye">
-            <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" layout="total, prev, pager, next" :total="total"></el-pagination>
+            <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" layout="total, prev, pager, next" :page-size="10" :total="total"></el-pagination>
         </div>
 
     </div>

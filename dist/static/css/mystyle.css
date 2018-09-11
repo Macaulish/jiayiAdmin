@@ -14,12 +14,12 @@ input::-ms-clear, input::-ms-reveal{display: none;}
 .icon{ display: block; background-repeat: no-repeat; }
 
 /* 后台 */
-.page-index{  }
+.page-index{}
 .top-bgimg{ min-width: 1200px; height: 550px; background: #313047 url(../images/bg1.png) no-repeat center top; }
 .index-header{ width: 1200px; margin: auto; padding: 20px 0 0; }
 .index-header a{ cursor: pointer; }
 .index-header .logobox{ float: left; margin-left: 150px; color: #fff; }
-.index-header .logobox img{ width: 50px; }
+.index-header .logobox img{ width: 44px; }
 .index-header .logobox dt{ float: left; }
 .index-header .logobox dd{ float: left; margin: 5px 0 0 10px; }
 .index-header .logobox dd h3{ font-size: 16px; }
@@ -33,7 +33,8 @@ input::-ms-clear, input::-ms-reveal{display: none;}
 .top-bgimg .banner .bg1{ display: inline-block; vertical-align: top; }
 .top-bgimg .banner .bg1 img{ height: 440px; }
 .top-bgimg .banner .bg2{ display: inline-block; vertical-align: top; color: #fff; margin: 0 110px 0 -150px; }
-.top-bgimg .banner .bg2 h1{ line-height: 60px; font-size: 40px; }
+.top-bgimg .banner .bg2 .logo{ margin: auto; }
+.top-bgimg .banner .bg2 h1{ line-height: 60px; font-size: 40px; margin-top: 10px; }
 .top-bgimg .banner .bg2 h3{ margin-top: 10px; font-size: 18px; }
 .top-bgimg .banner .bg3{ display: inline-block; vertical-align: top; }
 .top-bgimg .banner .bg3 img{ height: 440px; }
@@ -61,9 +62,10 @@ input::-ms-clear, input::-ms-reveal{display: none;}
 .page-index .section-3 .swiper-pagination-bullet{ background: #000; opacity: 1; }
 .page-index .section-3 .swiper-pagination-bullet-active{ background: #BFBFBF; }
 
-.page-index .section-add{ width: 1200px; margin: auto; margin-top: 300px; text-align: center; }
-.page-index .section-add li{ display: inline-block; width: 165px; }
+.page-index .section-add{ width: 1200px; padding: 0 60px; margin: auto; margin-top: 300px; text-align: center; }
+.page-index .section-add li{ display: inline-block; width: 165px; vertical-align: top; margin: 0 2px 30px; }
 .page-index .section-add li img{ width: 100%; }
+.page-index .section-add li .title{ display: block; font-size: 14px; color: #000; padding: 8px 0 0; }
 
 .page-index .footer{ width: 1200px; margin: auto; margin-top: 200px; margin-bottom: 40px; text-align: center; }
 .page-index .footer .row1{ font-size: 12px; padding: 5px 0 0; }

@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {Message} from 'element-ui'
 import HelloWorld from '@/components/HelloWorld'
 import home from '@/components/home'
 import login from '@/components/login'
@@ -289,11 +288,6 @@ router.beforeEach((to, from, next)=>{
   let isNeedlogin = to.meta.isNeedlogin;
   let path = to.name
   let adminId = sessionStorage.getItem('adminId');
-  let loginTimestamp = sessionStorage.getItem('loginTimestamp');
-  let nowTime = new Date().getTime();
-  let isLoginTimeout = (nowTime-loginTimestamp)>60*60*1000;//大于：说明登录超时
-  //console.log(nowTime-loginTimestamp);
-  //console.log(60*60*1000);
   if(isNeedlogin){//如果是需要登录的页面，则判断是否在登录状态
       if(!adminId||adminId.length<1){//如果未登录
         //console.log(121);
@@ -304,19 +298,8 @@ router.beforeEach((to, from, next)=>{
           next({name: 'home'});
         }
       }else{
-        // if(isLoginTimeout){//如果登录超时，则跳转登录页
-        //   if(path == 'login') {
-        //     next()
-        //     return;
-        //   }else{
-        //     next({name: 'login'});
-        //   }
-        // }else{
-        //   next();
-        // }
         next();
       }
-
   }else{
     next();
   }

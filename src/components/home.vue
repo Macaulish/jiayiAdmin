@@ -27,7 +27,7 @@
         <div class="banner">
             <div class="bg1"><img src="../../static/images/bg2.png"></div>
             <div class="bg2">
-                <img class="logo" src="../../static/images/logo.png">
+                <img class="logo" src="../../static/images/logo1.png">
                 <h1>虚拟人物运营<br>管理平台</h1>
                 <h3>ACGN 各领域的IP推广运营</h3>
             </div>

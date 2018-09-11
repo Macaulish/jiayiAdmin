@@ -233,7 +233,7 @@ export default {
                 this.selectShowType = data.showType;
                 this.showUrl = data.showUrl;
                 this.radioGroup[this.selectShowType-1].url = data.showUrl;
-                this.packageName = data.showUrl;
+                this.packageName = data.modelName;
             }
         }); 
     },
@@ -290,6 +290,11 @@ export default {
             let storeAs = new Date().getTime() + '.' + type;
 
             let that = this;
+            if(number==1){
+                this.imageUrl = '/static/images/loading.gif';
+            }else{
+                this.showUrl = '/static/images/loading.gif';
+            }
             async function multipartUpload (storeAs,file) {
               try {
                 let result = await client.multipartUpload(storeAs, file, {
@@ -372,19 +377,9 @@ export default {
             }
             let progress = progressing=>{
                 //console.log(progressing);
-                this.progressing = progressing;
+                this.progressing = progressing.toFixed(2);
             }
             multipartUpload(storeAs,file);
-
-            // async function put () {
-            //   try {
-            //     let result = await client.put(storeAs, file);
-            //     //console.log(result);
-            //   } catch (er) {
-            //       //console.log(er);
-            //   }
-            // }
-            // put();
         },
         submit(){
             this.isShowErrorMessage = false;
@@ -421,6 +416,7 @@ export default {
                     imageUrl: this.imageUrl,
                     showUrl: this.radioGroup[this.selectShowType-1].url,
                     showType: this.selectShowType,
+                    modelName: this.packageName
                 }
             }
             //console.log(params);

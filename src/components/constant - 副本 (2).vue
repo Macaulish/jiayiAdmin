@@ -393,7 +393,7 @@ const PRODUCT_TYPES = [
         isShowSecond: false,
         'source': [
             {
-                key: '9',//9,（原来是0）
+                key: '0',//9
                 title: '优酷',
                 active: false
             },
@@ -413,7 +413,7 @@ const PRODUCT_TYPES = [
                 active: false
             },
             {
-                key: '8',//8,（原来是4）
+                key: '4',//8
                 title: '搜狐影音',
                 active: false
             },

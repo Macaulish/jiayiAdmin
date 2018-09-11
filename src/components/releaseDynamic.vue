@@ -215,6 +215,7 @@ export default {
                     rightFiles.push(files[i]);
                 }
             }
+            rightFiles = rightFiles.slice(0,9);//限制最多只能上传9张图片
             //console.log(rightFiles);
 
             let endpoint = base64.decode(this.aliData.endpoint);
@@ -230,7 +231,10 @@ export default {
                 accessKeySecret : accessKeySecret,
                 bucket : bucket
             });
-
+         
+            for(let i=0;i<rightFiles.length;i++){
+              that.imageUrl.push('/static/images/loading.gif');
+            }
             async function multipartUpload (file) {
               try {
                 for(let i=0;i<file.length;i++){
@@ -239,7 +243,8 @@ export default {
                     partSize: 1024*1024
                   });
                   //console.log(result);
-                  that.imageUrl.push(result.res.requestUrls[0].replace(/\?.{0,}$/,""));
+                  //that.imageUrl.push(result.res.requestUrls[0].replace(/\?.{0,}$/,""));
+                  that.$set(that.imageUrl, i, result.res.requestUrls[0].replace(/\?.{0,}$/,""));
                 }
               } catch (e) {
                 if (e.code === 'ConnectionTimeoutError') {

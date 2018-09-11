@@ -56,7 +56,7 @@
         </table>
 
         <div class="fenye">
-            <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" layout="total, prev, pager, next" :total="total"></el-pagination>
+            <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" layout="total, prev, pager, next" :page-size="10" :total="total"></el-pagination>
         </div>
 
     </div>
@@ -115,15 +115,19 @@ export default {
         handleCurrentChange(){
             this.init(this.currentPage,this.selectRoleValue);
         },
-        linkDetail(detail){
-            //console.log(detail);
-            this.$router.push({name: 'QADetail',query:{p: encodeURIComponent(JSON.stringify(detail))}});
-        },
         search(){
             //console.log(this.currentPage,this.selectRoleValue);
             this.currentPage = 1;
             this.init(this.currentPage,this.selectRoleValue);
-        }
+        },
+        linkDetail(detail){
+            //console.log(detail);
+            if(detail.problemState==0){//如果是未解答
+                this.$router.push({name: 'QADetail',query:{p: encodeURIComponent(JSON.stringify(detail))}});
+            }else{//如果是已解答
+                this.$router.push({name: 'QADetail2',query:{p: encodeURIComponent(JSON.stringify(detail))}});
+            }
+        },
     }
 }
 </script>

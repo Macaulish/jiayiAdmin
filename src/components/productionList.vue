@@ -37,7 +37,7 @@
         </ul> -->
 
          <div class="fenye">
-            <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" layout="total, prev, pager, next" :total="total"></el-pagination>
+            <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" layout="total, prev, pager, next" :page-size="16" :total="total"></el-pagination>
           </div>
 
         <ul class="no-list" v-if="noData">
@@ -79,7 +79,7 @@ export default {
             method: 'get',
             url: 'works/getWorksInfoList',           
             data: {
-                rowPage: 18,
+                rowPage: 16,
                 page: 1,
                 adminId: util.getAdminId()
             }
@@ -132,7 +132,7 @@ export default {
             method: 'get',
             url: 'works/getWorksInfoList',           
             data: {
-                rowPage: 10,
+                rowPage: 16,
                 page: page,
                 adminId: util.getAdminId()
             }

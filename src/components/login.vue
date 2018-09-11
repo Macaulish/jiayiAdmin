@@ -62,6 +62,8 @@ export default {
           password: '',
         }
     },
+    mounted(){
+    },
     methods: {
         login(){
             this.isShowErrorMessage = false;
@@ -102,6 +104,10 @@ export default {
                     sessionStorage.setItem('adminId',adminId);
                     sessionStorage.setItem('adminName',adminName);
                     this.$router.push({name: 'index'});
+
+                    let timestamp = new Date().getTime();
+                    sessionStorage.setItem('loginTimestamp',timestamp);
+                    //console.log(timestamp);
                 }else{
                   this.isShowErrorMessage = true;
                   this.errorMessage = '用户名或密码错误';
