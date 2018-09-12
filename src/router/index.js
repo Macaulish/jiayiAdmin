@@ -287,35 +287,46 @@ export default router;
 router.beforeEach((to, from, next)=>{
   //console.log(to);
   let isNeedlogin = to.meta.isNeedlogin;
-  let path = to.name
-  let adminId = sessionStorage.getItem('adminId');
-  let loginTimestamp = sessionStorage.getItem('loginTimestamp');
+  let path = to.name;
+  let adminId = localStorage.getItem('adminId');
+  let loginTimestamp = localStorage.getItem('lastLoginTimestamp');
   let nowTime = new Date().getTime();
-  let isLoginTimeout = (nowTime-loginTimestamp)>60*60*1000;//大于：说明登录超时
+  let isLoginTimeout = (nowTime-loginTimestamp)>2*60*60*1000;//大于2小时：说明登录超时
   //console.log(nowTime-loginTimestamp);
-  //console.log(60*60*1000);
+  //console.log((nowTime-loginTimestamp)>10*1000);
   if(isNeedlogin){//如果是需要登录的页面，则判断是否在登录状态
-      if(!adminId||adminId.length<1){//如果未登录
-        //console.log(121);
-        if(path == 'home') {
-          next()
-          return;
-        }else{
-          next({name: 'home'});
+    //console.log(adminId);
+    if(from.name=='login'){
+      //console.log(from.name);
+      next();
+    }else{
+        if(adminId&&adminId.length>=1){//如果已登录
+            //console.log('已登录');
+            if(isLoginTimeout){//如果登录超时，则跳转登录页，并清除adminName、adminId、lastLoginTimestamp
+              //console.log('超时');
+              if(path == 'login') {
+                next()
+              }else{
+                next({name: 'login'});
+              }
+              localStorage.removeItem('adminName');
+              localStorage.removeItem('adminId');
+              localStorage.removeItem('lastLoginTimestamp');
+            }else{
+              next();
+            }
+
+        }else{//如果未登录
+          //console.log('未登录');
+            if(path == 'login') {
+              next();
+              return;
+            }else{
+              next({name: 'login'});
+            }
+
         }
-      }else{
-        // if(isLoginTimeout){//如果登录超时，则跳转登录页
-        //   if(path == 'login') {
-        //     next()
-        //     return;
-        //   }else{
-        //     next({name: 'login'});
-        //   }
-        // }else{
-        //   next();
-        // }
-        next();
-      }
+    }
 
   }else{
     next();

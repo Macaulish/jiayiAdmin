@@ -51,6 +51,8 @@
 
     </div>
 
+    <div style="display:none;">{{isUpdateListState}}</div>
+
   </div>
 
 </template>
@@ -80,7 +82,7 @@ export default {
             url: 'works/getWorksInfoList',           
             data: {
                 rowPage: 16,
-                page: 1,
+                page: this.currentPage,
                 adminId: util.getAdminId()
             }
         }
@@ -111,7 +113,8 @@ export default {
             util.$http(params).then(response=>{
                 //console.log(response);
                 if(response.data.code=='0000'){
-                    this.postInfo.splice(index,1);
+                    //this.postInfo.splice(index,1);
+                    this.init();
                     this.$message({
                       message: '删除成功',
                       type: 'success'
@@ -126,34 +129,31 @@ export default {
         }).catch();
 
     },
+    //点击分页方法
     handleCurrentChange(page){
         //console.log(page);
-        let params = {
-            method: 'get',
-            url: 'works/getWorksInfoList',           
-            data: {
-                rowPage: 16,
-                page: page,
-                adminId: util.getAdminId()
-            }
-        }
-        util.$http(params).then(response=>{
-            //console.log(response);
-            if(response.data.code=='0000'){
-                this.postInfo = response.data.data.postInfo;
-            }else{
-                that.noData = true;
-            }
-        });
+        this.currentPage = page;
+        this.init();
     },
   },
   watch:{
+    /*
     $route(to,from){
         //console.log('route');
-        //console.log(to);
         //console.log(from);
+        
         if(from.name == 'editProduction'||from.name == 'createProduction'){
             this.init();
+        } 
+    }
+    */
+  },
+  computed: {
+    isUpdateListState(){
+        //console.log(this.$store.getters.productionListState);
+        if(this.$store.getters.productionListState){
+             this.init();
+             this.$store.commit('updateProductionList',false);
         }
     }
   },

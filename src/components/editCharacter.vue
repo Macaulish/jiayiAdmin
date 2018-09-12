@@ -430,7 +430,9 @@ export default {
                         message: '修改成功',
                         duration: 1000,
                         onClose: function(){
-                            that.$router.push({name: 'characterList'});
+                            //that.$router.push({name: 'characterList'});
+                            that.$store.commit('updateCharacterList',true);
+                            that.$router.go(-1);
                         }
                     }); 
                 }

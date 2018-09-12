@@ -1,11 +1,10 @@
 <script>
 const PRODUCT_TYPES = [
     {
-        'key': '0',
-        'title': '漫画',
-        'multiselect': false,
+        key: '0',
+        title: '漫画',
         isShowSecond: false,
-        'source': [
+        source: [
             {
                 key: '0',
                 title: '腾讯漫画',
@@ -22,7 +21,7 @@ const PRODUCT_TYPES = [
                 active: false
             }
         ],
-        'tags': [
+        tags: [
             {
                 key: '0',
                 title: '热血',
@@ -86,11 +85,10 @@ const PRODUCT_TYPES = [
         ],
     },
     {
-        'key': '1',
-        'title': '动漫',
-        'multiselect': false,
+        key: '1',
+        title: '动漫',
         isShowSecond: false,
-        'source': [
+        source: [
             {
                 key: '5',
                 title: '腾讯动漫',
@@ -107,7 +105,7 @@ const PRODUCT_TYPES = [
                 active: false
             },
         ],
-        'tags': [
+        tags: [
             {
                 key: '0',
                 title: '热血',
@@ -171,11 +169,10 @@ const PRODUCT_TYPES = [
         ],
     },  
     {
-        'key': '2',
-        'title': '游戏',
-        'multiselect': true,
+        key: '2',
+        title: '游戏',
         isShowSecond: false,
-        'tags': [
+        tags: [
             {
                 key: '0',
                 title: '热血',
@@ -239,11 +236,10 @@ const PRODUCT_TYPES = [
         ],
     },
     {
-        'key': '3',
-        'title': '微博',
-        'multiselect': true,
+        key: '3',
+        title: '微博',
         isShowSecond: false,
-        'tags': [
+        tags: [
             {
                 key: '0',
                 title: '热血',
@@ -307,11 +303,10 @@ const PRODUCT_TYPES = [
         ],
     },
     {
-        'key': '4',
-        'title': '小说',
-        'multiselect': false,
+        key: '4',
+        title: '小说',
         isShowSecond: false,
-        'source': [
+        source: [
             {
                 key: '3',
                 title: '17K小说网',
@@ -323,7 +318,7 @@ const PRODUCT_TYPES = [
                 active: false
             }
         ],
-        'tags': [
+        tags: [
             {
                 key: '0',
                 title: '热血',
@@ -387,11 +382,10 @@ const PRODUCT_TYPES = [
         ],
     },
     {
-        'key': '5',
-        'title': '电影',
-        'multiselect': false,
+        key: '5',
+        title: '电影',
         isShowSecond: false,
-        'source': [
+        source: [
             {
                 key: '9',//9,（原来是0）
                 title: '优酷',
@@ -403,7 +397,7 @@ const PRODUCT_TYPES = [
                 active: false
             },
             {
-                key: '2',
+                key: '10',//10,(原来是2)
                 title: 'bilibili',
                 active: false
             },
@@ -418,7 +412,7 @@ const PRODUCT_TYPES = [
                 active: false
             },
         ],
-        'tags': [
+        tags: [
             {
                 key: '0',
                 title: '热血',
@@ -481,12 +475,11 @@ const PRODUCT_TYPES = [
             },
         ],
     },
-        {
-        'key': '6',
-        'title': '虚拟偶像',
-        'multiselect': false,
+    {
+        key: '6',
+        title: '虚拟偶像',
         isShowSecond: false,
-        'tags': [
+        tags: [
             {
                 key: '0',
                 title: '热血',

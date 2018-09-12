@@ -231,9 +231,10 @@ export default {
         util.$http(params).then(response=>{
             //console.log(response);
             if(response.data.code=='0000'){
-                //console.log();
                 this.commentsList.unshift(response.data.data.commentInfo);
                 this.$set(this.commentsList[0],'isShowInput', false);
+                this.noComment = true;
+                this.noInit = false;
             }
         });
     },
@@ -295,6 +296,11 @@ export default {
     },
     //显示、隐藏一级回复输入框
     showReplyInput(index){
+        this.commentsList.map((v,k)=>{
+            if(k!=index){
+                v.isShowInput = false;
+            }  
+        });
         this.commentsList[index].isShowInput = !this.commentsList[index].isShowInput;
         this.replyInput = '';
     },

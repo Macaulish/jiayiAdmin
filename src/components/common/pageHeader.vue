@@ -4,7 +4,7 @@
       <div class="left">
         <a @click="linkIndex">
           <dl class="logobox">
-            <dt><img src="/static/images/logo.png" alt="logo"></dt> 
+            <dt><img src="../../../static/images/logo.png" alt="logo"></dt> 
             <dd>
               <h3>加一运营管理平台</h3> 
               <h4>www.jiayiworld.com</h4>
@@ -29,8 +29,8 @@ export default {
     }
   },
   created(){
-    if(sessionStorage.getItem('adminName')||sessionStorage.getItem('adminId')){
-      this.adminName = sessionStorage.getItem('adminName');
+    if(localStorage.getItem('adminName')||localStorage.getItem('adminId')){
+      this.adminName = localStorage.getItem('adminName');
       this.lastLoginTime = util.getNowFormatDate();
     }
   },
@@ -45,8 +45,8 @@ export default {
         util.$http(params).then(response=>{
             //console.log(response);
             if(response.data.code=='0000'){      
-              sessionStorage.removeItem('adminName');
-              sessionStorage.removeItem('adminId');
+              localStorage.removeItem('adminName');
+              localStorage.removeItem('adminId');
               this.$router.push({name: 'login'});
             }
         }); 

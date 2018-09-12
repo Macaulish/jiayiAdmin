@@ -52,6 +52,8 @@
 
     </div>
 
+    <div style="display:none;">{{isUpdateListState}}</div>
+
   </div>
 
 </template>
@@ -81,7 +83,7 @@ export default {
         }
     }
     util.$http(params).then(response=>{
-        ////console.log(response);
+        //console.log(response);
         if(response.data.code=='0000'){
             this.worksName = response.data.data;
         }
@@ -131,8 +133,7 @@ export default {
             util.$http(params).then(response=>{
                 ////console.log(response);
                 if(response.data.code=='0000'){
-                    this.roleList.splice(index, 1);
-                    this.total = response.data.data.total;
+                    this.init(this.currentPage);
                     this.$message({
                       message: '删除成功',
                       type: 'success'
@@ -147,14 +148,15 @@ export default {
         });
     },
     handleCurrentChange(page){
-        //////console.log(page);
+        //console.log(page);
         this.init(page);
     },
   },
-  watch: {
-    $route(to,from){
-        if(from.name=='editCharacter'||from.name=='createCharacter'){
-            this.init();
+  computed:{
+    isUpdateListState(){
+        if(this.$store.getters.characterListState){
+            this.init(this.currentPage);
+            this.$store.commit('updateCharacterList',false);
         }
     }
   }

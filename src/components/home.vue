@@ -199,7 +199,8 @@ export default {
         this.$router.push({name: 'home'});
     },
     linkMao(top){
-        window.scrollTo(0,top);
+        //window.scrollTo(0,top);
+        $('html,body').animate({scrollTop:top});
     }
   },
 }

@@ -322,6 +322,11 @@ export default {
     },
     //显示、隐藏一级回复输入框
     showReplyInput(index){
+        this.commentsList.map((v,k)=>{
+            if(k!=index){
+                v.isShowInput = false;
+            }            
+        });
         this.commentsList[index].isShowInput = !this.commentsList[index].isShowInput;
         this.replyInput = '';
     },

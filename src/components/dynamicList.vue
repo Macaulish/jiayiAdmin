@@ -2,7 +2,7 @@
   <div class="productionList">
 
     <div class="cont1">
-        <h3 class="row1">-动态信息-{{isUpdateDynamicList}}</h3>
+        <h3 class="row1">-动态信息-</h3>
     </div>
 
     <div class="cont1 clearfix" style="margin-top:20px;">
@@ -68,11 +68,14 @@
 
     </div>
 
+    <div style="display:none;">{{isUpdateListState}}</div>
+
   </div>
 
 </template>
 
 <script>
+import {mapState} from 'vuex';
 import {util} from '../assets/js/util'
 
 //type值：0代表删除，1代表显示，2:代表隐藏
@@ -182,7 +185,7 @@ export default {
             util.$http(params).then(response=>{
                 //console.log(response);
                 if(response.data.code=='0000'){
-                    this.listsInfo = response.data.data.postInfo;
+                    this.getAllDynamic(this.currentPage);
                     this.$message({
                       type: 'success',
                       message: '操作成功'
@@ -238,16 +241,30 @@ export default {
         this.getAllDynamic(page);
     }
   },
-  computed: {
-    //监听列表是否需要刷新
-    isUpdateDynamicList(){
-        if(this.$store.state.isUpdateDynamicList){
-            ////console.log(123);
-            this.getAllDynamic(1);
-            this.$store.state.isUpdateDynamicList = false;
+  computed:{
+        //监听列表是否需要刷新
+        isUpdateListState(){
+            if(this.$store.getters.dynamicListState){
+                //console.log(123);
+                this.getAllDynamic(1);
+                this.$store.commit('updateDynamicList',false);
+            }
         }
-    }
-  }
+   }
+    /*
+    mapState({
+        isUpdateListState: 'isUpdateDynamicList',
+        isUpdateListState: state=>{
+            let that = this;
+            console.log('mapState');
+            if(state.isUpdateDynamicList){
+                console.log(123);
+                that.getAllDynamic(1);
+                that.$store.commit('isUpdateDynamicList',false);
+            }
+        }
+    })
+    */
 }
 </script>
 

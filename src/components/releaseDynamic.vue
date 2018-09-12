@@ -377,9 +377,8 @@ export default {
                         message: '发布成功',
                         duration: 1000,
                         onClose: function(){
-                            //that.$router.push({name: 'dynamicList'});
-                            //console.log(that.$store.state.isUpdateDynamicList);
-                            that.$store.state.isUpdateDynamicList = true;
+                            //that.$store.state.isUpdateDynamicList = true;
+                            that.$store.commit('updateDynamicList',true);
                             that.$router.go(-1);
                         }
                     });

@@ -4,7 +4,7 @@ import router from "../../router/index";
 
 //axios.defaults.baseURL = 'http://39.106.167.104/';
 //axios.defaults.baseURL = 'http://test.jiayiworld.com/';
-//axios.defaults.baseURL = 'http://192.168.0.86:8443/';
+//axios.defaults.baseURL = 'http://192.168.0.87:8443/';
 //axios.defaults.baseURL = 'http://api.jiayiworld.com/';
 axios.defaults.baseURL = 'http://apidata.jiayiworld.com/';
 
@@ -92,7 +92,7 @@ export const util = {
 		}
 	},
 	getAdminId(){
-		return sessionStorage.getItem('adminId');
+		return localStorage.getItem('adminId');
 	},
 	trim(str){
 		return str.replace(/(^\s*)|(\s*$)/g, "");

@@ -223,7 +223,7 @@ export default {
             this.showTagsIndex = index;
 
             this.isShowYouxiUrl = index==2;
-            this.isShowZuopingUrl = index==0||index==1||index==4||index==5;
+            this.isShowZuopingUrl = index==0||index==1||index==4||index==5||index==6;
             if(index==6){
                 this.isShowZuopingTitle = '官网地址';
             }else{
@@ -307,6 +307,11 @@ export default {
                 this.errorMessage = '请输入作品名';
                 return false;
             }
+            if(this.worksType.length<1){
+                this.isShowErrorMessage = true;
+                this.errorMessage = '请选择作品类型';
+                return false;
+            }  
             if(util.trim(this.worksIntroduce).length<1){
                 this.isShowErrorMessage = true;
                 this.errorMessage = '请输入作品简介';
@@ -387,7 +392,9 @@ export default {
                         message: '创建成功',
                         duration: 1000,
                         onClose: function(){
-                            that.$router.push({name: 'productionList'});
+                            //that.$router.push({name: 'productionList'});
+                            that.$store.commit('updateProductionList',true);
+                            that.$router.go(-1);
                         }
                     }); 
                 }

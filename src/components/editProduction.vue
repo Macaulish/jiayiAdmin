@@ -155,7 +155,7 @@
 
 <script>
 import {util} from '../assets/js/util'
-import $ from "jquery"
+//import $ from "jquery"
 import OSS from "ali-oss"
 import base64 from "base-64"
 
@@ -203,10 +203,12 @@ export default {
                 this.aliData = response.data.data;
             }
         }); 
+        this.productTypes = [];
     },
     mounted(){
         //console.log(this.GLOBAL.PRODUCT_TYPES);
         //console.log(this.$route.query.worksId);
+        
         this.productTypes = this.GLOBAL.PRODUCT_TYPES;
         //console.log(this.productTypes);
         let params = {
@@ -235,7 +237,6 @@ export default {
                 this.sourceType = response.data.data.sourceType;
                 this.checkSourceType = this.sourceType;
                 this.requestUrls = response.data.data.worksImg;
-                this.isMultiselect = this.GLOBAL.PRODUCT_TYPES[worksType].multiselect;//设置第一个显示的事多选、还是单选
                 this.iOSUrl = response.data.data.iOSUrl;
                 this.androidUrl = response.data.data.androidUrl;
 
@@ -245,6 +246,9 @@ export default {
                 //设置选中的作品标签高亮（后端返回的是带空格分割的汉字）
                 let worksTag = response.data.data.worksTag.split(' ');
                 //console.log(worksTag);
+                this.productTypes.map((v,k)=>{
+                    v.isShowSecond = false;
+                });
                 this.productTypes[worksType].isShowSecond = true;
                 this.productTypes[worksType].tags.map((value,index)=>{
                     worksTag.map((value1,index1)=>{
@@ -366,9 +370,12 @@ export default {
                 this.errorMessage = '请输入作品简介';
                 return false;
             }
-
+            if(this.worksType.length<1){
+                this.isShowErrorMessage = true;
+                this.errorMessage = '请选择作品类型';
+                return false;
+            }
             if(this.worksType==3){
-
               if(!this.weiboUrl||this.weiboUrl.length<5){
                     this.isShowErrorMessage = true;
                     this.errorMessage = '请输入微博地址';
@@ -445,7 +452,9 @@ export default {
                         message: '修改成功',
                         duration: 1000,
                         onClose: function(){
-                            that.$router.push({name: 'productionList'});
+                            //that.$router.push({name: 'productionList'});
+                            that.$store.commit('updateProductionList',true);
+                            that.$router.go(-1);
                         }
                     }); 
                 }

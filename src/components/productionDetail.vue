@@ -33,8 +33,24 @@
                     <td class="td-title">作品简介 ：</td>
                     <td class="td-cont">{{productionDetail.worksIntroduce}}</td>
                 </tr>
-                <tr>
+                <tr v-if="productionDetail.worksType==0||productionDetail.worksType==1||productionDetail.worksType==4||productionDetail.worksType==5">
                     <td class="td-title">作品地址 ：</td>
+                    <td class="td-cont">{{productionDetail.worksUrl}}</td>
+                </tr>
+                <tr v-if="productionDetail.worksType==3">
+                    <td class="td-title">微博地址 ：</td>
+                    <td class="td-cont">{{productionDetail.weiboUrl}}</td>
+                </tr>
+                <tr v-if="productionDetail.worksType==2">
+                    <td class="td-title">IOS地址 ：</td>
+                    <td class="td-cont">{{productionDetail.iOSUrl}}</td>
+                </tr>
+                <tr v-if="productionDetail.worksType==2">
+                    <td class="td-title">Android地址 ：</td>
+                    <td class="td-cont">{{productionDetail.androidUrl}}</td>
+                </tr>
+                <tr v-if="productionDetail.worksType==6">
+                    <td class="td-title">官网地址 ：</td>
                     <td class="td-cont">{{productionDetail.worksUrl}}</td>
                 </tr>
             </tbody>

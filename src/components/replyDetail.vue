@@ -290,7 +290,7 @@ export default {
         //console.log(this.commentsList[index].isShowInput);
         this.commentsList.map((v,k)=>{
             if(k!=index){
-                this.commentsList[k].isShowInput = false;
+                v.isShowInput = false;
             }            
         });
         this.commentsList[index].isShowInput = !this.commentsList[index].isShowInput;

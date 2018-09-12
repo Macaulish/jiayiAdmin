@@ -5,7 +5,7 @@
         <h3 class="row1">-后援会-</h3>
     </div>
 
-    <div class="cont1 clearfix" style="margin-top:40px;height: 58px;">
+    <div class="cont1 clearfix" style="margin-top:20px;height: 50px;">
         <div class="left">
             <table>
                 <tr>

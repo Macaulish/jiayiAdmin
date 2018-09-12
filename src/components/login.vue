@@ -101,12 +101,11 @@ export default {
                     let adminName = response.data.data.adminName;
                     //console.log(adminId);
                     //console.log(adminName);
-                    sessionStorage.setItem('adminId',adminId);
-                    sessionStorage.setItem('adminName',adminName);
-                    this.$router.push({name: 'index'});
-
+                    localStorage.setItem('adminId',adminId);
+                    localStorage.setItem('adminName',adminName);
                     let timestamp = new Date().getTime();
-                    sessionStorage.setItem('loginTimestamp',timestamp);
+                    localStorage.setItem('lastLoginTimestamp',timestamp);
+                    this.$router.push({name: 'index'});
                     //console.log(timestamp);
                 }else{
                   this.isShowErrorMessage = true;
