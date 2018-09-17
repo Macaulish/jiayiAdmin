@@ -160,6 +160,7 @@
         <div class="row1">Copyright © 2018  北京加一时代数字科技有限公司    京ICP备18044271号-1</div>
     </div>
 
+    <div class="backtop" title="回到顶部" @click="backtop"></div>
 
 </div>
 
@@ -176,6 +177,15 @@ export default {
   created(){
   },
   mounted(){
+      $(window).on('scroll',function(){
+        let $this = $(window);
+        let sTop = $this.scrollTop();
+        if(sTop>=650){
+            $('.backtop').show();
+        }else{
+            $('.backtop').hide();
+        }
+      });          
       var mySwiper = new Swiper ('.swiper-container', {
         loop: true,
         simulateTouch : false,
@@ -201,6 +211,11 @@ export default {
     linkMao(top){
         //window.scrollTo(0,top);
         $('html,body').animate({scrollTop:top});
+    },
+    backtop(){
+        $('html,body').animate({scrollTop:0},function(){
+            $('.backtop').hide();
+        });
     }
   },
 }

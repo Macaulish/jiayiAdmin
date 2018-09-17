@@ -3,12 +3,22 @@
 
     <div class="cont1">
     	<h3 class="row1">-动态整体情况-</h3>
-        <ul class="row-tabs" v-if="worksList.length>0">
+
+        <dl class="row-mselect clearfix" v-if="worksList.length>1">
+            <dt>作品列表</dt>
+            <dd>
+                <select class="input" v-model="selectPostWorksId" @change="selectGetPost">
+                    <option :value="work.worksId" v-for="(work,index) in worksList">{{work.worksName}}</option>
+                </select>
+            </dd>    
+        </dl>
+        <ul class="row-tabs" v-if="worksList.length==1">
             <li :class="{active: postActive==index}" v-for="(work,index) in worksList" @click="switchPost(work.worksId,index)">{{work.worksName}}</li>
         </ul>
     	<ul class="row2" v-if="worksList.length>0">
     		<li :class="{active: sourceActive==index}" v-for="(source,index) in sourceType" @click="switchFileType(index,source.value)">{{source.title}}</li>
     	</ul>
+
     	<ul class="row3">
     		<li>
     			<dl>
@@ -45,13 +55,25 @@
 
     <div class="cont2">
     	<h3 class="row1">-人物亲密度整体情况-</h3>
-        <ul class="row-tabs" v-if="worksList.length>0">
+
+        <dl class="row-mselect clearfix" v-if="worksList.length>1">
+            <dt>作品列表</dt>
+            <dd>
+                <select class="input" v-model="selectIntimacyWorksId" @change="selectGetIntimacy">
+                    <option :value="work.worksId" v-for="(work,index) in worksList">{{work.worksName}}</option>
+                </select>
+            </dd>    
+        </dl>
+
+        <ul class="row-tabs" v-if="worksList.length==1">
             <li :class="{active: intimacyActive==index}" v-for="(work,index) in worksList" @click="switchIntimacy(work.worksId,index)">{{work.worksName}}</li>
         </ul>
+
     	<div class="row-nodata" v-if="worksList.length<1">
     		<span class="s1">还没有人物，前往作品管理创建作品，再创建您的人物</span>
             <router-link :to="{name: 'createProduction'}" class="btn">创建作品</router-link>
     	</div>
+
         <ul class="itemList">
             <li v-for="intimacy in intimacyCondition">
                 <span class="imgbox"><img :src="intimacy.imageUrl"></span>
@@ -63,7 +85,17 @@
 
     <div class="cont2">
     	<h3 class="row1">-问答整体情况-</h3>
-        <ul class="row-tabs" v-if="worksList.length>0">
+
+        <dl class="row-mselect clearfix" v-if="worksList.length>1">
+            <dt>作品列表</dt>
+            <dd>
+                <select class="input" v-model="selectQuestionWorksId" @change="selectGetQuestion">
+                    <option :value="work.worksId" v-for="(work,index) in worksList">{{work.worksName}}</option>
+                </select>
+            </dd>    
+        </dl>
+
+        <ul class="row-tabs" v-if="worksList.length==1">
             <li :class="{active: questionActive==index}" v-for="(work,index) in worksList" @click="switchQuestion(work.worksId,index)">{{work.worksName}}</li>
         </ul>
     	<div class="row-nodata" v-if="worksList.length<1">
@@ -95,6 +127,9 @@ export default {
         sourceActive: 0,//图文、视频tab高亮
         worksList: [],//动态tab高亮
         initPostWorksId: '',//动态的高亮中的worksId
+        selectPostWorksId: '',//选择动态的下拉框的worksId
+        selectIntimacyWorksId: '',//选择人物亲密度的下拉框的worksId
+        selectQuestionWorksId: '',//选择问答的下拉框的worksId
         postCondition: {},//动态整体情况
         postActive: 0,//动态tab高亮
         intimacyCondition: [],//亲密度整体情况
@@ -120,7 +155,7 @@ export default {
             method: 'get',
             url: 'works/getWorksInfoList',           
             data: {
-                rowPage: 5,
+                rowPage: 500,
                 page: 1,
                 adminId: util.getAdminId()
             }
@@ -131,7 +166,10 @@ export default {
                 let postInfo = response.data.data.postInfo;
                 this.worksList = postInfo;
                 if(postInfo.length>0){
-                    this.initPostWorksId = postInfo[0].worksId;
+                    this.initPostWorksId = postInfo[0].worksId; 
+                    this.selectPostWorksId = postInfo[0].worksId;
+                    this.selectIntimacyWorksId = postInfo[0].worksId;
+                    this.selectQuestionWorksId = postInfo[0].worksId;
                     this.getDynamic(postInfo[0].worksId, 1);
                     this.getIntimacy(postInfo[0].worksId);
                     this.getQuestion(postInfo[0].worksId);
@@ -157,7 +195,7 @@ export default {
             }
         });
     },
-    //切换动态tab
+    //动态：切换动态tab
     switchPost(worksId,index){
         if(this.postActive!=index){
             this.getDynamic(worksId, 1);
@@ -166,14 +204,20 @@ export default {
             this.sourceActive = 0;//恢复图文高亮
         }
     },
-    //切换图文、视频tab
+    //动态：下拉框选择作品列表
+    selectGetPost(){
+        //console.log(this.initPostWorksId);
+        this.getDynamic(this.selectPostWorksId, 1);
+        this.sourceActive = 0;//恢复图文高亮
+    },
+    //动态：切换图文、视频tab
     switchFileType(index,sourceType){
         if(this.sourceActive != index){
             this.sourceActive = index;
             this.getDynamic(this.initPostWorksId, sourceType);
         }
     },
-    //获取亲密度整体情况
+    //人物亲密度：获取亲密度整体情况
     getIntimacy(worksId){
         let params = {
             url: 'user/intimacyCondition',           
@@ -190,6 +234,11 @@ export default {
                 that.noData = true;
             }
         });
+    },
+    //人物亲密度：下拉框选择作品列表
+    selectGetIntimacy(){
+        //console.log(this.selectIntimacyWorksId);return;
+        this.getIntimacy(this.selectIntimacyWorksId);
     },
     //切换亲密度tab
     switchIntimacy(worksId,index){
@@ -214,6 +263,11 @@ export default {
                 that.noData = true;
             }
         });
+    },
+    //问答：下拉框选择作品列表
+    selectGetQuestion(){
+        //console.log(this.selectQuestionWorksId);
+        this.getQuestion(this.selectQuestionWorksId);
     },
     //切换亲密度tab
     switchQuestion(worksId,index){

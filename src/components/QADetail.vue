@@ -394,10 +394,11 @@ export default {
                     problemId: this.detail.problemId,
                     planType: this.fileType,
                     thumbnailUrl: this.imageFirstframeUrl,
+                    uId: this.detail.uId
                     //videoTime: this.videoTime,//单位：秒
                 }
             }
-            ////console.log(params);
+            //console.log(params);
 
             util.$http(params).then(response=>{
                 //console.log(response);

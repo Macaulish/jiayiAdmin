@@ -232,20 +232,72 @@ export default {
                 bucket : bucket
             });
          
-            for(let i=0;i<rightFiles.length;i++){
-              that.imageUrl.push('/static/images/loading.gif');
+            //console.log(that.imageUrl.length);
+            
+           if(that.imageUrl.length>=9){
+                this.$message({
+                    type: 'error',
+                    message: '图片数量限制在9张',
+                    duration: 3000
+                });
+                rightFiles = [];
+                //console.log(1);
+                return false;
+            }else{
+                if(rightFiles.length>=9-that.imageUrl.length){
+                    rightFiles = rightFiles.slice(0,9-that.imageUrl.length);
+                    //console.log(2);
+                }else{
+                    rightFiles = rightFiles.slice(0,rightFiles.length);
+                    //console.log(3);
+                }  
+            } 
+
+             for(let i=0;i<rightFiles.length;i++){
+                that.imageUrl.push('/static/images/loading.gif');   
             }
+
+            //console.log(rightFiles.length);
+
+/*
+            for(let i=0;i<rightFiles.length;i++){
+                if(that.imageUrl.length>=9){
+                    this.$message({
+                        type: 'error',
+                        message: '图片数量限制在9张',
+                        duration: 3000
+                    });
+                    break;
+                }else{
+                    that.imageUrl.push('/static/images/loading.gif');
+                }   
+            }
+            */
+
             async function multipartUpload (file) {
+
               try {
+                //let imageUrl = [];
                 for(let i=0;i<file.length;i++){
+                  //that.$set(that.imageUrl, i, '/static/images/loading.gif'); 
                   let storeAs = new Date().getTime() + '.png';
                   let result = await client.multipartUpload(storeAs, file[i], {
                     partSize: 1024*1024
                   });
                   //console.log(result);
                   //that.imageUrl.push(result.res.requestUrls[0].replace(/\?.{0,}$/,""));
-                  that.$set(that.imageUrl, i, result.res.requestUrls[0].replace(/\?.{0,}$/,""));
+                  for(let j=0;j<that.imageUrl.length;j++){
+                      if(/images\/loading\.gif/.test(that.imageUrl[j])){
+                        that.$set(that.imageUrl, j, result.res.requestUrls[0].replace(/\?.{0,}$/,""));
+                        break;
+                      }
+                  }
+                  //that.$set(that.imageUrl, i, result.res.requestUrls[0].replace(/\?.{0,}$/,""));
+                  //console.log(that.imageUrl);
+                  //console.log(i);
+                  //that.imageUrl.push( result.res.requestUrls[0].replace(/\?.{0,}$/,"") );
                 }
+
               } catch (e) {
                 if (e.code === 'ConnectionTimeoutError') {
                   //console.log("超时啦!");
@@ -325,6 +377,7 @@ export default {
             multipartUpload(storeAs,file);
         },
         submit(){
+
             const that = this;
             this.isShowErrorMessage = false;
 
@@ -339,7 +392,7 @@ export default {
                 return false;
             }
 
-            ////console.log(this.imageUrl);
+            //console.log(this.imageUrl);
             let postUrl = '';
             if(this.fileType==1){
                 if(this.imageUrl.length<1){
@@ -356,6 +409,11 @@ export default {
                 }
                 postUrl = this.videoUrl;
             }
+
+//console.log(this.imageUrl);
+//console.log(this.imageUrl.length);
+//console.log(postUrl);
+//return;
 
             let params = {
                 url: 'post/addPost',

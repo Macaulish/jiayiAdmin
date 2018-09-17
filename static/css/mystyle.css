@@ -69,3 +69,6 @@ input::-ms-clear, input::-ms-reveal{display: none;}
 
 .page-index .footer{ width: 1200px; margin: auto; margin-top: 200px; margin-bottom: 40px; text-align: center; }
 .page-index .footer .row1{ font-size: 12px; padding: 5px 0 0; }
+
+.page-index .backtop{ display: none; cursor: pointer; position: fixed; right: 0; top: 60%; width: 50px; height: 50px; 
+	background: #aaa url(../images/backtop.png) center center no-repeat; }
