@@ -60,7 +60,7 @@
                         </dd>
                     </dl>
                 </div>
-                <div class="swiper-slide">
+<!--                 <div class="swiper-slide">
                     <dl>
                         <dt><img src="../../static/images/bg5.png"></dt>
                         <dd>
@@ -69,7 +69,7 @@
                             <p>绝对领域也就是动画片中所谓保护使徒（Angels）的强大的空间结界，可以直译为“绝对不可侵犯领域”。正是由于这种结界的存在才使得使徒有强大的生命力。</p>
                         </dd>
                     </dl>
-                </div>
+                </div> -->
             </div>
             <div class="swiper-pagination"></div>
             <div class="swiper-button-prev"></div>

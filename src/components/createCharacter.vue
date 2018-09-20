@@ -210,7 +210,12 @@ export default {
             //console.log(response);
             if(response.data.code=='0000'){
                 this.worksName = response.data.data;
-                this.selectWorksName = response.data.data[0].worksId;
+                let createCharacterWorkNameId = localStorage.getItem('createCharacterWorkNameId');
+                if(createCharacterWorkNameId){
+                    this.selectWorksName = createCharacterWorkNameId;
+                }else{
+                    this.selectWorksName = response.data.data[0].worksId;
+                }   
             }
         }); 
 
@@ -370,6 +375,8 @@ export default {
         },
         submit(){
             this.isShowErrorMessage = false;
+            //console.log(this.selectWorksName);
+            //return;
 
             if(util.trim(this.roleName).length<1){
                 this.isShowErrorMessage = true;
@@ -406,10 +413,13 @@ export default {
                 }
             }
             //console.log(params);
+
             let that = this;
             util.$http(params).then(response=>{
                 //console.log(response);
                 if(response.data.code=='0000'){
+                    localStorage.setItem('createCharacterWorkNameId',this.selectWorksName);//创建人物成功，保存所属作品的id(目的是为了下次再进入此页面还是默认选择这个) 
+
                     this.$message({
                         type: 'success',
                         message: '创建人物成功',
