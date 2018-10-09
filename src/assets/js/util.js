@@ -4,8 +4,8 @@ import router from "../../router/index";
 
 //axios.defaults.baseURL = 'http://39.106.167.104/';
 //axios.defaults.baseURL = 'http://test.jiayiworld.com/';
-//axios.defaults.baseURL = 'http://192.168.0.87:8090/';
-axios.defaults.baseURL = 'http://api.jiayiworld.com/';
+//axios.defaults.baseURL = 'http://192.168.0.82:8443/';
+axios.defaults.baseURL = 'https://api.jiayiworld.com/';
 //axios.defaults.baseURL = 'http://apidata.jiayiworld.com/';
 
 import { Message,Loading } from 'element-ui';
